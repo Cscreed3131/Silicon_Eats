@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "803043140939",
+    "project_id": "sora-summit",
+    "storage_bucket": "sora-summit.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:803043140939:android:84dbf0c0a19a5032e674ce",
+        "android_client_info": {
+          "package_name": "com.example.sorasummit"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqk1J2Au61MgwHu_IXpkpykiUqdOIJ66M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
