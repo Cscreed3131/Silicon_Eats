@@ -1,8 +1,8 @@
-import 'dart:io';
+// import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+// import 'package:firebase_storage/firebase_storage.dart';
 import 'package:sorasummit/screens/auth/login_screen.dart';
 
 final _firebase = FirebaseAuth.instance;
@@ -26,7 +26,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   var _enteredPhoneNumber = '';
   var _enteredStudentYear = '';
   var _enteredUserName = '';
-  File? _selectedImage;
+  // File? _selectedImage;
 
   bool showSecondPart = false;
 
@@ -53,14 +53,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
     // }
 
     _form.currentState!.save();
+    print(_enteredSicNumber);
+    print(_enteredUserName);
+    print(_enteredPhoneNumber);
     try {
-      setState(() {
-        _isAuthenticating = true;
-      });
-      await _firebase.createUserWithEmailAndPassword(
-        email: _enteredEmail,
-        password: _enteredpassword,
-      );
+      // setState(() {
+      //   _isAuthenticating = true;
+      // });
+      // await _firebase.createUserWithEmailAndPassword(
+      //   email: _enteredEmail,
+      //   password: _enteredpassword,
+      // );
 
       // final storageRef = FirebaseStorage.instance
       //     .ref()
@@ -69,23 +72,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
       // await storageRef.putFile(_selectedImage!);
       // final imageUrl = await storageRef.getDownloadURL();
 
-      FirebaseFirestore.instance.collection('users').doc(_enteredSicNumber).set(
-        {
-          // 'image_url': imageUrl,
-          'name': _enteredUserName,
-          'sic': _enteredSicNumber,
-          'branch': _enteredbranch,
-          'year': _enteredStudentYear,
-          'phoneNumber': _enteredPhoneNumber,
-          'email': _enteredEmail,
-          'userId': FirebaseAuth.instance.currentUser!
-              .uid, // storing this to easily use the fetch funtion to get the data associated with it
-          'userRole': ['student'],
-          // 'events_registered': [],
-          'cart': {},
-          'likedItems': []
-        },
-      );
+      // FirebaseFirestore.instance.collection('users').doc(_enteredSicNumber).set(
+      //   {
+      //     // 'image_url': imageUrl,
+      //     'name': _enteredUserName,
+      //     'sic': _enteredSicNumber,
+      //     'branch': _enteredbranch,
+      //     'year': _enteredStudentYear,
+      //     'phoneNumber': _enteredPhoneNumber,
+      //     'email': _enteredEmail,
+      //     'userId': FirebaseAuth.instance.currentUser!
+      //         .uid, // storing this to easily use the fetch funtion to get the data associated with it
+      //     'userRole': ['student'],
+      //     // 'events_registered': [],
+      //     'cart': {},
+      //     'likedItems': []
+      //   },
+      // );
       return true;
     } on FirebaseAuthException catch (error) {
       ScaffoldMessenger.of(context).clearSnackBars();
@@ -189,6 +192,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                   ),
                 ),
+                const SizedBox(
+                  height: 5,
+                ),
                 Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 20,
@@ -199,19 +205,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Visibility(
-                          visible: !showSecondPart,
-                          child: buildFirstPartOfForm(),
-                        ),
-
-                        // Second part of the form
-                        Visibility(
-                          visible: showSecondPart,
-                          child: AnimatedContainer(
-                            duration: const Duration(milliseconds: 500),
-                            curve: Curves.easeInOut,
-                            child: buildSecondPartOfForm(),
-                          ),
+                        AnimatedSwitcher(
+                          duration: const Duration(milliseconds: 500),
+                          switchInCurve: Curves.easeIn,
+                          switchOutCurve: Curves.easeOut,
+                          child: !showSecondPart
+                              ? buildFirstPartOfForm(context, font20, font15)
+                              : buildSecondPartOfForm(context, font20, font15),
                         ),
                       ],
                     ),
@@ -225,7 +225,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  Widget buildFirstPartOfForm() {
+  Widget buildFirstPartOfForm(
+      BuildContext context, double font20, double font15) {
     return Column(
       children: [
         // SizedBox(
@@ -255,8 +256,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
             }
             return null;
           },
-          onSaved: (value) {
-            _enteredUserName = value!;
+          onChanged: (value) {
+            setState(() {
+              _enteredUserName = value;
+            });
           },
         ),
         const SizedBox(height: 7),
@@ -277,8 +280,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
             }
             return null;
           },
-          onSaved: (value) {
-            _enteredSicNumber = value!;
+          onChanged: (value) {
+            setState(() {
+              _enteredSicNumber = value;
+            });
           },
         ),
         const SizedBox(
@@ -386,11 +391,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
             Expanded(
               child: FilledButton(
                 onPressed: () {
+                  _form.currentState!.save();
                   setState(() {
                     showSecondPart = true;
                   });
                 },
-                child: const Text('Next'),
+                child: Text(
+                  'Next',
+                  style: TextStyle(
+                    fontSize: font20 * 0.3,
+                  ),
+                ),
               ),
             ),
           ],
@@ -399,7 +410,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  Widget buildSecondPartOfForm() {
+  Widget buildSecondPartOfForm(
+      BuildContext context, double font20, double font15) {
     return Column(
       children: [
         // Widgets starting from the Year field
@@ -480,6 +492,27 @@ class _SignUpScreenState extends State<SignUpScreen> {
         const SizedBox(
           height: 10,
         ),
+
+        Row(
+          children: [
+            Expanded(
+              child: FilledButton(
+                onPressed: () {
+                  setState(() {
+                    showSecondPart = false;
+                  });
+                },
+                child: Text(
+                  'Previous',
+                  style: TextStyle(
+                    fontSize: font20 * 0.3,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+
         Row(
           children: [
             _isAuthenticating
@@ -506,12 +539,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         Navigator.of(context)
                                             .pushNamed(LoginScreen.routeName);
                                       },
-                                      child: const Text(
+                                      child: Text(
                                         'Okay',
                                         style: TextStyle(
-                                            // fontFamily: 'Barrbar',
-                                            // fontSize: font15 + 5,
-                                            ),
+                                          fontFamily: 'Barrbar',
+                                          fontSize: font15 + 5,
+                                        ),
                                       ),
                                     )
                                   ],
@@ -522,11 +555,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         }
                         _isAuthenticating = false;
                       },
-                      child: const Text(
+                      child: Text(
                         'Sign Up',
                         style: TextStyle(
-                            // fontSize: font20 * 0.4,
-                            ),
+                          fontSize: font20 * 0.3,
+                        ),
                       ),
                     ),
                   ),
@@ -535,11 +568,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
         const SizedBox(
           height: 30,
         ),
-        const Text(
+        Text(
           'Have an account?',
           style: TextStyle(
             height: 0.5,
-            fontSize: 20,
+            fontSize: font15 + 6,
           ),
         ),
         TextButton(
@@ -547,9 +580,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
             Navigator.of(context).pushNamed(LoginScreen.routeName);
           },
           // style: ButtonStyle(),
-          child: const Text(
+          child: Text(
             'Login instead',
-            style: TextStyle(fontSize: 20),
+            style: TextStyle(fontSize: font15 + 4),
           ),
         ),
       ],

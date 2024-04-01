@@ -152,7 +152,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       children: [
                         TextFormField(
                           decoration: InputDecoration(
-                              labelText: 'Email Address', border: border),
+                            labelText: 'Email Address',
+                            border: border,
+                          ),
                           keyboardType: TextInputType.emailAddress,
                           autocorrect: false,
                           textCapitalization: TextCapitalization.none,
