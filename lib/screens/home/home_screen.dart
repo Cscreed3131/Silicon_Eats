@@ -12,9 +12,9 @@ class HomeScreen extends ConsumerStatefulWidget {
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   Map<String, String> categoryImages = {
-    "All": "assets/images/dosa.jpeg", // replace with your image url
-    "Counter 1": "assets/images/dosa.jpeg", // replace with your image url
-    "Counter 2": "assets/images/dosa.jpeg", // replace with your image url
+    "All": "assets/images/aloo mattar.jpeg", // replace with your image url
+    "Counter 1": "assets/images/Butter Paneer.jpeg",
+    "Counter 2": "assets/images/Thandai Kulfi.jpeg",
     "Counter 3": "assets/images/dosa.jpeg", // replace with your image url
     "Counter 4": "assets/images/dosa.jpeg", // replace with your image url
   };
@@ -264,7 +264,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         SizedBox(
                           width: width * 0.30,
                           height: height * 0.15,
-                          child: const Column(
+                          child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
@@ -274,25 +274,29 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                   fontFamily: 'IBMPlexMono',
-                                  fontSize: 20,
+                                  fontSize: font20 * 0.7,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              Text(
+                              const Text(
                                 "Counter 1", //dynamic category
                                 style: TextStyle(
                                   fontFamily: 'IBMPlexMono',
                                   fontSize: 15,
                                 ),
                               ),
-                              Text(
-                                "& 9999", //Dynamic price
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              const Text(
+                                "₹ 999", //Dynamic price
                                 style: TextStyle(
                                   fontFamily: 'IBMPlexMono',
-                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 25,
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 10,
                               ),
                             ],

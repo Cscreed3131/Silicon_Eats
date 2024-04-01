@@ -47,29 +47,29 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyAcm0ogGI3krsglVrSr2MY3qn_HWuwv9RY',
-    appId: '1:803043140939:web:433d2709ebe4c927e674ce',
-    messagingSenderId: '803043140939',
-    projectId: 'sora-summit',
-    authDomain: 'sora-summit.firebaseapp.com',
-    storageBucket: 'sora-summit.appspot.com',
-    measurementId: 'G-MNYEBRKLEQ',
+    apiKey: 'AIzaSyDSoRet7ptJRkZl_53-kGATG3TREWBl40g',
+    appId: '1:198865162295:web:7e731b288fc0a9383d6fb2',
+    messagingSenderId: '198865162295',
+    projectId: 'silicon-eats-3c79b',
+    authDomain: 'silicon-eats-3c79b.firebaseapp.com',
+    storageBucket: 'silicon-eats-3c79b.appspot.com',
+    measurementId: 'G-CKYPV7H2L4',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAqk1J2Au61MgwHu_IXpkpykiUqdOIJ66M',
-    appId: '1:803043140939:android:84dbf0c0a19a5032e674ce',
-    messagingSenderId: '803043140939',
-    projectId: 'sora-summit',
-    storageBucket: 'sora-summit.appspot.com',
+    apiKey: 'AIzaSyB6_xTjCjFJDawFRArp44RpT2Fz7dPvUtw',
+    appId: '1:198865162295:android:c74a879aff0990f13d6fb2',
+    messagingSenderId: '198865162295',
+    projectId: 'silicon-eats-3c79b',
+    storageBucket: 'silicon-eats-3c79b.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyC6sgwxHa57s1w6vOSgi1kCG1j7MbvZGIU',
-    appId: '1:803043140939:ios:59ed061d69f798cae674ce',
-    messagingSenderId: '803043140939',
-    projectId: 'sora-summit',
-    storageBucket: 'sora-summit.appspot.com',
+    apiKey: 'AIzaSyANkmYXyxTQ2m5kjuClK0EjI3yWmboIfws',
+    appId: '1:198865162295:ios:026be2068805b40e3d6fb2',
+    messagingSenderId: '198865162295',
+    projectId: 'silicon-eats-3c79b',
+    storageBucket: 'silicon-eats-3c79b.appspot.com',
     iosBundleId: 'com.example.sorasummit',
   );
 }

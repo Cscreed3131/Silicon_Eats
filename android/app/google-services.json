@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "803043140939",
-    "project_id": "sora-summit",
-    "storage_bucket": "sora-summit.appspot.com"
+    "project_number": "198865162295",
+    "project_id": "silicon-eats-3c79b",
+    "storage_bucket": "silicon-eats-3c79b.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:803043140939:android:84dbf0c0a19a5032e674ce",
+        "mobilesdk_app_id": "1:198865162295:android:c74a879aff0990f13d6fb2",
         "android_client_info": {
           "package_name": "com.example.sorasummit"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAqk1J2Au61MgwHu_IXpkpykiUqdOIJ66M"
+          "current_key": "AIzaSyB6_xTjCjFJDawFRArp44RpT2Fz7dPvUtw"
         }
       ],
       "services": {
