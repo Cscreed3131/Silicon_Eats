@@ -27,10 +27,13 @@ class MyApp extends StatelessWidget {
       title: 'Sora Summit',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.grey,
-            primary: const Color(0xFFF66118),
-            secondary: const Color(0xFFFF9200),
-            background: Colors.white),
+          seedColor: Colors.orange,
+          primary: const Color(0xFFF66118),
+          secondary: const Color(0xFFFF9200),
+          background: Colors.white,
+          outline: const Color(0xFFFF4500),
+          outlineVariant: const Color(0xFFFF7518),
+        ),
         useMaterial3: true,
       ),
       home: const HomeScreen(),
