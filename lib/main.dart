@@ -1,10 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sorasummit/firebase_options.dart';
 import 'package:sorasummit/screens/auth/login_screen.dart';
-
-import 'screens/home/home_screen.dart';
+import 'package:sorasummit/screens/auth/signup_screen.dart';
+import 'package:sorasummit/screens/home/home_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,8 +38,22 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: const LoginScreen(),
+      home: const SignUpScreen(),
+      // home: StreamBuilder(
+      //   stream: FirebaseAuth.instance.authStateChanges(),
+      //   builder: (context, snapshot) {
+      //     if (snapshot.hasData) {
+      //       return const HomeScreen();
+      //     }
+      //     return const LoginScreen();
+      //   },
+      // ),
       debugShowCheckedModeBanner: false,
+      routes: {
+        LoginScreen.routeName: (ctx) => const LoginScreen(),
+        SignUpScreen.routeName: (ctx) => const SignUpScreen(),
+        HomeScreen.routeName: (ctx) => const HomeScreen(),
+      },
     );
   }
 }
