@@ -45,18 +45,38 @@ class _LoginScreenState extends State<LoginScreen> {
       });
       return true;
     } on FirebaseAuthException catch (error) {
+      String errorMessage = 'Authentication failed';
+      if (error.code == 'user-not-found') {
+        errorMessage = 'No user found for that email.';
+      } else if (error.code == 'wrong-password') {
+        errorMessage = 'Wrong password provided for that user.';
+      } else if (error.code == 'network-request-failed') {
+        errorMessage = 'Network error, please try again later.';
+      }
       ScaffoldMessenger.of(context).clearSnackBars();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           behavior: SnackBarBehavior.floating,
-          content: Text(error.message ?? 'Authentication failed'),
+          content: Text(errorMessage),
         ),
       );
       setState(() {
         _isAuthenticating = false;
       });
+      return false;
+    } catch (error) {
+      ScaffoldMessenger.of(context).clearSnackBars();
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          behavior: SnackBarBehavior.floating,
+          content: Text('An unexpected error occurred.'),
+        ),
+      );
+      setState(() {
+        _isAuthenticating = false;
+      });
+      return false;
     }
-    return false;
   }
 
   @override
