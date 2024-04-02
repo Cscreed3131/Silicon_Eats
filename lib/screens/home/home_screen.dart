@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sorasummit/providers/user_data_provider.dart';
 import 'package:sorasummit/screens/home/widgets/profile_dialog_box.dart';
 // import 'package:sorasummit/screens/home/widgets/app_drawer_widget.dart';
 
@@ -37,9 +38,24 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var height = MediaQuery.of(context).size.height;
-    var width = MediaQuery.of(context).size.width;
-    var font20 = height / 27.6;
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
+    final font20 = height / 27.6;
+    var userDetails = ref.watch(userDataProvider);
+    String name = 'Siliconite';
+
+    userDetails.when(
+      data: (data) {
+        name = data.userName.split(' ')[0];
+      },
+      error: (error, stackTrace) {
+        print(error);
+        print(stackTrace);
+      },
+      loading: () {
+        print('Loading');
+      },
+    );
 
     return Scaffold(
       appBar: AppBar(
@@ -103,7 +119,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     children: [
                       TextSpan(
                         text:
-                            'Hello Anubhav,\n', // this will be dynamically fetched from the database.
+                            'Hello $name\n', // this will be dynamically fetched from the database.
                         style: TextStyle(
                             fontSize: font20,
                             fontFamily: "IBMPlexMono",
