@@ -38,16 +38,15 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: const SignUpScreen(),
-      // home: StreamBuilder(
-      //   stream: FirebaseAuth.instance.authStateChanges(),
-      //   builder: (context, snapshot) {
-      //     if (snapshot.hasData) {
-      //       return const HomeScreen();
-      //     }
-      //     return const LoginScreen();
-      //   },
-      // ),
+      home: StreamBuilder(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return const HomeScreen();
+          }
+          return const LoginScreen();
+        },
+      ),
       debugShowCheckedModeBanner: false,
       routes: {
         LoginScreen.routeName: (ctx) => const LoginScreen(),

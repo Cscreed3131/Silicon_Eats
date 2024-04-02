@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// This widget is not being used anymore and probably will not be used in the future also.
 class AppDrawerWidget extends StatelessWidget {
   const AppDrawerWidget({super.key});
 

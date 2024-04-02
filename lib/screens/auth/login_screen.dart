@@ -203,7 +203,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                     child: FilledButton(
                                       onPressed: () async {
                                         if (await _submit()) {
-                                          Navigator.of(context).popAndPushNamed(
+                                          Navigator.of(context)
+                                              .pushReplacementNamed(
                                             HomeScreen.routeName,
                                           ); // gives error when loggin(route problem)
                                         }
@@ -211,7 +212,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       child: Text(
                                         'Sign in',
                                         style:
-                                            TextStyle(fontSize: font20 * 0.4),
+                                            TextStyle(fontSize: font20 * 0.3),
                                       ),
                                     ),
                                   ),

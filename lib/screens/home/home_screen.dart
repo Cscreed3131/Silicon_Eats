@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sorasummit/screens/home/widgets/profile_dialog_box.dart';
 // import 'package:sorasummit/screens/home/widgets/app_drawer_widget.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -44,6 +45,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       appBar: AppBar(
         toolbarHeight: height * 0.1,
         backgroundColor: Theme.of(context).colorScheme.background,
+        automaticallyImplyLeading: false,
         title: const Text(
           'Silicon Eats',
           style: TextStyle(fontFamily: 'NauticalPrestige', fontSize: 50),
@@ -62,81 +64,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             iconSize: 30,
             onPressed: () {},
           ),
-          IconButton(
-            onPressed: () {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    insetPadding: EdgeInsets.zero,
-                    title: Row(
-                      children: [
-                        IconButton(
-                          icon: const Icon(Icons.close),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                        SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.02),
-                        const Center(
-                          child: Text(
-                            'Silicon Eats',
-                            style: TextStyle(
-                              // fontWeight: FontWeight.bold,
-                              fontFamily: 'NauticalPrestige',
-                              fontSize: 40,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    content: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        // ProfileDialog(), // this will be widget which will show user profile
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            // this will be a textbutton.
-                            Text(
-                              'Privacy Policy',
-                              style: TextStyle(color: Colors.grey.shade800),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            const CircleAvatar(
-                              radius: 1,
-                              foregroundColor: Colors.grey,
-                              backgroundColor: Colors.grey,
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-
-                            // this will also be a textbutton.
-                            Text(
-                              'Terms of Service',
-                              style: TextStyle(color: Colors.grey.shade800),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  );
-                },
-              );
-            },
-            icon: const Icon(
-              Icons.account_circle,
-              color: Colors.black87,
-              size: 30,
-            ),
-          ),
+          const ProfileDialogBox(),
         ],
       ),
       body: SingleChildScrollView(
