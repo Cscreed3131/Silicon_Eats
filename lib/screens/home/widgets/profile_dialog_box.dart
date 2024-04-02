@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sorasummit/screens/admin/admin_home_screen.dart';
 import 'package:sorasummit/screens/auth/login_screen.dart';
 
 class ProfileDialogBox extends ConsumerWidget {
@@ -43,6 +44,14 @@ class ProfileDialogBox extends ConsumerWidget {
                   // const SizedBox(
                   //   height: 10,
                   // ),
+                  ListTile(
+                    onTap: () => {
+                      Navigator.of(context)
+                          .popAndPushNamed(AdminHomeScreen.routeName),
+                    },
+                    leading: const Icon(Icons.admin_panel_settings),
+                    title: const Text('Adminstrator'),
+                  ),
                   ListTile(
                     onTap: () => {},
                     leading: const Icon(Icons.person),

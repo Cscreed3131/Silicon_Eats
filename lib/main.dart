@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sorasummit/firebase_options.dart';
+import 'package:sorasummit/screens/admin/admin_home_screen.dart';
 import 'package:sorasummit/screens/auth/login_screen.dart';
 import 'package:sorasummit/screens/auth/signup_screen.dart';
 import 'package:sorasummit/screens/home/home_screen.dart';
@@ -56,6 +57,7 @@ class MyApp extends StatelessWidget {
       routes: {
         LoginScreen.routeName: (ctx) => const LoginScreen(),
         SignUpScreen.routeName: (ctx) => const SignUpScreen(),
+        AdminHomeScreen.routeName: (ctx) => const AdminHomeScreen(),
         HomeScreen.routeName: (ctx) => const HomeScreen(),
       },
     );

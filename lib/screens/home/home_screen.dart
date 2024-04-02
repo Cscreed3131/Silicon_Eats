@@ -217,7 +217,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 height: 10,
                               ),
                               const Text(
-                                "₹ 999", //Dynamic price
+                                "₹ 100", //Dynamic price
                                 style: TextStyle(
                                   fontFamily: 'IBMPlexMono',
                                   fontWeight: FontWeight.bold,
