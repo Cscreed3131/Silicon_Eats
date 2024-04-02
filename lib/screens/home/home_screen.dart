@@ -46,9 +46,29 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         toolbarHeight: height * 0.1,
         backgroundColor: Theme.of(context).colorScheme.background,
         automaticallyImplyLeading: false,
-        title: const Text(
-          'Silicon Eats',
-          style: TextStyle(fontFamily: 'NauticalPrestige', fontSize: 50),
+        title: Text.rich(
+          TextSpan(
+            children: [
+              TextSpan(
+                text:
+                    'Silicon ', // this will be dynamically fetched from the database.
+                style: TextStyle(
+                  fontSize: font20 + 20,
+                  fontFamily: "NauticalPrestige",
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              TextSpan(
+                text: 'Eats',
+                style: TextStyle(
+                  fontSize: font20 + 20, // replace with your font size
+                  fontWeight: FontWeight.bold,
+                  fontFamily: "NauticalPrestige",
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+              ),
+            ],
+          ),
         ),
         actions: [
           // all this will contain seperate widgets which will lead to seperate pages....
