@@ -1,6 +1,6 @@
 // import 'package:cliff/sub_sections/Admin/add_food_item_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:sorasummit/screens/admin/add_food_item_screen.dart';
+import 'package:sorasummit/src/admin/add_food_item_screen.dart';
 
 class AdminAddFoodWidget extends StatefulWidget {
   const AdminAddFoodWidget({super.key});

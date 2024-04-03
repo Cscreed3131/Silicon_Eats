@@ -6,11 +6,11 @@ import 'package:firebase_core/firebase_core.dart';
 
 import 'package:sorasummit/firebase_options.dart';
 import 'package:sorasummit/providers/user_data_provider.dart';
-import 'package:sorasummit/screens/admin/add_food_item_screen.dart';
-import 'package:sorasummit/screens/admin/admin_home_screen.dart';
-import 'package:sorasummit/screens/auth/login_screen.dart';
-import 'package:sorasummit/screens/auth/signup_screen.dart';
-import 'package:sorasummit/screens/home/home_screen.dart';
+import 'package:sorasummit/src/admin/add_food_item_screen.dart';
+import 'package:sorasummit/src/admin/admin_home_screen.dart';
+import 'package:sorasummit/src/auth/login_screen.dart';
+import 'package:sorasummit/src/auth/signup_screen.dart';
+import 'package:sorasummit/src/home/home_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

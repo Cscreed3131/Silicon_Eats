@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:sorasummit/screens/admin/widgets/admin_add_announcement.dart';
-import 'package:sorasummit/screens/admin/widgets/admin_add_food_widget.dart';
+import 'package:sorasummit/src/admin/widgets/admin_add_announcement.dart';
+import 'package:sorasummit/src/admin/widgets/admin_add_food_widget.dart';
 
 class AdminHomeScreen extends StatefulWidget {
   const AdminHomeScreen({super.key});

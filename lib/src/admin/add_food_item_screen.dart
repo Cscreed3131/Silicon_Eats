@@ -1,8 +1,13 @@
+import 'dart:io';
+
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+// import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:sorasummit/src/admin/widgets/image_picker_widget.dart';
 
 class AddFoodItemScreen extends StatelessWidget {
   const AddFoodItemScreen({super.key});
@@ -33,7 +38,6 @@ class BuildForm extends ConsumerStatefulWidget {
 
 class _BuildFormState extends ConsumerState<BuildForm> {
   List<String> categories = [
-    "All",
     "Breakfast",
     "North Indian",
     "South Indian",
@@ -43,7 +47,7 @@ class _BuildFormState extends ConsumerState<BuildForm> {
 
   final _formKey = GlobalKey<FormState>();
 
-  // File? _selectedImage;
+  File? _selectedImage;
   String name = '';
   String description = '';
   double price = 0;
@@ -61,37 +65,37 @@ class _BuildFormState extends ConsumerState<BuildForm> {
       return false;
     }
     _formKey.currentState!.save();
-    // if (_selectedImage == null) {
-    //   ScaffoldMessenger.of(context).clearSnackBars();
-    //   ScaffoldMessenger.of(context).showSnackBar(
-    //     const SnackBar(
-    //       behavior: SnackBarBehavior.floating,
-    //       content: Text('Please select a food item image'),
-    //     ),
-    //   );
-    //   return false;
-    // }
+    if (_selectedImage == null) {
+      ScaffoldMessenger.of(context).clearSnackBars();
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          behavior: SnackBarBehavior.floating,
+          content: Text('Please select a food item image'),
+        ),
+      );
+      return false;
+    }
     DateTime now = DateTime.now();
     Timestamp timestamp = Timestamp.fromDate(now);
     try {
-      // final storageRef =
-      //     FirebaseStorage.instance.ref().child('food_items').child('$name.jpg');
-      // await storageRef.putFile(_selectedImage!);
-      // final imageUrl = await storageRef.getDownloadURL();
-      FirebaseFirestore.instance.collection('food_items').doc().set({
+      final storageRef =
+          FirebaseStorage.instance.ref().child('foodItems').child('$name.jpg');
+      await storageRef.putFile(_selectedImage!);
+      final imageUrl = await storageRef.getDownloadURL();
+      FirebaseFirestore.instance.collection('foodItems').doc().set({
         'added_by': FirebaseAuth.instance.currentUser!.uid,
         'date_and_time': timestamp,
         'name': name,
         'description': description,
-        'price': price,
+        'costPrice': costPrice,
+        'sellingPrice': sellingPrice,
         'category': category,
-        // 'imageUrl': imageUrl,
+        'imageUrl': imageUrl,
         'available': true,
-        'id': id + 1,
+        'id': 1,
       });
       return true;
-    } on FirebaseException catch (e) {
-      print(e);
+    } on FirebaseException catch (_) {
       return false;
     }
   }
@@ -106,7 +110,7 @@ class _BuildFormState extends ConsumerState<BuildForm> {
 
   @override
   Widget build(BuildContext context) {
-    int? id;
+    int id = 1;
     // ref.watch(foodItemStreamProvider).when(
     //     data: (data) {
     //       id = data.length;
@@ -125,11 +129,11 @@ class _BuildFormState extends ConsumerState<BuildForm> {
         key: _formKey,
         child: Column(
           children: [
-            // EventImagePicker(
-            //   onPickImage: (pickedImage) {
-            //     _selectedImage = pickedImage;
-            //   },
-            // ),
+            ImagePickerWidget(
+              onPickImage: (pickedImage) {
+                _selectedImage = pickedImage;
+              },
+            ),
             TextFormField(
               decoration: InputDecoration(
                 labelText: 'Name',
@@ -196,38 +200,6 @@ class _BuildFormState extends ConsumerState<BuildForm> {
             const SizedBox(
               height: 10,
             ),
-            // TextFormField(
-            //   decoration: InputDecoration(
-            //     labelText: 'Price',
-            //     alignLabelWithHint: true,
-            //     border: OutlineInputBorder(
-            //       borderRadius: BorderRadius.circular(20),
-            //     ),
-            //   ),
-            //   focusNode: _priceFocusNode,
-            //   textInputAction: TextInputAction.done,
-            //   keyboardType: TextInputType.number,
-            //   autovalidateMode: AutovalidateMode.onUserInteraction,
-            //   validator: (value) {
-            //     if (value == null || value.isEmpty) {
-            //       return 'Please enter a name';
-            //     }
-            //     if (double.tryParse(value) == null ||
-            //         double.parse(value) <= 0) {
-            //       return 'Please enter a valid positive number';
-            //     }
-            //     if (value.isNotEmpty) {
-            //       RegExp specialCharacters = RegExp(r'[!@#\$%^&*()?":{}|<>]');
-            //       if (specialCharacters.hasMatch(value)) {
-            //         return 'Description cannot contain special characters';
-            //       }
-            //     }
-            //     return null;
-            //   },
-            //   onSaved: (newValue) {
-            //     price = double.tryParse(newValue!)!;
-            //   },
-            // ),
             TextFormField(
               decoration: InputDecoration(
                 labelText: 'Cost Price',
@@ -301,6 +273,28 @@ class _BuildFormState extends ConsumerState<BuildForm> {
             const SizedBox(
               height: 10,
             ),
+            //using this for reading barcode and displaying in the TextFormField
+            // TextFormField(
+            //   decoration: InputDecoration(
+            //     labelText: 'Barcode',
+            //     alignLabelWithHint: true,
+            //     border: OutlineInputBorder(
+            //       borderRadius: BorderRadius.circular(20),
+            //     ),
+            //   ),
+            //   readOnly: true,
+            //   onTap: () async {
+            //     String barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+            //       '#ff6666',
+            //       'Cancel',
+            //       true,
+            //       ScanMode.BARCODE,
+            //     );
+            //     if (barcodeScanRes != '-1') {
+            //       _nameController.text = barcodeScanRes;
+            //     }
+            //   },
+            // ),
             Wrap(
               alignment: WrapAlignment.start,
               crossAxisAlignment: WrapCrossAlignment.center,
@@ -324,7 +318,7 @@ class _BuildFormState extends ConsumerState<BuildForm> {
                 Expanded(
                   child: FilledButton(
                     onPressed: () async {
-                      await _submit(id!)
+                      await _submit(id)
                           ? {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(

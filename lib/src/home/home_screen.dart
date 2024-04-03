@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sorasummit/providers/user_data_provider.dart';
-import 'package:sorasummit/screens/home/widgets/profile_dialog_box.dart';
+import 'package:sorasummit/src/home/widgets/profile_dialog_box.dart';
 // import 'package:sorasummit/screens/home/widgets/app_drawer_widget.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
