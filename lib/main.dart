@@ -6,6 +6,7 @@ import 'package:firebase_core/firebase_core.dart';
 
 import 'package:sorasummit/firebase_options.dart';
 import 'package:sorasummit/providers/user_data_provider.dart';
+import 'package:sorasummit/screens/admin/add_food_item_screen.dart';
 import 'package:sorasummit/screens/admin/admin_home_screen.dart';
 import 'package:sorasummit/screens/auth/login_screen.dart';
 import 'package:sorasummit/screens/auth/signup_screen.dart';
@@ -72,6 +73,7 @@ class MyApp extends ConsumerWidget {
         SignUpScreen.routeName: (ctx) => const SignUpScreen(),
         AdminHomeScreen.routeName: (ctx) => const AdminHomeScreen(),
         HomeScreen.routeName: (ctx) => const HomeScreen(),
+        AddFoodItemScreen.routeName: (ctx) => const AddFoodItemScreen(),
       },
     );
   }

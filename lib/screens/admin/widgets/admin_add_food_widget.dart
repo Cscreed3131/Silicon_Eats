@@ -1,5 +1,6 @@
 // import 'package:cliff/sub_sections/Admin/add_food_item_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:sorasummit/screens/admin/add_food_item_screen.dart';
 
 class AdminAddFoodWidget extends StatefulWidget {
   const AdminAddFoodWidget({super.key});
@@ -57,9 +58,9 @@ class _AdminAddFoodWidgetState extends State<AdminAddFoodWidget> {
 
           //FilledButton saying add items
           Center(
-            child: FilledButton.icon(
+            child: ElevatedButton.icon(
               onPressed: () {
-                // Navigator.of(context).pushNamed(AddFoodItems.routeName);
+                Navigator.of(context).pushNamed(AddFoodItemScreen.routeName);
               },
               icon: const Icon(Icons.add),
               label: Text(

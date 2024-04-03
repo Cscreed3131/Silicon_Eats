@@ -70,7 +70,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Anubhav", // should be dynamic
+                    "Anubhav Kumar", // should be dynamic
                     style: TextStyle(
                       fontSize: 30,
                       fontFamily: 'IBMPlexMono',
@@ -113,38 +113,31 @@ class _AdminHomeScreenState extends State<AdminHomeScreen>
                   ),
 
                   //tabview
-                  DefaultTabController(
-                    length: 2,
-                    child: TabBar(
-                      controller: _tabController,
-                      isScrollable: true,
-                      labelColor: Theme.of(context).colorScheme.primary,
-                      unselectedLabelColor: Theme.of(context)
-                          .colorScheme
-                          .primary
-                          .withOpacity(0.5),
-                      indicatorColor: Theme.of(context).colorScheme.primary,
-                      tabs: const [
-                        // Tab(
-                        //   text: 'Events',
-                        // ),
-                        // Tab(
-                        //   text: 'Merch',
-                        // ),
-                        Tab(
-                          text: 'Announcements',
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      DefaultTabController(
+                        length: 2,
+                        child: TabBar(
+                          controller: _tabController,
+                          isScrollable: true,
+                          labelColor: Theme.of(context).colorScheme.primary,
+                          unselectedLabelColor: Theme.of(context)
+                              .colorScheme
+                              .primary
+                              .withOpacity(0.5),
+                          indicatorColor: Theme.of(context).colorScheme.primary,
+                          tabs: const [
+                            Tab(
+                              text: 'Announcements',
+                            ),
+                            Tab(
+                              text: 'Food',
+                            ),
+                          ],
                         ),
-                        Tab(
-                          text: 'Food',
-                        ),
-                        // Tab(
-                        //   text: 'Timetable',
-                        // ),
-                        // Tab(
-                        //   text: 'Placements',
-                        // ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                   SizedBox(
                     height: screenHeight * 0.8,
@@ -152,12 +145,8 @@ class _AdminHomeScreenState extends State<AdminHomeScreen>
                       physics: const NeverScrollableScrollPhysics(),
                       controller: _tabController,
                       children: const [
-                        // AdminEventsWidget(),
-                        // AdminMerchWidget(),
-                        AdminAnnounceWidget(), //use this
-                        AdminAddFoodWidget(), // use this
-                        // AdminTimetableWidget(),
-                        // AdminAddPlacementsData(),
+                        AdminAnnounceWidget(),
+                        AdminAddFoodWidget(),
                       ],
                     ),
                   )

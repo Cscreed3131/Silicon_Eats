@@ -14,11 +14,11 @@ class HomeScreen extends ConsumerStatefulWidget {
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   Map<String, String> categoryImages = {
-    "All": "assets/images/aloo mattar.jpeg", // replace with your image url
+    "All": "assets/images/aloo mattar.jpeg",
     "Counter 1": "assets/images/Butter Paneer.jpeg",
     "Counter 2": "assets/images/Thandai Kulfi.jpeg",
-    "Counter 3": "assets/images/dosa.jpeg", // replace with your image url
-    "Counter 4": "assets/images/dosa.jpeg", // replace with your image url
+    "Counter 3": "assets/images/dosa.jpeg",
+    "Counter 4": "assets/images/dosa.jpeg",
   };
   int selectedCategoryIndex = 0;
   List<String> categories = [

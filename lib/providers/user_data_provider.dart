@@ -3,7 +3,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sorasummit/models/user_data_model.dart';
 
-final userDataProvider = StreamProvider.autoDispose<UserDataModel>((ref) {
+// this auto dispose thing is very big problem for the database it request every
+// time something a widget is disposed.
+// so if the widget is not destroyed we can save some money by sending less requests to the data base.
+final userDataProvider = StreamProvider<UserDataModel>((ref) {
   // Use authChanges to automatically handle user authentication changes
   final stream = FirebaseAuth.instance.authStateChanges().asyncExpand(
     (user) async* {
@@ -52,7 +55,7 @@ final userNameProvider = Provider.autoDispose<String>((ref) {
 
   return userDataAsyncValue.map(
     data: (userData) => userData.value.userName,
-    loading: (_) => 'Loading...',
+    loading: (_) => 'Loading',
     error: (_) => 'Error',
   );
 });
