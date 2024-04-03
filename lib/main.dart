@@ -1,7 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+
 import 'package:sorasummit/firebase_options.dart';
 import 'package:sorasummit/providers/user_data_provider.dart';
 import 'package:sorasummit/screens/admin/admin_home_screen.dart';
@@ -32,12 +34,20 @@ class MyApp extends ConsumerWidget {
       title: 'Sora Summit',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.orange,
-          primary: const Color(0xFFF66118),
-          secondary: const Color(0xFFFF9200),
-          background: Colors.white,
-          outline: const Color(0xFFFF4500),
-          outlineVariant: const Color(0xFFFF7518),
+          // seedColor: Colors.orange,
+          // primary: const Color(0xFFF66118),
+          // secondary: const Color(0xFFFF9200),
+          // background: Colors.white,
+          // outline: const Color(0xFFFF4500),
+          // outlineVariant: const Color(0xFFFF7518),
+          seedColor: Colors.green,
+          primary: const Color(0xFF276221),
+          secondary: const Color(0xFF3B8132),
+          background: const Color(0xFFF7FEEF),
+          primaryContainer: const Color(0xFFACD8a7),
+          onPrimary: const Color(0xFF1DB233),
+          outline: const Color(0xFF3B8132),
+          outlineVariant: const Color(0xFF46923C),
         ),
         useMaterial3: true,
       ),

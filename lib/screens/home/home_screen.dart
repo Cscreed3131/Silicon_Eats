@@ -42,7 +42,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     final font20 = height / 27.6;
-    String name = 'Siliconite';
     var userDetails = ref.watch(userDataProvider);
     return Scaffold(
       appBar: AppBar(
@@ -108,9 +107,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         text:
                             'Hello ', // this will be dynamically fetched from the database.
                         style: TextStyle(
-                            fontSize: font20,
-                            fontFamily: "IBMPlexMono",
-                            fontWeight: FontWeight.bold),
+                          fontSize: font20,
+                          fontFamily: "IBMPlexMono",
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       userDetails.when(
                         data: (data) {
@@ -218,7 +218,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.secondaryContainer,
+                      color: Theme.of(context).colorScheme.primaryContainer,
                       border: Border.all(
                         color: Theme.of(context).colorScheme.outline,
                       ),
@@ -295,7 +295,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 onPressed: () {},
                                 style: ButtonStyle(
                                   backgroundColor: MaterialStateProperty.all(
-                                    Theme.of(context).colorScheme.secondary,
+                                    Theme.of(context).colorScheme.onPrimary,
                                   ),
                                 ),
                                 child: const Text('Add'),
