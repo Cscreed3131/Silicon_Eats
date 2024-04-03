@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sorasummit/firebase_options.dart';
+import 'package:sorasummit/providers/user_data_provider.dart';
 import 'package:sorasummit/screens/admin/admin_home_screen.dart';
 import 'package:sorasummit/screens/auth/login_screen.dart';
 import 'package:sorasummit/screens/auth/signup_screen.dart';
@@ -20,12 +21,13 @@ void main() async {
   );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(userDataProvider);
     return MaterialApp(
       title: 'Sora Summit',
       theme: ThemeData(
