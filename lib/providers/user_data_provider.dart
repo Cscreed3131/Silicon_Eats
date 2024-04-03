@@ -46,3 +46,13 @@ final userDataProvider = StreamProvider.autoDispose<UserDataModel>((ref) {
 
   return stream;
 });
+
+final userNameProvider = Provider.autoDispose<String>((ref) {
+  final userDataAsyncValue = ref.watch(userDataProvider);
+
+  return userDataAsyncValue.map(
+    data: (userData) => userData.value.userName,
+    loading: (_) => 'Loading...',
+    error: (_) => 'Error',
+  );
+});

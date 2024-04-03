@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sorasummit/models/user_data_model.dart';
 import 'package:sorasummit/providers/user_data_provider.dart';
 import 'package:sorasummit/screens/home/widgets/profile_dialog_box.dart';
 // import 'package:sorasummit/screens/home/widgets/app_drawer_widget.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({Key? key}) : super(key: key);
   static const String routeName = '/home';
 
   @override
@@ -42,7 +41,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     final font20 = height / 27.6;
-    var userDetails = ref.watch(userDataProvider);
+
+    var userNameFromProvider = ref.watch(userNameProvider);
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: height * 0.1,
@@ -105,43 +105,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     children: [
                       TextSpan(
                         text:
-                            'Hello ', // this will be dynamically fetched from the database.
+                            'Hello ${userNameFromProvider.split(' ')[0]},\n', // this will be dynamically fetched from the database.
                         style: TextStyle(
                           fontSize: font20,
                           fontFamily: "IBMPlexMono",
                           fontWeight: FontWeight.bold,
                         ),
-                      ),
-                      userDetails.when(
-                        data: (data) {
-                          return TextSpan(
-                            text:
-                                '${data.userName.split(' ')[0]},\n', // this will be dynamically fetched from the database.
-                            style: TextStyle(
-                                fontSize: font20,
-                                fontFamily: "IBMPlexMono",
-                                fontWeight: FontWeight.bold),
-                          );
-                        },
-                        error: (error, stackTrace) {
-                          return TextSpan(
-                            text: 'Hello Buddy\n',
-                            style: TextStyle(
-                                fontSize: font20,
-                                fontFamily: "IBMPlexMono",
-                                fontWeight: FontWeight.bold),
-                          );
-                          // show error message: We cannot process your request rn and say try again later.
-                        },
-                        loading: () {
-                          return TextSpan(
-                            text: 'Loading',
-                            style: TextStyle(
-                                fontSize: font20,
-                                fontFamily: "IBMPlexMono",
-                                fontWeight: FontWeight.bold),
-                          );
-                        },
                       ),
                       TextSpan(
                         text: 'What do you want to eat today?',

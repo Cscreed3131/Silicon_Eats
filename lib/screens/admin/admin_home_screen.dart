@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'package:sorasummit/screens/admin/widgets/admin_add_announcement.dart';
+import 'package:sorasummit/screens/admin/widgets/admin_add_food_widget.dart';
+
 class AdminHomeScreen extends StatefulWidget {
   const AdminHomeScreen({super.key});
   static const routeName = '/admin-screen';
@@ -30,7 +33,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen>
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          SliverAppBar.large(
+          SliverAppBar(
             leading: IconButton(
               onPressed: () {
                 Navigator.of(context).pop();
@@ -67,7 +70,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Anubhav",
+                    "Anubhav", // should be dynamic
                     style: TextStyle(
                       fontSize: 30,
                       fontFamily: 'IBMPlexMono',
@@ -75,8 +78,9 @@ class _AdminHomeScreenState extends State<AdminHomeScreen>
                       color: Theme.of(context).colorScheme.primary,
                     ),
                   ),
-                  //chip specifying admin role
-                  // I want to fetch user roles from my provider which i know is list of strings and then generate chips based on that.
+                  // chip specifying admin role
+                  // I want to fetch user roles from my provider which i know
+                  // is list of strings and then generate chips based on that.
 
                   Row(
                     children: [
@@ -93,10 +97,10 @@ class _AdminHomeScreenState extends State<AdminHomeScreen>
                               role
                                   .toString()
                                   .toUpperCase(), // changes done see same in cliff project
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontFamily: 'IBMPlexMono',
                                 fontWeight: FontWeight.bold,
-                                color: Theme.of(context).colorScheme.onPrimary,
+                                // color: Theme.of(context).colorScheme.secondary,
                               ),
                             ),
                             backgroundColor: Theme.of(context)
@@ -105,17 +109,12 @@ class _AdminHomeScreenState extends State<AdminHomeScreen>
                                 .withOpacity(0.7),
                           ),
                         ),
-                      IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.add),
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
                     ],
                   ),
 
                   //tabview
                   DefaultTabController(
-                    length: 6,
+                    length: 2,
                     child: TabBar(
                       controller: _tabController,
                       isScrollable: true,
@@ -155,8 +154,8 @@ class _AdminHomeScreenState extends State<AdminHomeScreen>
                       children: const [
                         // AdminEventsWidget(),
                         // AdminMerchWidget(),
-                        // AdminAnnounceWidget(), //use this
-                        // AdminAddFoodWidget(), // use this
+                        AdminAnnounceWidget(), //use this
+                        AdminAddFoodWidget(), // use this
                         // AdminTimetableWidget(),
                         // AdminAddPlacementsData(),
                       ],

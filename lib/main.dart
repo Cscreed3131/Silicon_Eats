@@ -58,7 +58,8 @@ class MyApp extends ConsumerWidget {
             return const CircularProgressIndicator();
           } else {
             if (snapshot.hasData) {
-              return const HomeScreen();
+              // Get the user data
+              return const HomeScreen(); // Pass the user data to HomeScreen
             } else {
               return const LoginScreen();
             }
