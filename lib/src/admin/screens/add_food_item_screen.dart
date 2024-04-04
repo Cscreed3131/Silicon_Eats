@@ -1,12 +1,14 @@
+// dart core
 import 'dart:io';
-
-import 'package:firebase_storage/firebase_storage.dart';
+// flutter pakages
 import 'package:flutter/material.dart';
-// import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
+// firebase packages
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:sorasummit/providers/food_data_provider.dart';
+// widgets and other screens
 import 'package:sorasummit/src/admin/widgets/image_picker_widget.dart';
 
 class AddFoodItemScreen extends StatelessWidget {
@@ -83,8 +85,8 @@ class _BuildFormState extends ConsumerState<BuildForm> {
       await storageRef.putFile(_selectedImage!);
       final imageUrl = await storageRef.getDownloadURL();
       FirebaseFirestore.instance.collection('foodItems').doc().set({
-        'added_by': FirebaseAuth.instance.currentUser!.uid,
-        'date_and_time': timestamp,
+        'addedBy': FirebaseAuth.instance.currentUser!.uid,
+        'dateAndTime': timestamp,
         'name': name,
         'description': description,
         'costPrice': costPrice,
@@ -92,7 +94,7 @@ class _BuildFormState extends ConsumerState<BuildForm> {
         'category': category,
         'imageUrl': imageUrl,
         'available': true,
-        'id': 1,
+        'id': id + 1,
       });
       return true;
     } on FirebaseException catch (_) {
@@ -110,21 +112,10 @@ class _BuildFormState extends ConsumerState<BuildForm> {
 
   @override
   Widget build(BuildContext context) {
-    int id = 1;
-    // ref.watch(foodItemStreamProvider).when(
-    //     data: (data) {
-    //       id = data.length;
-    //     },
-    //     error: (error, stackTrace) {
-    //       print(error);
-    //       print(stackTrace);
-    //       id = null;
-    //       ScaffoldMessenger.of(context).showSnackBar(
-    //           const SnackBar(content: Text("Can't set id of the food item.")));
-    //     },
-    //     loading: () {});
+    int? id = ref.watch(foodItemCountProvider);
+    print(id);
     return Padding(
-      padding: const EdgeInsets.all(10.0),
+      padding: const EdgeInsets.all(20.0),
       child: Form(
         key: _formKey,
         child: Column(
@@ -318,7 +309,7 @@ class _BuildFormState extends ConsumerState<BuildForm> {
                 Expanded(
                   child: FilledButton(
                     onPressed: () async {
-                      await _submit(id)
+                      await _submit(id!)
                           ? {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(

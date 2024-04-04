@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sorasummit/src/admin/admin_home_screen.dart';
+import 'package:sorasummit/src/admin/screens/admin_home_screen.dart';
 import 'package:sorasummit/src/auth/login_screen.dart';
 
 class ProfileDialogBox extends ConsumerWidget {
