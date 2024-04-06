@@ -59,3 +59,13 @@ final userNameProvider = Provider.autoDispose<String>((ref) {
     error: (_) => 'Error',
   );
 });
+
+final userRoleProvider = Provider.autoDispose<List?>((ref) {
+  final userDataAsyncValue = ref.watch(userDataProvider);
+
+  return userDataAsyncValue.map(
+    data: (userData) => userData.value.userRoles,
+    loading: (_) => [],
+    error: (_) => null,
+  );
+});

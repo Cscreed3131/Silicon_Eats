@@ -79,7 +79,7 @@ class _AdminAddFoodWidgetState extends ConsumerState<AdminAddFoodWidget> {
           ),
 
           const SizedBox(
-            height: 30,
+            height: 20,
           ),
 
           //Text saying items
@@ -96,42 +96,47 @@ class _AdminAddFoodWidgetState extends ConsumerState<AdminAddFoodWidget> {
           ),
 
           //List of items
-          ListView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: foodItemDetails.length,
-            itemBuilder: (context, index) {
-              var listItem = foodItemDetails[index];
-              return ListTile(
-                leading: Container(
-                  height: MediaQuery.of(context).size.height * 0.05,
-                  width: MediaQuery.of(context).size.height * 0.05,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    image: DecorationImage(
-                      //random image
-                      image: NetworkImage(listItem['imageUrl']),
-                      fit: BoxFit.cover,
+          Padding(
+            padding: const EdgeInsets.only(
+              bottom: 50,
+            ),
+            child: ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: foodItemDetails.length,
+              itemBuilder: (context, index) {
+                var listItem = foodItemDetails[index];
+                return ListTile(
+                  leading: Container(
+                    height: MediaQuery.of(context).size.height * 0.05,
+                    width: MediaQuery.of(context).size.height * 0.05,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      image: DecorationImage(
+                        //random image
+                        image: NetworkImage(listItem['imageUrl']),
+                        fit: BoxFit.cover,
+                      ),
+                      color: Theme.of(context).colorScheme.primary,
                     ),
-                    color: Theme.of(context).colorScheme.primary,
                   ),
-                ),
-                title: Text(
-                  '${listItem['name']}',
-                  style: TextStyle(
-                    fontSize: MediaQuery.of(context).size.height * 0.02,
-                    fontFamily: 'IBMPlexMono',
+                  title: Text(
+                    '${listItem['name']}',
+                    style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.height * 0.02,
+                      fontFamily: 'IBMPlexMono',
+                    ),
                   ),
-                ),
-                trailing: Text(
-                  '₹ ${listItem['sellingPrice']}',
-                  style: TextStyle(
-                    fontSize: MediaQuery.of(context).size.height * 0.02,
-                    fontFamily: 'IBMPlexMono',
+                  trailing: Text(
+                    '₹ ${listItem['sellingPrice']}',
+                    style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.height * 0.02,
+                      fontFamily: 'IBMPlexMono',
+                    ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
         ],
       ),

@@ -1,23 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sorasummit/providers/user_data_provider.dart';
 
 import 'package:sorasummit/src/admin/widgets/admin_add_announcement.dart';
 import 'package:sorasummit/src/admin/widgets/admin_add_food_widget.dart';
+import 'package:sorasummit/src/admin/widgets/admin_manage_items.dart';
 
-class AdminHomeScreen extends StatefulWidget {
+class AdminHomeScreen extends ConsumerStatefulWidget {
   const AdminHomeScreen({super.key});
   static const routeName = '/admin-screen';
   @override
-  State<AdminHomeScreen> createState() => _AdminHomeScreenState();
+  ConsumerState<AdminHomeScreen> createState() => _AdminHomeScreenState();
 }
 
-class _AdminHomeScreenState extends State<AdminHomeScreen>
+class _AdminHomeScreenState extends ConsumerState<AdminHomeScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this);
+    _tabController = TabController(length: 3, vsync: this);
   }
 
   @override
@@ -28,8 +31,9 @@ class _AdminHomeScreenState extends State<AdminHomeScreen>
 
   @override
   Widget build(BuildContext context) {
+    final userName = ref.watch(userNameProvider);
+    final adminRole = ref.watch(userRoleProvider);
     final screenHeight = MediaQuery.of(context).size.height;
-    List adminRole = ["Student", "Admin"];
     return Scaffold(
       body: CustomScrollView(
         slivers: [
@@ -70,7 +74,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Anubhav Kumar", // should be dynamic
+                    userName, // should be dynamic
                     style: TextStyle(
                       fontSize: 30,
                       fontFamily: 'IBMPlexMono',
@@ -84,7 +88,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen>
 
                   Row(
                     children: [
-                      for (var role in adminRole)
+                      for (var role in adminRole!)
                         Padding(
                           padding: const EdgeInsets.all(2.0),
                           child: Chip(
@@ -117,7 +121,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen>
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       DefaultTabController(
-                        length: 2,
+                        length: 3,
                         child: TabBar(
                           controller: _tabController,
                           isScrollable: true,
@@ -134,6 +138,9 @@ class _AdminHomeScreenState extends State<AdminHomeScreen>
                             Tab(
                               text: 'Food',
                             ),
+                            Tab(
+                              text: 'Manage',
+                            ),
                           ],
                         ),
                       ),
@@ -147,6 +154,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen>
                       children: const [
                         AdminAnnounceWidget(),
                         AdminAddFoodWidget(),
+                        AdminManageItemsmWidget(),
                       ],
                     ),
                   )
