@@ -133,13 +133,13 @@ class _AdminHomeScreenState extends ConsumerState<AdminHomeScreen>
                           indicatorColor: Theme.of(context).colorScheme.primary,
                           tabs: const [
                             Tab(
-                              text: 'Announcements',
-                            ),
-                            Tab(
                               text: 'Food',
                             ),
                             Tab(
                               text: 'Manage',
+                            ),
+                            Tab(
+                              text: 'Announcements',
                             ),
                           ],
                         ),
@@ -152,9 +152,9 @@ class _AdminHomeScreenState extends ConsumerState<AdminHomeScreen>
                       physics: const NeverScrollableScrollPhysics(),
                       controller: _tabController,
                       children: const [
-                        AdminAnnounceWidget(),
                         AdminAddFoodWidget(),
                         AdminManageItemsmWidget(),
+                        AdminAnnounceWidget(),
                       ],
                     ),
                   )

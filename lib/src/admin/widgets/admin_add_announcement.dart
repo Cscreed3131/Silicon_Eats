@@ -1,5 +1,6 @@
 // import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sorasummit/src/admin/screens/create_announcement_screen.dart';
 
 class AdminAnnounceWidget extends StatefulWidget {
   const AdminAnnounceWidget({Key? key}) : super(key: key);
@@ -42,7 +43,7 @@ class _AdminAnnounceWidgetState extends State<AdminAnnounceWidget> {
           Center(
             child: ElevatedButton.icon(
               onPressed: () {
-                // Navigator.pushNamed(context, CreateAnnouncement.routeName);
+                Navigator.pushNamed(context, CreateAnnouncement.routeName);
               },
               icon: const Icon(Icons.add),
               label: Text(

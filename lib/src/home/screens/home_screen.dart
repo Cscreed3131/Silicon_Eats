@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:sorasummit/providers/food_data_provider.dart';
 import 'package:sorasummit/providers/user_data_provider.dart';
+import 'package:sorasummit/src/home/screens/announcement_screen.dart';
 import 'package:sorasummit/src/home/widgets/food_item_widget.dart';
 import 'package:sorasummit/src/home/widgets/profile_dialog_box.dart';
 
@@ -75,7 +76,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             icon: const Icon(Icons.notifications),
             color: Colors.black87,
             iconSize: 30,
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).pushNamed(AnnouncementScreen.routeName);
+            },
           ),
           IconButton(
             icon: const Icon(Icons.fastfood),
