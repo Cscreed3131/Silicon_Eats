@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:sorasummit/providers/food_data_provider.dart';
 import 'package:sorasummit/providers/user_data_provider.dart';
+import 'package:sorasummit/src/home/widgets/food_item_widget.dart';
 import 'package:sorasummit/src/home/widgets/profile_dialog_box.dart';
-// import 'package:sorasummit/screens/home/widgets/app_drawer_widget.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -26,14 +28,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     "Counter 1",
     "Counter 2",
     "Counter 3",
-    "Counter 4"
-  ];
-  List<String> items = [
-    "Item 1",
-    "Item 2",
-    "Item 3",
-    "Item 4",
-    "Item 5",
+    "Counter 4",
   ];
 
   @override
@@ -42,7 +37,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final width = MediaQuery.of(context).size.width;
     final font20 = height / 27.6;
 
-    var userNameFromProvider = ref.watch(userNameProvider);
+    final userNameFromProvider = ref.watch(userNameProvider);
+    final foodItemDataProvider =
+        ref.watch(foodItemNameAndSellingPriceAndImageProvider);
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: height * 0.1,
@@ -180,101 +177,21 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               child: ListView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                itemCount: items.length,
+                itemCount: foodItemDataProvider.length,
                 itemBuilder: (context, index) {
-                  return Container(
-                    margin:
-                        const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.primaryContainer,
-                      border: Border.all(
-                        color: Theme.of(context).colorScheme.outline,
-                      ),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Row(
-                      children: [
-                        Container(
-                          height: height * 0.15,
-                          width: height * 0.15,
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .outlineVariant),
-                            borderRadius: BorderRadius.circular(20),
-                            // this image should be dynamic.
-                            image: const DecorationImage(
-                              image: AssetImage('assets/images/pav bhaji.jpeg'),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 10),
-                        SizedBox(
-                          width: width * 0.30,
-                          height: height * 0.15,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Pav Bhaji",
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontFamily: 'IBMPlexMono',
-                                  fontSize: font20 * 0.7,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const Text(
-                                "Counter 1", //dynamic category
-                                style: TextStyle(
-                                  fontFamily: 'IBMPlexMono',
-                                  fontSize: 15,
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              const Text(
-                                "₹ 100", //Dynamic price
-                                style: TextStyle(
-                                  fontFamily: 'IBMPlexMono',
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 25,
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(width: 10),
-                        SizedBox(
-                          height: height * 0.15,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              FilledButton.tonal(
-                                onPressed: () {},
-                                style: ButtonStyle(
-                                  backgroundColor: MaterialStateProperty.all(
-                                    Theme.of(context).colorScheme.onPrimary,
-                                  ),
-                                ),
-                                child: const Text('Add'),
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                  );
+                  final listItem = foodItemDataProvider[index];
+                  if (selectedCategoryIndex == 0 ||
+                      listItem['category'] ==
+                          categories[selectedCategoryIndex]) {
+                    return FoodItemWidget(
+                      height: height,
+                      listItem: listItem,
+                      width: width,
+                      font20: font20,
+                    );
+                  } else {
+                    return const SizedBox();
+                  }
                 },
               ),
             ),

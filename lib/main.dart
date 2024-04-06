@@ -10,7 +10,7 @@ import 'package:sorasummit/src/admin/screens/add_food_item_screen.dart';
 import 'package:sorasummit/src/admin/screens/admin_home_screen.dart';
 import 'package:sorasummit/src/auth/login_screen.dart';
 import 'package:sorasummit/src/auth/signup_screen.dart';
-import 'package:sorasummit/src/home/home_screen.dart';
+import 'package:sorasummit/src/home/screens/home_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

@@ -40,11 +40,10 @@ class BuildForm extends ConsumerStatefulWidget {
 
 class _BuildFormState extends ConsumerState<BuildForm> {
   List<String> categories = [
-    "Breakfast",
-    "North Indian",
-    "South Indian",
-    "Beverages",
-    "Desserts",
+    "Counter 1",
+    "Counter 2",
+    "Counter 3",
+    "Counter 4",
   ];
 
   final _formKey = GlobalKey<FormState>();
@@ -113,7 +112,6 @@ class _BuildFormState extends ConsumerState<BuildForm> {
   @override
   Widget build(BuildContext context) {
     int? id = ref.watch(foodItemCountProvider);
-    print(id);
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: Form(

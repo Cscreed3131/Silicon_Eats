@@ -1,17 +1,21 @@
-// import 'package:cliff/sub_sections/Admin/add_food_item_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:sorasummit/providers/food_data_provider.dart';
 import 'package:sorasummit/src/admin/screens/add_food_item_screen.dart';
 
-class AdminAddFoodWidget extends StatefulWidget {
+class AdminAddFoodWidget extends ConsumerStatefulWidget {
   const AdminAddFoodWidget({super.key});
 
   @override
-  State<AdminAddFoodWidget> createState() => _AdminAddFoodWidgetState();
+  ConsumerState<AdminAddFoodWidget> createState() => _AdminAddFoodWidgetState();
 }
 
-class _AdminAddFoodWidgetState extends State<AdminAddFoodWidget> {
+class _AdminAddFoodWidgetState extends ConsumerState<AdminAddFoodWidget> {
   @override
   Widget build(BuildContext context) {
+    var foodItemDetails =
+        ref.watch(foodItemNameAndSellingPriceAndImageProvider);
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -22,7 +26,7 @@ class _AdminAddFoodWidgetState extends State<AdminAddFoodWidget> {
 
           Center(
             child: Text(
-              '₹ 1,000',
+              '₹ 1,000', // dynamic on the number of items sold.
               style: TextStyle(
                 fontSize: MediaQuery.of(context).size.height * 0.06,
                 fontFamily: 'IBMPlexMono',
@@ -33,18 +37,19 @@ class _AdminAddFoodWidgetState extends State<AdminAddFoodWidget> {
           ),
 
           Center(
-              child: Text(
-            'revenue this month',
-            maxLines: 3,
-            style: TextStyle(
-              fontSize: MediaQuery.of(context).size.height * 0.02,
-              fontFamily: 'IBMPlexMono',
+            child: Text(
+              'revenue this month',
+              maxLines: 3,
+              style: TextStyle(
+                fontSize: MediaQuery.of(context).size.height * 0.02,
+                fontFamily: 'IBMPlexMono',
+              ),
             ),
-          )),
+          ),
 
           Center(
               child: Text(
-            '+₹800 from last month',
+            '+₹800 from last month', // use richText
             maxLines: 3,
             style: TextStyle(
               fontSize: MediaQuery.of(context).size.height * 0.02,
@@ -94,8 +99,9 @@ class _AdminAddFoodWidgetState extends State<AdminAddFoodWidget> {
           ListView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            itemCount: 10,
+            itemCount: foodItemDetails.length,
             itemBuilder: (context, index) {
+              var listItem = foodItemDetails[index];
               return ListTile(
                 leading: Container(
                   height: MediaQuery.of(context).size.height * 0.05,
@@ -104,22 +110,21 @@ class _AdminAddFoodWidgetState extends State<AdminAddFoodWidget> {
                     borderRadius: BorderRadius.circular(10),
                     image: DecorationImage(
                       //random image
-                      image:
-                          NetworkImage('https://picsum.photos/200$index/300'),
+                      image: NetworkImage(listItem['imageUrl']),
                       fit: BoxFit.cover,
                     ),
                     color: Theme.of(context).colorScheme.primary,
                   ),
                 ),
                 title: Text(
-                  'Item $index',
+                  '${listItem['name']}',
                   style: TextStyle(
                     fontSize: MediaQuery.of(context).size.height * 0.02,
                     fontFamily: 'IBMPlexMono',
                   ),
                 ),
                 trailing: Text(
-                  '₹ 100',
+                  '₹ ${listItem['sellingPrice']}',
                   style: TextStyle(
                     fontSize: MediaQuery.of(context).size.height * 0.02,
                     fontFamily: 'IBMPlexMono',

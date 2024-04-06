@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:sorasummit/src/auth/signup_screen.dart';
-import 'package:sorasummit/src/home/home_screen.dart';
+import 'package:sorasummit/src/home/screens/home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
