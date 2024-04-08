@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sorasummit/providers/food_data_provider.dart';
 import 'package:sorasummit/providers/user_data_provider.dart';
 import 'package:sorasummit/src/home/screens/announcement_screen.dart';
+import 'package:sorasummit/src/home/screens/cart_screen.dart';
 import 'package:sorasummit/src/home/widgets/food_item_widget.dart';
 import 'package:sorasummit/src/home/widgets/profile_dialog_box.dart';
 
@@ -34,16 +35,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height;
-    final width = MediaQuery.of(context).size.width;
-    final font20 = height / 27.6;
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final font20 = screenHeight / 27.6;
 
     final userNameFromProvider = ref.watch(userNameProvider);
     final foodItemDataProvider =
         ref.watch(foodItemNameAndSellingPriceAndImageProvider);
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: height * 0.1,
+        toolbarHeight: screenHeight * 0.1,
         backgroundColor: Theme.of(context).colorScheme.background,
         automaticallyImplyLeading: false,
         title: Text.rich(
@@ -84,7 +85,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             icon: const Icon(Icons.fastfood),
             color: Colors.black87,
             iconSize: 30,
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).pushNamed(CartScreen.routeName);
+            },
           ),
           const ProfileDialogBox(),
         ],
@@ -130,7 +133,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               height: 5,
             ),
             SizedBox(
-              height: height * 0.11,
+              height: screenHeight / 11,
               width: double.infinity,
               child: ListView.builder(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -140,11 +143,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 addRepaintBoundaries: false,
                 itemBuilder: (context, index) {
                   return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 0),
+                    padding: const EdgeInsets.symmetric(horizontal: 2),
                     child: FilterChip(
                       showCheckmark: false,
                       side: BorderSide.none,
-                      selectedColor: Theme.of(context).colorScheme.secondary,
+                      selectedColor: Theme.of(context)
+                          .colorScheme
+                          .onPrimary
+                          .withOpacity(0.9),
                       selected: selectedCategoryIndex == index,
                       onSelected: (bool value) {
                         setState(() {
@@ -154,8 +160,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       label: Column(
                         children: <Widget>[
                           SizedBox(
-                            height: 70, // Adjust this height as needed
-                            width: 70, // Adjust this width as needed
+                            height: 50, // Adjust this height as needed
+                            width: 50, // Adjust this width as needed
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(10),
                               child: Image.asset(
@@ -187,9 +193,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       listItem['category'] ==
                           categories[selectedCategoryIndex]) {
                     return FoodItemWidget(
-                      height: height,
+                      height: screenHeight,
                       listItem: listItem,
-                      width: width,
+                      width: screenWidth,
                       font20: font20,
                     );
                   } else {

@@ -20,24 +20,20 @@ class FoodItemWidget extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.primaryContainer,
+        color: Theme.of(context).colorScheme.secondaryContainer,
         // border: Border.all(
         //   color: Theme.of(context).colorScheme.outline,
         // ),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(30),
       ),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Container(
             height: height * 0.15,
             width: height * 0.15,
             decoration: BoxDecoration(
-              // border: Border.all(
-              //     color: Theme.of(context)
-              //         .colorScheme
-              //         .outlineVariant),
               borderRadius: BorderRadius.circular(20),
-              // this image should be dynamic.
               image: DecorationImage(
                 image: NetworkImage('${listItem['imageUrl']}'),
                 fit: BoxFit.cover,
@@ -50,7 +46,7 @@ class FoodItemWidget extends StatelessWidget {
             height: height * 0.15,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   "${listItem['name']}",
@@ -58,15 +54,15 @@ class FoodItemWidget extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontFamily: 'IBMPlexMono',
-                    fontSize: font20 * 0.7,
+                    fontSize: font20 * 0.6,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 Text(
                   "${listItem['category']}", //dynamic category
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontFamily: 'IBMPlexMono',
-                    fontSize: 15,
+                    fontSize: font20 * 0.4,
                   ),
                 ),
                 const SizedBox(
@@ -74,10 +70,10 @@ class FoodItemWidget extends StatelessWidget {
                 ),
                 Text(
                   "₹ ${listItem['sellingPrice']}", //Dynamic price
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontFamily: 'IBMPlexMono',
                     fontWeight: FontWeight.bold,
-                    fontSize: 25,
+                    fontSize: font20 * 0.7,
                   ),
                 ),
                 const SizedBox(
