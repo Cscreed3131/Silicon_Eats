@@ -1,3 +1,4 @@
+import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 
 class CartScreen extends StatelessWidget {
@@ -46,9 +47,8 @@ class CartScreen extends StatelessWidget {
                 vertical: 5,
               ),
               child: Card(
-                elevation: 5,
+                // elevation: 5,
                 child: Column(
-                  // mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     SizedBox(
                       // height: screenHeight / 2 * (3 / 3),
@@ -146,7 +146,7 @@ class CartScreen extends StatelessWidget {
                                 );
                               },
                             ),
-                            const Divider(indent: 20, endIndent: 20),
+                            const DottedLine(),
                             ListTile(
                               title: const Text('Add more items'),
                               trailing: IconButton(
@@ -166,8 +166,172 @@ class CartScreen extends StatelessWidget {
               ),
             ),
           ),
-          SliverToBoxAdapter(),
+          SliverToBoxAdapter(
+            child: Column(
+              // mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 30,
+                    vertical: 20,
+                  ),
+                  child: Text(
+                    'Bill Details',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontFamily: 'IBMPLexMono',
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 5,
+                  ),
+                  child: Card(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 20,
+                      ),
+                      child: SizedBox(
+                        // height: 100,
+                        width: double.infinity,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Item Total',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontFamily: 'IBMPLexMono',
+                                  ),
+                                ),
+                                Text(
+                                  '₹99', //dynamic
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontFamily: "IBMPLexMono",
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const DottedLine(),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 20),
+                              child: SizedBox(
+                                width: screenwidth / 1.5,
+                                child: const Text(
+                                  'Order can be cancel within 1 minute of placing order',
+                                ),
+                              ),
+                            ),
+                            const DottedLine(),
+                            const Padding(
+                              padding: EdgeInsets.symmetric(
+                                vertical: 20,
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Platform fee',
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      fontFamily: 'IBMPLexMono',
+                                    ),
+                                  ),
+                                  Text(
+                                    '₹9.9', //dynamic
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      fontFamily: "IBMPLexMono",
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const DottedLine(),
+                            const Padding(
+                              padding: EdgeInsets.only(
+                                top: 30,
+                                bottom: 10,
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'To Pay',
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'IBMPLexMono',
+                                    ),
+                                  ),
+                                  Text(
+                                    '₹109', //dynamic
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      fontFamily: "IBMPLexMono",
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
+      ),
+      bottomNavigationBar: BottomAppBar(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SizedBox(
+              width: screenwidth / 2.5,
+              child: const Text(
+                'Amount:',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontFamily: 'IBMPLexMono',
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            const Text(
+              '₹109',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            FilledButton.tonal(
+              child: const Text(
+                'Order',
+                style: TextStyle(
+                  fontSize: 20,
+                ),
+              ),
+              onPressed: () {},
+            ),
+          ],
+        ),
       ),
     );
   }

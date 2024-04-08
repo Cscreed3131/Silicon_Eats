@@ -38,7 +38,7 @@ class MyApp extends ConsumerWidget {
       title: 'Sora Summit',
       theme: ThemeData(
         cardTheme: CardTheme(
-          color: const Color.fromARGB(255, 197, 230, 193),
+          // color: const Color.fromARGB(255, 197, 230, 193),
           elevation: 5,
           // shadowColor: ,
           shape:
