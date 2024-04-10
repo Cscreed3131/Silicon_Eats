@@ -5,6 +5,7 @@ import 'package:sorasummit/providers/food_data_provider.dart';
 import 'package:sorasummit/providers/user_data_provider.dart';
 import 'package:sorasummit/src/home/screens/announcement_screen.dart';
 import 'package:sorasummit/src/home/screens/cart_screen.dart';
+import 'package:sorasummit/src/home/widgets/food_card.dart';
 import 'package:sorasummit/src/home/widgets/food_item_widget.dart';
 import 'package:sorasummit/src/home/widgets/profile_dialog_box.dart';
 
@@ -32,7 +33,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     "Counter 3",
     "Counter 4",
   ];
-
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
@@ -40,8 +40,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final font20 = screenHeight / 27.6;
 
     final userNameFromProvider = ref.watch(userNameProvider);
-    final foodItemDataProvider =
-        ref.watch(foodItemNameAndSellingPriceAndImageProvider);
+    // final foodItemDataProvider =
+    //     ref.watch(foodItemNameAndSellingPriceAndImageProvider);
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: screenHeight * 0.1,
@@ -183,26 +183,38 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             ),
             MediaQuery.removePadding(
               context: context,
-              child: ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: foodItemDataProvider.length,
-                itemBuilder: (context, index) {
-                  final listItem = foodItemDataProvider[index];
-                  if (selectedCategoryIndex == 0 ||
-                      listItem['category'] ==
-                          categories[selectedCategoryIndex]) {
-                    return FoodItemWidget(
-                      height: screenHeight,
-                      listItem: listItem,
-                      width: screenWidth,
-                      font20: font20,
-                    );
-                  } else {
-                    return const SizedBox();
-                  }
-                },
-              ),
+              removeTop: true,
+              child: ref.watch(foodItemStreamProvider).when(data: (data) {
+                return ListView.builder(
+                  itemCount: data.length,
+                  shrinkWrap: true,
+                  key: ValueKey<int>(selectedCategoryIndex),
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    final item = data[index];
+                    if (selectedCategoryIndex == 0 ||
+                        item.category == categories[selectedCategoryIndex]) {
+                      return FoodCard(
+                        index: index,
+                        foodData: data,
+                        font20: font20,
+                      );
+                    } else {
+                      return const SizedBox();
+                    }
+                  },
+                );
+              }, error: (error, stackTrace) {
+                print(error);
+                print(stackTrace);
+                return const Center(
+                  child: Text('unable to load food items'),
+                );
+              }, loading: () {
+                return const Center(
+                  child: CircularProgressIndicator.adaptive(),
+                );
+              }),
             ),
           ],
         ),

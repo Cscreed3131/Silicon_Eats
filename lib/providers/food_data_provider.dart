@@ -70,6 +70,7 @@ final foodItemNameAndSellingPriceAndImageProvider =
           'imageUrl': item.imageUrl,
           'category': item
               .category, //added the category so that I do no have to make new provider.
+          'id': item.id,
         };
       }).toList();
     },

@@ -1,5 +1,6 @@
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
+import 'package:sorasummit/src/home/screens/home_screen.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -219,7 +220,7 @@ class _CartScreenState extends State<CartScreen> {
                               icon:
                                   const Icon(Icons.add_circle_outline_outlined),
                               onPressed: () {
-                                // Add more items to the cart
+                                Navigator.of(context).pop();
                               },
                             ),
                           ),

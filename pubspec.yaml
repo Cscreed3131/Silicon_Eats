@@ -45,6 +45,8 @@ dependencies:
   image_picker: ^1.0.7
   url_launcher: ^6.1.14
   dotted_line: ^3.2.2
+  cached_network_image: ^3.3.1
+  animate_do: ^3.0.2
 
 dev_dependencies:
   flutter_test:

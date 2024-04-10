@@ -38,11 +38,10 @@ class MyApp extends ConsumerWidget {
       title: 'Sora Summit',
       theme: ThemeData(
         cardTheme: CardTheme(
-          // color: const Color.fromARGB(255, 197, 230, 193),
-          elevation: 5,
-          // shadowColor: ,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          elevation: 2,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
         ),
         colorScheme: ColorScheme.fromSeed(
           // seedColor: Colors.orange,
@@ -52,9 +51,9 @@ class MyApp extends ConsumerWidget {
           // outline: const Color(0xFFFF4500),
           // outlineVariant: const Color(0xFFFF7518),
           seedColor: Colors.green,
+          background: const Color(0xFFF7FEEF),
           primary: const Color(0xFF276221),
           secondary: const Color(0xFF3B8132),
-          background: const Color(0xFFF7FEEF),
           primaryContainer: const Color(0xFFACD8A7),
           onPrimary: const Color(0xFF1DB233),
           outline: const Color(0xFF3B8132),
