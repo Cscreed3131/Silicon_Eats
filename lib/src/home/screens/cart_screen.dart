@@ -1,47 +1,109 @@
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 
-class CartScreen extends StatelessWidget {
+class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
   static const routeName = '/cart-screen';
+  @override
+  State<CartScreen> createState() => _CartScreenState();
+}
+
+class _CartScreenState extends State<CartScreen> {
+  final itemMap = {
+    'item 1': 500,
+    'item 2': 400,
+    'item 3': 300,
+    'item 4': 200,
+    'item 5': 100,
+  };
+
+  Map<String, int> itemCount = {};
+
+  @override
+  void initState() {
+    super.initState();
+    itemCount = Map.fromEntries(itemMap.entries.map((e) => MapEntry(e.key, 1)));
+  }
+
+  void _incrementCount(String itemName) {
+    setState(() {
+      itemCount[itemName] = itemCount[itemName]! + 1;
+    });
+  }
+
+  void _decrementCount(String itemName) {
+    setState(() {
+      if (itemCount[itemName]! > 0) {
+        itemCount[itemName] = itemCount[itemName]! - 1;
+      }
+    });
+  }
+
+  double calculateItemTotal() {
+    double total = 0;
+    itemMap.forEach((key, value) {
+      total += value * itemCount[key]!;
+    });
+    return total;
+  }
+
+  double calculateGST() {
+    double total = calculateItemTotal();
+    return total * 0.18;
+  }
+
+  double getDeliveryPrice() {
+    double kms = 10;
+    double fixedPrice = 30;
+    return kms * fixedPrice;
+  }
+
+  int calulateAmount() {
+    double gst = calculateGST();
+    double total = calculateItemTotal();
+    double delivery = getDeliveryPrice();
+    double result = gst + total + delivery + 9.9;
+    return result.round();
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenwidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            pinned: true,
-            title: const Text(
-              'Check Out',
-              style: TextStyle(
-                fontFamily: 'IBMPLexMono',
-                fontWeight: FontWeight.bold,
-                fontSize: 25,
-              ),
-            ),
-            actions: [
-              PopupMenuButton(
-                itemBuilder: (context) => [
-                  const PopupMenuItem(
-                    child: ListTile(
-                      leading: Icon(Icons.help),
-                      title: Text('Help'),
-                    ),
-                  ),
-                  const PopupMenuItem(
-                    child: ListTile(
-                      leading: Icon(Icons.question_answer),
-                      title: Text('FAQ'),
-                    ),
-                  ),
-                ],
-              )
-            ],
+      appBar: AppBar(
+        title: const Text(
+          'Check Out',
+          style: TextStyle(
+            fontFamily: 'IBMPlexMono',
+            fontSize: 25.0,
+            fontWeight: FontWeight.bold,
           ),
-          SliverToBoxAdapter(
-            child: Padding(
+        ),
+        actions: [
+          PopupMenuButton(
+            itemBuilder: (context) => [
+              const PopupMenuItem(
+                child: ListTile(
+                  leading: Icon(Icons.help),
+                  title: Text('Help'),
+                ),
+              ),
+              const PopupMenuItem(
+                child: ListTile(
+                  leading: Icon(Icons.question_answer),
+                  title: Text('FAQ'),
+                ),
+              ),
+            ],
+          )
+        ],
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Padding(
               padding: const EdgeInsets.symmetric(
                 horizontal: 20,
                 vertical: 5,
@@ -53,121 +115,122 @@ class CartScreen extends StatelessWidget {
                     SizedBox(
                       // height: screenHeight / 2 * (3 / 3),
                       width: double.infinity,
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: 3,
-                              itemBuilder: (context, index) {
-                                return Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 20,
-                                    vertical: 5,
-                                  ),
-                                  child: SizedBox(
-                                    height: screenHeight / 15,
-                                    width: double.infinity,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Column(
+                      child: Column(
+                        children: [
+                          ListView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: itemMap.length,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 20,
+                                  vertical: 5,
+                                ),
+                                child: SizedBox(
+                                  height: screenHeight / 15,
+                                  width: double.infinity,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        children: [
+                                          SizedBox(
+                                            width: screenwidth / 3,
+                                            child: Text(
+                                              itemMap.entries
+                                                  .elementAt(index)
+                                                  .key,
+                                              maxLines: 2,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: const TextStyle(
+                                                fontSize: 20,
+                                                fontFamily: "IBMPLexMono",
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      // const SizedBox(width: 40),
+                                      Container(
+                                        height: 40,
+                                        // width: 110,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          border: Border.all(
+                                              // color: Colors.black,
+                                              // width: 2.0,
+                                              ),
+                                        ),
+                                        child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceAround,
                                           children: [
-                                            SizedBox(
-                                              width: screenwidth / 3,
-                                              child: const Text(
-                                                'Kulfi', // dynamic name
-                                                maxLines: 2,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(
-                                                  fontSize: 20,
-                                                  // fontFamily: "IBMPLexMono",
-                                                  // fontWeight: FontWeight.bold,
-                                                ),
+                                            IconButton(
+                                              icon: const Icon(Icons.remove),
+                                              iconSize: 15,
+                                              onPressed: () => _decrementCount(
+                                                  itemMap.entries
+                                                      .elementAt(index)
+                                                      .key),
+                                            ),
+                                            Text(
+                                              '${itemCount[itemMap.entries.elementAt(index).key]}', // This should be a dynamic value representing the current number of items
+                                              style: const TextStyle(
+                                                fontSize: 20,
+                                                fontFamily: "IBMPLexMono",
+                                                fontWeight: FontWeight.bold,
                                               ),
+                                            ),
+                                            IconButton(
+                                              icon: const Icon(Icons.add),
+                                              iconSize: 15,
+                                              onPressed: () => _incrementCount(
+                                                  itemMap.entries
+                                                      .elementAt(index)
+                                                      .key),
                                             ),
                                           ],
                                         ),
-                                        // const SizedBox(width: 40),
-                                        Container(
-                                          height: 40,
-                                          // width: 110,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            border: Border.all(
-                                                // color: Colors.black,
-                                                // width: 2.0,
-                                                ),
-                                          ),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceAround,
-                                            children: [
-                                              IconButton(
-                                                icon: const Icon(Icons.remove),
-                                                iconSize: 15,
-                                                onPressed: () {
-                                                  // Decrease the number of items in the cart
-                                                },
-                                              ),
-                                              const Text(
-                                                '1', // This should be a dynamic value representing the current number of items
-                                                style: TextStyle(
-                                                  fontSize: 20,
-                                                  fontFamily: "IBMPLexMono",
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                              IconButton(
-                                                icon: const Icon(Icons.add),
-                                                iconSize: 15,
-                                                onPressed: () {
-                                                  // Increase the number of items in the cart
-                                                },
-                                              ),
-                                            ],
-                                          ),
+                                      ),
+                                      Text(
+                                        '₹${itemMap.entries.elementAt(index).value}', //dynamic
+                                        style: const TextStyle(
+                                          fontSize: 20,
+                                          fontFamily: "IBMPLexMono",
+                                          fontWeight: FontWeight.w700,
                                         ),
-                                        const Text(
-                                          '₹99', //dynamic
-                                          style: TextStyle(
-                                            fontSize: 20,
-                                            fontFamily: "IBMPLexMono",
-                                            fontWeight: FontWeight.w700,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
-                                );
+                                ),
+                              );
+                            },
+                          ),
+                          const DottedLine(),
+                          ListTile(
+                            title: const Text('Add more items'),
+                            trailing: IconButton(
+                              icon:
+                                  const Icon(Icons.add_circle_outline_outlined),
+                              onPressed: () {
+                                // Add more items to the cart
                               },
                             ),
-                            const DottedLine(),
-                            ListTile(
-                              title: const Text('Add more items'),
-                              trailing: IconButton(
-                                icon: const Icon(
-                                    Icons.add_circle_outline_outlined),
-                                onPressed: () {
-                                  // Add more items to the cart
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
                 ),
               ),
             ),
-          ),
-          SliverToBoxAdapter(
-            child: Column(
+            Column(
               // mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -188,7 +251,7 @@ class CartScreen extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 20,
-                    vertical: 5,
+                    vertical: 10,
                   ),
                   child: Card(
                     child: Padding(
@@ -202,19 +265,19 @@ class CartScreen extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Row(
+                            Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
+                                const Text(
                                   'Item Total',
                                   style: TextStyle(
-                                    fontSize: 20,
+                                    fontSize: 15,
                                     fontFamily: 'IBMPLexMono',
                                   ),
                                 ),
                                 Text(
-                                  '₹99', //dynamic
-                                  style: TextStyle(
+                                  '₹${calculateItemTotal()}', //dynamic
+                                  style: const TextStyle(
                                     fontSize: 20,
                                     fontFamily: "IBMPLexMono",
                                     fontWeight: FontWeight.w700,
@@ -232,11 +295,8 @@ class CartScreen extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            const DottedLine(),
                             const Padding(
-                              padding: EdgeInsets.symmetric(
-                                vertical: 20,
-                              ),
+                              padding: EdgeInsets.only(top: 0, bottom: 0),
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -244,7 +304,7 @@ class CartScreen extends StatelessWidget {
                                   Text(
                                     'Platform fee',
                                     style: TextStyle(
-                                      fontSize: 20,
+                                      fontSize: 15,
                                       fontFamily: 'IBMPLexMono',
                                     ),
                                   ),
@@ -260,8 +320,8 @@ class CartScreen extends StatelessWidget {
                               ),
                             ),
                             const DottedLine(),
-                            const Padding(
-                              padding: EdgeInsets.only(
+                            Padding(
+                              padding: const EdgeInsets.only(
                                 top: 30,
                                 bottom: 10,
                               ),
@@ -269,17 +329,17 @@ class CartScreen extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(
+                                  const Text(
                                     'To Pay',
                                     style: TextStyle(
-                                      fontSize: 20,
+                                      fontSize: 15,
                                       fontWeight: FontWeight.bold,
                                       fontFamily: 'IBMPLexMono',
                                     ),
                                   ),
                                   Text(
-                                    '₹109', //dynamic
-                                    style: TextStyle(
+                                    '₹${calulateAmount()}', //dynamic
+                                    style: const TextStyle(
                                       fontSize: 20,
                                       fontFamily: "IBMPLexMono",
                                       fontWeight: FontWeight.w700,
@@ -296,8 +356,11 @@ class CartScreen extends StatelessWidget {
                 ),
               ],
             ),
-          ),
-        ],
+            const SizedBox(
+              height: 10,
+            ),
+          ],
+        ),
       ),
       bottomNavigationBar: BottomAppBar(
         child: Row(
@@ -314,9 +377,9 @@ class CartScreen extends StatelessWidget {
                 ),
               ),
             ),
-            const Text(
-              '₹109',
-              style: TextStyle(
+            Text(
+              '₹${calulateAmount()}',
+              style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
