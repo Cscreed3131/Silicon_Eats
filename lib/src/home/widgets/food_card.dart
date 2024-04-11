@@ -139,6 +139,7 @@ class _FoodCardState extends ConsumerState<FoodCard> {
                                           count = newCount;
                                         });
                                       },
+                                      id: data[index].id,
                                       image: data[index].imageUrl,
                                       name: data[index].name,
                                       category: data[index].category,

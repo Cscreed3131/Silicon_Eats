@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sorasummit/providers/cart_provider.dart';
 
 class BottomSheetContent extends StatefulWidget {
   final int initialCount;
@@ -8,6 +10,7 @@ class BottomSheetContent extends StatefulWidget {
   final String category;
   final double price;
   final String description;
+  final int id;
   final Function(int) onCountChanged;
 
   const BottomSheetContent({
@@ -19,6 +22,7 @@ class BottomSheetContent extends StatefulWidget {
     required this.category,
     required this.price,
     required this.description,
+    required this.id,
   });
 
   @override
@@ -175,24 +179,38 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
               ),
               Padding(
                 padding: const EdgeInsets.only(right: 16, left: 16),
-                child: FilledButton.icon(
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.fastfood,
-                    color: Theme.of(context).colorScheme.background,
-                  ),
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(
-                      Theme.of(context).colorScheme.onPrimary,
-                    ),
-                  ),
-                  label: Text(
-                    'Add item ₹${(widget.price * count).round()}',
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Theme.of(context).colorScheme.background,
-                    ),
-                  ),
+                child: Consumer(
+                  builder: (context, ref, _) {
+                    final cart = ref.watch(cartProvider.notifier);
+                    return FilledButton.icon(
+                      onPressed: () {
+                        cart.addItem(
+                          widget.id, // replace with actual id
+                          widget.name, // replace with actual name
+                          widget.price,
+                          count, // replace with actual quantity
+                        );
+                        print('done');
+                        Navigator.of(context).pop();
+                      },
+                      icon: Icon(
+                        Icons.fastfood,
+                        color: Theme.of(context).colorScheme.background,
+                      ),
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(
+                          Theme.of(context).colorScheme.onPrimary,
+                        ),
+                      ),
+                      label: Text(
+                        'Add item ₹${(widget.price * count).round()}',
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Theme.of(context).colorScheme.background,
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ),
             ],

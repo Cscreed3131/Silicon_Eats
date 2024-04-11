@@ -1,74 +1,20 @@
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
-import 'package:sorasummit/src/home/screens/home_screen.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sorasummit/providers/cart_provider.dart';
 
-class CartScreen extends StatefulWidget {
+class CartScreen extends ConsumerStatefulWidget {
   const CartScreen({super.key});
   static const routeName = '/cart-screen';
   @override
-  State<CartScreen> createState() => _CartScreenState();
+  ConsumerState<CartScreen> createState() => _CartScreenState();
 }
 
-class _CartScreenState extends State<CartScreen> {
-  final itemMap = {
-    'item 1': 500,
-    'item 2': 400,
-    'item 3': 300,
-    'item 4': 200,
-    'item 5': 100,
-  };
-
-  Map<String, int> itemCount = {};
-
-  @override
-  void initState() {
-    super.initState();
-    itemCount = Map.fromEntries(itemMap.entries.map((e) => MapEntry(e.key, 1)));
-  }
-
-  void _incrementCount(String itemName) {
-    setState(() {
-      itemCount[itemName] = itemCount[itemName]! + 1;
-    });
-  }
-
-  void _decrementCount(String itemName) {
-    setState(() {
-      if (itemCount[itemName]! > 0) {
-        itemCount[itemName] = itemCount[itemName]! - 1;
-      }
-    });
-  }
-
-  double calculateItemTotal() {
-    double total = 0;
-    itemMap.forEach((key, value) {
-      total += value * itemCount[key]!;
-    });
-    return total;
-  }
-
-  double calculateGST() {
-    double total = calculateItemTotal();
-    return total * 0.18;
-  }
-
-  double getDeliveryPrice() {
-    double kms = 10;
-    double fixedPrice = 30;
-    return kms * fixedPrice;
-  }
-
-  int calulateAmount() {
-    double gst = calculateGST();
-    double total = calculateItemTotal();
-    double delivery = getDeliveryPrice();
-    double result = gst + total + delivery + 9.9;
-    return result.round();
-  }
-
+class _CartScreenState extends ConsumerState<CartScreen> {
   @override
   Widget build(BuildContext context) {
+    final cartData = ref.watch(cartProvider);
+    final cartController = ref.watch(cartProvider.notifier);
     final screenHeight = MediaQuery.of(context).size.height;
     final screenwidth = MediaQuery.of(context).size.width;
 
@@ -110,6 +56,7 @@ class _CartScreenState extends State<CartScreen> {
                 vertical: 5,
               ),
               child: Card(
+                color: Theme.of(context).colorScheme.secondaryContainer,
                 // elevation: 5,
                 child: Column(
                   children: [
@@ -121,8 +68,9 @@ class _CartScreenState extends State<CartScreen> {
                           ListView.builder(
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
-                            itemCount: itemMap.length,
+                            itemCount: cartData.items.length,
                             itemBuilder: (context, index) {
+                              final data = cartData.items[index];
                               return Padding(
                                 padding: const EdgeInsets.symmetric(
                                   horizontal: 20,
@@ -142,9 +90,7 @@ class _CartScreenState extends State<CartScreen> {
                                           SizedBox(
                                             width: screenwidth / 3,
                                             child: Text(
-                                              itemMap.entries
-                                                  .elementAt(index)
-                                                  .key,
+                                              data.name,
                                               maxLines: 2,
                                               overflow: TextOverflow.ellipsis,
                                               style: const TextStyle(
@@ -159,29 +105,35 @@ class _CartScreenState extends State<CartScreen> {
                                       // const SizedBox(width: 40),
                                       Container(
                                         height: 40,
-                                        // width: 110,
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(10),
-                                          border: Border.all(
-                                              // color: Colors.black,
-                                              // width: 2.0,
-                                              ),
+                                          border: Border.all(),
                                         ),
                                         child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceAround,
                                           children: [
                                             IconButton(
-                                              icon: const Icon(Icons.remove),
+                                              icon: data.quantity == 1
+                                                  ? const Icon(Icons.delete)
+                                                  : const Icon(Icons.remove),
                                               iconSize: 15,
-                                              onPressed: () => _decrementCount(
-                                                  itemMap.entries
-                                                      .elementAt(index)
-                                                      .key),
+                                              onPressed: () {
+                                                setState(() {
+                                                  if (data.quantity > 1) {
+                                                    cartController.updateItem(
+                                                        data.id,
+                                                        data.quantity - 1);
+                                                  } else {
+                                                    cartController
+                                                        .removeItem(data.id);
+                                                  }
+                                                });
+                                              },
                                             ),
                                             Text(
-                                              '${itemCount[itemMap.entries.elementAt(index).key]}', // This should be a dynamic value representing the current number of items
+                                              '${data.quantity}', // This is now a dynamic value representing the current number of items
                                               style: const TextStyle(
                                                 fontSize: 20,
                                                 fontFamily: "IBMPLexMono",
@@ -191,16 +143,19 @@ class _CartScreenState extends State<CartScreen> {
                                             IconButton(
                                               icon: const Icon(Icons.add),
                                               iconSize: 15,
-                                              onPressed: () => _incrementCount(
-                                                  itemMap.entries
-                                                      .elementAt(index)
-                                                      .key),
+                                              onPressed: () {
+                                                setState(() {
+                                                  cartController.updateItem(
+                                                      data.id,
+                                                      data.quantity + 1);
+                                                });
+                                              },
                                             ),
                                           ],
                                         ),
                                       ),
                                       Text(
-                                        '₹${itemMap.entries.elementAt(index).value}', //dynamic
+                                        '₹${data.price * data.quantity}', //dynamic
                                         style: const TextStyle(
                                           fontSize: 20,
                                           fontFamily: "IBMPLexMono",
@@ -255,6 +210,7 @@ class _CartScreenState extends State<CartScreen> {
                     vertical: 10,
                   ),
                   child: Card(
+                    color: Theme.of(context).colorScheme.secondaryContainer,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 20,
@@ -277,7 +233,7 @@ class _CartScreenState extends State<CartScreen> {
                                   ),
                                 ),
                                 Text(
-                                  '₹${calculateItemTotal()}', //dynamic
+                                  '₹${cartController.getItemTotalPrice()}',
                                   style: const TextStyle(
                                     fontSize: 20,
                                     fontFamily: "IBMPLexMono",
@@ -296,13 +252,13 @@ class _CartScreenState extends State<CartScreen> {
                                 ),
                               ),
                             ),
-                            const Padding(
-                              padding: EdgeInsets.only(top: 0, bottom: 0),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 0, bottom: 0),
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(
+                                  const Text(
                                     'Platform fee',
                                     style: TextStyle(
                                       fontSize: 15,
@@ -310,8 +266,8 @@ class _CartScreenState extends State<CartScreen> {
                                     ),
                                   ),
                                   Text(
-                                    '₹9.9', //dynamic
-                                    style: TextStyle(
+                                    '₹${cartController.getPlatformFee()}', //dynamic
+                                    style: const TextStyle(
                                       fontSize: 20,
                                       fontFamily: "IBMPLexMono",
                                       fontWeight: FontWeight.w700,
@@ -339,7 +295,7 @@ class _CartScreenState extends State<CartScreen> {
                                     ),
                                   ),
                                   Text(
-                                    '₹${calulateAmount()}', //dynamic
+                                    '₹${cartController.getTotalPayment()}',
                                     style: const TextStyle(
                                       fontSize: 20,
                                       fontFamily: "IBMPLexMono",
@@ -363,38 +319,48 @@ class _CartScreenState extends State<CartScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomAppBar(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            SizedBox(
-              width: screenwidth / 2.5,
-              child: const Text(
-                'Amount:',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontFamily: 'IBMPLexMono',
-                  fontWeight: FontWeight.bold,
+      bottomNavigationBar: ClipRRect(
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(30.0)),
+        child: BottomAppBar(
+          color: Theme.of(context).colorScheme.secondaryContainer,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SizedBox(
+                width: screenwidth / 2.5,
+                child: const Text(
+                  'Amount:',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontFamily: 'IBMPLexMono',
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
-            ),
-            Text(
-              '₹${calulateAmount()}',
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            FilledButton.tonal(
-              child: const Text(
-                'Order',
-                style: TextStyle(
+              Text(
+                '₹${cartController.getTotalPayment()}', // for now but will be amount wait for it
+                style: const TextStyle(
                   fontSize: 20,
+                  fontFamily: "IBMPLexMono",
+                  fontWeight: FontWeight.w700,
                 ),
               ),
-              onPressed: () {},
-            ),
-          ],
+              FilledButton.tonal(
+                style: ButtonStyle(
+                  elevation: const MaterialStatePropertyAll(2),
+                  backgroundColor: MaterialStatePropertyAll(
+                      Theme.of(context).colorScheme.onPrimary),
+                ),
+                child: const Text(
+                  'Order',
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
+                onPressed: () {},
+              ),
+            ],
+          ),
         ),
       ),
     );
