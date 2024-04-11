@@ -61,6 +61,11 @@ class MyApp extends ConsumerWidget {
             borderRadius: BorderRadius.circular(20),
           ),
         ),
+        filledButtonTheme: const FilledButtonThemeData(
+          style: ButtonStyle(
+            elevation: MaterialStatePropertyAll(1),
+          ),
+        ),
         useMaterial3: true,
       ),
       home: StreamBuilder(

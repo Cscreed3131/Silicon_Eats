@@ -31,4 +31,8 @@ class CartController extends StateNotifier<Cart> {
   double getTotalPayment() {
     return state.getTotalPayment();
   }
+
+  int getTotalItemCount() {
+    return state.getTotalItemCount();
+  }
 }

@@ -20,12 +20,25 @@ class _CartScreenState extends ConsumerState<CartScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Check Out',
-          style: TextStyle(
-            fontFamily: 'IBMPlexMono',
-            fontSize: 25.0,
-            fontWeight: FontWeight.bold,
+        title: Text.rich(
+          TextSpan(
+            text: 'Check ',
+            style: const TextStyle(
+              fontFamily: 'NauticalPrestige',
+              fontSize: 35.0,
+              fontWeight: FontWeight.bold,
+            ),
+            children: [
+              TextSpan(
+                text: 'Out',
+                style: TextStyle(
+                  fontFamily: 'NauticalPrestige',
+                  fontSize: 35.0,
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+              ),
+            ],
           ),
         ),
         actions: [
@@ -96,7 +109,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                                               style: const TextStyle(
                                                 fontSize: 20,
                                                 fontFamily: "IBMPLexMono",
-                                                fontWeight: FontWeight.bold,
+                                                // fontWeight: FontWeight.bold,
                                               ),
                                             ),
                                           ),
@@ -329,11 +342,10 @@ class _CartScreenState extends ConsumerState<CartScreen> {
               SizedBox(
                 width: screenwidth / 2.5,
                 child: const Text(
-                  'Amount:',
+                  'Amount :',
                   style: TextStyle(
-                    fontSize: 20,
-                    fontFamily: 'IBMPLexMono',
-                    fontWeight: FontWeight.bold,
+                    fontSize: 30,
+                    fontFamily: 'Barrbar',
                   ),
                 ),
               ),
@@ -347,14 +359,15 @@ class _CartScreenState extends ConsumerState<CartScreen> {
               ),
               FilledButton.tonal(
                 style: ButtonStyle(
-                  elevation: const MaterialStatePropertyAll(2),
+                  // elevation: const MaterialStatePropertyAll(2),
                   backgroundColor: MaterialStatePropertyAll(
                       Theme.of(context).colorScheme.onPrimary),
                 ),
-                child: const Text(
+                child: Text(
                   'Order',
                   style: TextStyle(
                     fontSize: 20,
+                    color: Theme.of(context).colorScheme.background,
                   ),
                 ),
                 onPressed: () {},

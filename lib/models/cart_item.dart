@@ -66,4 +66,12 @@ class Cart {
     double platformFee = getPlatformFee();
     return (totalPrice + platformFee).roundToDouble();
   }
+
+  int getTotalItemCount() {
+    int totalItemCount = 0;
+    for (var item in items) {
+      totalItemCount += item.quantity;
+    }
+    return totalItemCount;
+  }
 }

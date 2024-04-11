@@ -47,6 +47,7 @@ dependencies:
   dotted_line: ^3.2.2
   cached_network_image: ^3.3.1
   animate_do: ^3.0.2
+  google_fonts: ^6.2.0
 
 dev_dependencies:
   flutter_test:
@@ -105,6 +106,19 @@ flutter:
     - family: IBMPlexMono
       fonts:
         - asset: assets/fonts/IBMPlexMono-Regular.ttf
+    - family: Satisfy
+      fonts:
+        - asset: assets/fonts/Satisfy-Regular.ttf
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/Inter-VariableFont_slnt,wght.ttf
+    - family: StintUltraCondensed
+      fonts:
+        - asset: assets/fonts/StintUltraCondensed-Regular.ttf
+    - family: Barrbar
+      fonts:
+        - asset: assets/fonts/Barrbar-DOKOR.otf
+    
     
   #   - family: Trajan Pro
   #     fonts:

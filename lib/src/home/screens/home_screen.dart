@@ -4,9 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sorasummit/providers/food_data_provider.dart';
 import 'package:sorasummit/providers/user_data_provider.dart';
 import 'package:sorasummit/src/home/screens/announcement_screen.dart';
-import 'package:sorasummit/src/home/screens/cart_screen.dart';
+import 'package:sorasummit/src/home/widgets/cart_item_button.dart';
 import 'package:sorasummit/src/home/widgets/food_card.dart';
-// import 'package:sorasummit/src/home/widgets/food_item_widget.dart';
 import 'package:sorasummit/src/home/widgets/profile_dialog_box.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -33,15 +32,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     "Counter 3",
     "Counter 4",
   ];
+
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
-    // final screenWidth = MediaQuery.of(context).size.width;
     final font20 = screenHeight / 27.6;
 
     final userNameFromProvider = ref.watch(userNameProvider);
-    // final foodItemDataProvider =
-    //     ref.watch(foodItemNameAndSellingPriceAndImageProvider);
+    // final cartDataProvider = ref.watch(cartProvider);
+
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: screenHeight * 0.1,
@@ -81,14 +80,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               Navigator.of(context).pushNamed(AnnouncementScreen.routeName);
             },
           ),
-          IconButton(
-            icon: const Icon(Icons.fastfood),
-            color: Colors.black87,
-            iconSize: 30,
-            onPressed: () {
-              Navigator.of(context).pushNamed(CartScreen.routeName);
-            },
-          ),
+          const CartButton(),
           const ProfileDialogBox(),
         ],
       ),
