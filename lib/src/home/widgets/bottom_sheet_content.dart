@@ -69,7 +69,6 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
               vertical: 10,
             ),
             elevation: 5,
-            // shadowColor: Theme.of(context).colorScheme.primary,
             child: Container(
               height: screenHeight * 0.3,
               width: double.infinity,

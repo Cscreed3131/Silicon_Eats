@@ -97,7 +97,7 @@ class _FoodCardState extends ConsumerState<FoodCard> {
                         height: 10,
                       ),
                       Text(
-                        "₹${data[index].sellingPrice}", //Dynamic price
+                        "₹${data[index].sellingPrice.round()}", //Dynamic price
                         style: TextStyle(
                           fontFamily: 'IBMPlexMono',
                           fontWeight: FontWeight.bold,

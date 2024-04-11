@@ -10,9 +10,8 @@ final foodItemStreamProvider = StreamProvider<List<FoodItem>>((ref) {
   final CollectionReference foodItemsCollection =
       FirebaseFirestore.instance.collection('foodItems');
 
-  // Return a stream of snapshots of the food items collection.
-  // A snapshot is a representation of the state of a document at a particular point in time.
-  return foodItemsCollection.snapshots().map((snapshot) {
+  // Return a stream of snapshots of the food items collection, ordered by the id field in ascending order.
+  return foodItemsCollection.orderBy('id').snapshots().map((snapshot) {
     // Convert the snapshot into a list of FoodItem objects.
     return snapshot.docs.map((doc) {
       // Create a FoodItem object from the document data.

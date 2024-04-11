@@ -6,7 +6,7 @@ import 'package:sorasummit/providers/user_data_provider.dart';
 import 'package:sorasummit/src/home/screens/announcement_screen.dart';
 import 'package:sorasummit/src/home/screens/cart_screen.dart';
 import 'package:sorasummit/src/home/widgets/food_card.dart';
-import 'package:sorasummit/src/home/widgets/food_item_widget.dart';
+// import 'package:sorasummit/src/home/widgets/food_item_widget.dart';
 import 'package:sorasummit/src/home/widgets/profile_dialog_box.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -36,7 +36,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
-    final screenWidth = MediaQuery.of(context).size.width;
+    // final screenWidth = MediaQuery.of(context).size.width;
     final font20 = screenHeight / 27.6;
 
     final userNameFromProvider = ref.watch(userNameProvider);
