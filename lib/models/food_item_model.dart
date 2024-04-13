@@ -19,7 +19,7 @@ class FoodItem {
     required this.sellingPrice,
     required this.category,
     required this.imageUrl,
-    this.available = true,
+    required this.available,
     required this.id,
   });
 

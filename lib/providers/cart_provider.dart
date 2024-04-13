@@ -35,4 +35,12 @@ class CartController extends StateNotifier<Cart> {
   int getTotalItemCount() {
     return state.getTotalItemCount();
   }
+
+  void clearCart() {
+    return state.clearCart();
+  }
+
+  List<CartItem> getCartItems() {
+    return state.getCartItems();
+  }
 }

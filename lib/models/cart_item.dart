@@ -5,12 +5,14 @@ class CartItem {
   final String name;
   final double price;
   int quantity;
+  // final List categories;
 
   CartItem({
     required this.id,
     required this.name,
     required this.price,
     required this.quantity,
+    // required this.categories,
   });
 }
 
@@ -24,7 +26,12 @@ class Cart {
       existingItem.quantity += quantity;
     } else {
       // If no item with the same id exists in the cart, add a new item
-      items.add(CartItem(id: id, name: name, price: price, quantity: quantity));
+      items.add(CartItem(
+        id: id,
+        name: name,
+        price: price,
+        quantity: quantity,
+      ));
     }
   }
 
@@ -73,5 +80,14 @@ class Cart {
       totalItemCount += item.quantity;
     }
     return totalItemCount;
+  }
+
+  void clearCart() {
+    // Clear the items after ordering
+    items.clear();
+  }
+
+  List<CartItem> getCartItems() {
+    return items;
   }
 }

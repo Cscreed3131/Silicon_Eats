@@ -1,7 +1,11 @@
-import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
+import 'package:dotted_line/dotted_line.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:sorasummit/providers/cart_provider.dart';
+import 'package:sorasummit/providers/user_data_provider.dart';
 
 class CartScreen extends ConsumerStatefulWidget {
   const CartScreen({super.key});
@@ -17,6 +21,112 @@ class _CartScreenState extends ConsumerState<CartScreen> {
     final cartController = ref.watch(cartProvider.notifier);
     final screenHeight = MediaQuery.of(context).size.height;
     final screenwidth = MediaQuery.of(context).size.width;
+
+    void showSnackbar(String message) {
+      ScaffoldMessenger.of(context).clearSnackBars();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          behavior: SnackBarBehavior.floating,
+          content: Text(message),
+          showCloseIcon: true,
+        ),
+      );
+    }
+
+    void pop() {
+      Navigator.of(context).pop();
+    }
+
+    void orderItems() async {
+      // Get the items from the cart
+      final items = cartController.getCartItems().map((item) {
+        return {
+          'item_id': item.id,
+          'name': item.name,
+          'quantity': item.quantity,
+          'price': item.price,
+        };
+      }).toList();
+
+      // If there are no items in the cart, don't place the order
+      if (items.isEmpty) {
+        showSnackbar(
+            'No items in the cart. Add items before placing an order.');
+        return;
+      }
+
+      final userId = ref.watch(userSicProvider);
+      final timeStamp = Timestamp.fromDate(DateTime.now());
+      final totalAmount = cartController.getTotalPayment();
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return const AlertDialog(
+            content: Center(
+              child: SizedBox(
+                height: 50,
+                width: 50,
+                child: CircularProgressIndicator.adaptive(),
+              ),
+            ),
+          );
+        },
+      );
+      try {
+        // Start a Firestore transaction
+        // Add the order to the Orders collection
+        await FirebaseFirestore.instance.runTransaction((transaction) async {
+          DocumentReference orderRef =
+              FirebaseFirestore.instance.collection('orders').doc();
+
+          transaction.set(orderRef, {
+            'userId': userId,
+            'timestamp': timeStamp,
+            'items': items,
+            'totalAmount': totalAmount,
+            'status': 'pending',
+          });
+
+          final orderId = orderRef.id;
+
+          DocumentReference orderQueueRef =
+              FirebaseFirestore.instance.collection('ordersQueue').doc();
+
+          transaction.set(orderQueueRef, {
+            'orderId': orderId,
+            'status': 'pending',
+            'timeStamp': timeStamp,
+          });
+        });
+
+        setState(() {
+          cartController.clearCart();
+        });
+        pop();
+        showSnackbar('Order placed successfully');
+      } catch (error) {
+        // Transaction failed
+        String errorMessage;
+        if (error is FirebaseException) {
+          switch (error.code) {
+            case 'permission-denied':
+              errorMessage = 'You do not have permission to place an order.';
+              break;
+            case 'network-error':
+              errorMessage = 'A network error occurred. Please try again.';
+              break;
+            default:
+              errorMessage = 'An unexpected error occurred. Please try again.';
+              break;
+          }
+        } else {
+          errorMessage = 'An unexpected error occurred. Please try again.';
+        }
+
+        showSnackbar(errorMessage);
+      }
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -359,10 +469,10 @@ class _CartScreenState extends ConsumerState<CartScreen> {
               ),
               FilledButton.tonal(
                 style: ButtonStyle(
-                  // elevation: const MaterialStatePropertyAll(2),
                   backgroundColor: MaterialStatePropertyAll(
                       Theme.of(context).colorScheme.onPrimary),
                 ),
+                onPressed: orderItems,
                 child: Text(
                   'Order',
                   style: TextStyle(
@@ -370,7 +480,6 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                     color: Theme.of(context).colorScheme.background,
                   ),
                 ),
-                onPressed: () {},
               ),
             ],
           ),
