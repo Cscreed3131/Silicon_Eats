@@ -36,7 +36,7 @@ class MyApp extends ConsumerWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.watch(userDataProvider);
+    final userRole = ref.watch(userRoleProvider); // get user role
     return MaterialApp(
       title: 'Sora Summit',
       theme: ThemeData(
@@ -79,7 +79,8 @@ class MyApp extends ConsumerWidget {
           } else {
             if (snapshot.hasData) {
               // Get the user data
-              return const HomeScreen(); // Pass the user data to HomeScreen
+              return _getHomeScreen(
+                  userRole!); // render different home screens based on user role// Pass the user data to HomeScreen
             } else {
               return const LoginScreen();
             }
@@ -98,5 +99,15 @@ class MyApp extends ConsumerWidget {
         CartScreen.routeName: (ctx) => const CartScreen(),
       },
     );
+  }
+
+  Widget _getHomeScreen(List roles) {
+    if (roles.contains('Administrator')) {
+      return const AdminHomeScreen();
+    } else if (roles.contains('Student')) {
+      return const HomeScreen();
+    } else {
+      return const HomeScreen();
+    }
   }
 }

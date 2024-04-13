@@ -83,18 +83,34 @@ class _BuildFormState extends ConsumerState<BuildForm> {
           FirebaseStorage.instance.ref().child('foodItems').child('$name.jpg');
       await storageRef.putFile(_selectedImage!);
       final imageUrl = await storageRef.getDownloadURL();
-      FirebaseFirestore.instance.collection('foodItems').doc().set({
-        'addedBy': FirebaseAuth.instance.currentUser!.uid,
-        'dateAndTime': timestamp,
-        'name': name,
-        'description': description,
-        'costPrice': costPrice,
-        'sellingPrice': sellingPrice,
-        'category': category,
-        'imageUrl': imageUrl,
-        'available': true,
-        'id': id + 1,
+
+      await FirebaseFirestore.instance.runTransaction((transaction) async {
+        final docRef = FirebaseFirestore.instance.collection('foodItems').doc();
+
+        transaction.set(docRef, {
+          'addedBy': FirebaseAuth.instance.currentUser!.uid,
+          'dateAndTime': timestamp,
+          'name': name,
+          'description': description,
+          'costPrice': costPrice,
+          'sellingPrice': sellingPrice,
+          'category': category,
+          'imageUrl': imageUrl,
+          'available': true,
+          'id': id + 1,
+        });
+
+        final availabilityDocRef = FirebaseFirestore.instance
+            .collection('foodItemAvailability')
+            .doc(docRef.id);
+
+        transaction.set(availabilityDocRef, {
+          'docId': docRef.id,
+          'id': id + 1,
+          'available': true,
+        });
       });
+
       return true;
     } on FirebaseException catch (_) {
       return false;
@@ -262,28 +278,6 @@ class _BuildFormState extends ConsumerState<BuildForm> {
             const SizedBox(
               height: 10,
             ),
-            //using this for reading barcode and displaying in the TextFormField
-            // TextFormField(
-            //   decoration: InputDecoration(
-            //     labelText: 'Barcode',
-            //     alignLabelWithHint: true,
-            //     border: OutlineInputBorder(
-            //       borderRadius: BorderRadius.circular(20),
-            //     ),
-            //   ),
-            //   readOnly: true,
-            //   onTap: () async {
-            //     String barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
-            //       '#ff6666',
-            //       'Cancel',
-            //       true,
-            //       ScanMode.BARCODE,
-            //     );
-            //     if (barcodeScanRes != '-1') {
-            //       _nameController.text = barcodeScanRes;
-            //     }
-            //   },
-            // ),
             Wrap(
               alignment: WrapAlignment.start,
               crossAxisAlignment: WrapCrossAlignment.center,
