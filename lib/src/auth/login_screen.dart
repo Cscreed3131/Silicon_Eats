@@ -88,6 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
+    // print(MediaQuery.fromView(view: view, child: child));
     final font20 = screenHeight * 0.07;
     return Scaffold(
       body: SizedBox(
@@ -150,8 +151,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       style: TextStyle(
                         height: screenHeight * 0.001,
                         fontSize: font20 * 0.7,
-                        fontFamily: 'IBMPlexMono',
-                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Barrbar',
                         color: Theme.of(context)
                             .colorScheme
                             .primary
@@ -165,105 +165,118 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(25),
-                  child: Form(
-                    key: _form,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        TextFormField(
-                          decoration: InputDecoration(
-                            labelText: 'Email Address',
-                            border: border,
-                          ),
-                          keyboardType: TextInputType.emailAddress,
-                          autocorrect: false,
-                          textCapitalization: TextCapitalization.none,
-                          textInputAction: TextInputAction.next,
-                          onFieldSubmitted: (value) {
-                            FocusScope.of(context)
-                                .requestFocus(_passwordFocusNode);
-                          },
-                          validator: (value) {
-                            if (value == null ||
-                                value.trim().isEmpty ||
-                                !value.contains('@')) {
-                              // this validation should pass the silicon id test
-                              return 'Please enter a valid email address.';
-                            }
-                            return null;
-                          },
-                          onSaved: (value) {
-                            _enteredEmail = value!;
-                          },
-                        ),
-                        const SizedBox(height: 7),
-                        TextFormField(
-                          decoration: InputDecoration(
-                              labelText: 'Password', border: border),
-                          obscureText: true,
-                          keyboardType: TextInputType.visiblePassword,
-                          focusNode: _passwordFocusNode,
-                          validator: (value) {
-                            if (value == null || value.length < 6) {
-                              return 'Password is too short';
-                            }
-                            return null;
-                          },
-                          onSaved: (value) {
-                            _enteredpassword = value!;
-                          },
-                        ),
-                        const SizedBox(height: 10),
-                        _isAuthenticating
-                            ? const CircularProgressIndicator()
-                            : Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Expanded(
-                                    child: FilledButton(
-                                      onPressed: () async {
-                                        if (await _submit()) {
-                                          Navigator.of(context)
-                                              .pushReplacementNamed(
-                                            HomeScreen.routeName,
-                                          ); // gives error when loggin(route problem)
-                                        }
-                                      },
-                                      child: Text(
-                                        'Sign in',
-                                        style:
-                                            TextStyle(fontSize: font20 * 0.3),
+                  child: Card(
+                    child: Form(
+                      key: _form,
+                      child: Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            TextFormField(
+                              decoration: InputDecoration(
+                                labelText: 'Email Address',
+                                border: border,
+                              ),
+                              keyboardType: TextInputType.emailAddress,
+                              autocorrect: false,
+                              textCapitalization: TextCapitalization.none,
+                              textInputAction: TextInputAction.next,
+                              onFieldSubmitted: (value) {
+                                FocusScope.of(context)
+                                    .requestFocus(_passwordFocusNode);
+                              },
+                              validator: (value) {
+                                if (value == null ||
+                                    value.trim().isEmpty ||
+                                    !value.contains('@')) {
+                                  // this validation should pass the silicon id test
+                                  return 'Please enter a valid email address.';
+                                }
+                                return null;
+                              },
+                              onSaved: (value) {
+                                _enteredEmail = value!;
+                              },
+                            ),
+                            const SizedBox(height: 7),
+                            TextFormField(
+                              decoration: InputDecoration(
+                                  labelText: 'Password', border: border),
+                              obscureText: true,
+                              keyboardType: TextInputType.visiblePassword,
+                              focusNode: _passwordFocusNode,
+                              validator: (value) {
+                                if (value == null || value.length < 6) {
+                                  return 'Password is too short';
+                                }
+                                return null;
+                              },
+                              onSaved: (value) {
+                                _enteredpassword = value!;
+                              },
+                            ),
+                            const SizedBox(height: 10),
+                            _isAuthenticating
+                                ? const CircularProgressIndicator()
+                                : Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Expanded(
+                                        child: FilledButton(
+                                          onPressed: () async {
+                                            if (await _submit()) {
+                                              Navigator.of(context)
+                                                  .pushReplacementNamed(
+                                                HomeScreen.routeName,
+                                              ); // gives error when loggin(route problem)
+                                            }
+                                          },
+                                          style: ButtonStyle(
+                                            backgroundColor:
+                                                MaterialStatePropertyAll(
+                                                    Theme.of(context)
+                                                        .colorScheme
+                                                        .onPrimary),
+                                          ),
+                                          child: Text(
+                                            'Sign in',
+                                            style: TextStyle(
+                                                fontSize: font20 * 0.3,
+                                                color: Colors.white),
+                                          ),
+                                        ),
                                       ),
-                                    ),
+                                    ],
                                   ),
-                                ],
-                              ),
-                        const SizedBox(height: 30),
+                            const SizedBox(height: 30),
 
-                        //Dont have account text
-                        if (!_isAuthenticating)
-                          const Text(
-                            'Don\'t have an account?',
-                            style: TextStyle(
-                              height: 0.5,
-                              fontSize: 20,
-                            ),
-                          ),
-                        if (!_isAuthenticating)
-                          TextButton(
-                            onPressed: () {
-                              Navigator.of(context).pushNamed(
-                                SignUpScreen.routeName,
-                              );
-                            },
-                            child: const Text(
-                              'Create account',
-                              style: TextStyle(
-                                fontSize: 20,
+                            //Dont have account text
+                            if (!_isAuthenticating)
+                              const Text(
+                                'Don\'t have an account?',
+                                style: TextStyle(
+                                  height: 0.5,
+                                  fontSize: 20,
+                                ),
                               ),
-                            ),
-                          ),
-                      ],
+                            if (!_isAuthenticating)
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pushNamed(
+                                    SignUpScreen.routeName,
+                                  );
+                                },
+                                child: const Text(
+                                  'Create account',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                  ),
+                                ),
+                              ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                 ),

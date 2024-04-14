@@ -177,8 +177,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       style: TextStyle(
                         height: screenHeight * 0.001,
                         fontSize: font20 * 0.7,
-                        fontFamily: 'IBMPlexMono',
-                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Barrbar',
                         color: Theme.of(context)
                             .colorScheme
                             .primary
@@ -195,18 +194,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     horizontal: 20,
                     vertical: 10,
                   ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      AnimatedSwitcher(
-                        duration: const Duration(milliseconds: 500),
-                        switchInCurve: Curves.easeIn,
-                        switchOutCurve: Curves.easeOut,
-                        child: !showSecondPart
-                            ? buildFirstPartOfForm(context, font20, font15)
-                            : buildSecondPartOfForm(context, font20, font15),
+                  child: Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          AnimatedSwitcher(
+                            duration: const Duration(milliseconds: 500),
+                            switchInCurve: Curves.easeIn,
+                            switchOutCurve: Curves.easeOut,
+                            child: !showSecondPart
+                                ? buildFirstPartOfForm(context, font20, font15)
+                                : buildSecondPartOfForm(
+                                    context, font20, font15),
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                 ),
               ],
@@ -389,9 +394,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       showSecondPart = true;
                     });
                   },
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll(
+                      Theme.of(context).colorScheme.onPrimary,
+                    ),
+                  ),
                   child: Text(
                     'Next',
                     style: TextStyle(
+                      color: Colors.white,
                       fontSize: font20 * 0.3,
                     ),
                   ),
@@ -496,6 +507,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
             children: [
               Expanded(
                 child: FilledButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll(
+                      Theme.of(context).colorScheme.onPrimary,
+                    ),
+                  ),
                   onPressed: () {
                     _form.currentState!.save();
                     setState(() {
@@ -505,6 +521,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   child: Text(
                     'Previous',
                     style: TextStyle(
+                      color: Colors.white,
                       fontSize: font20 * 0.3,
                     ),
                   ),
@@ -519,6 +536,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ? const CircularProgressIndicator()
                   : Expanded(
                       child: FilledButton(
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStatePropertyAll(
+                            Theme.of(context).colorScheme.onPrimary,
+                          ),
+                        ),
                         onPressed: () async {
                           _form.currentState!.save();
                           if (await _submit()) {
@@ -540,11 +562,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                           Navigator.of(context)
                                               .pushNamed(LoginScreen.routeName);
                                         },
-                                        child: Text(
+                                        child: const Text(
                                           'Okay',
                                           style: TextStyle(
-                                            fontFamily: 'Barrbar',
-                                            fontSize: font15 + 5,
+                                            // fontFamily: 'Barrbar',
+                                            fontSize: 20,
                                           ),
                                         ),
                                       )
@@ -559,6 +581,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         child: Text(
                           'Sign Up',
                           style: TextStyle(
+                            color: Colors.white,
                             fontSize: font20 * 0.3,
                           ),
                         ),
@@ -569,11 +592,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
           const SizedBox(
             height: 30,
           ),
-          Text(
+          const Text(
             'Have an account?',
             style: TextStyle(
               height: 0.5,
-              fontSize: font15 + 6,
+              fontSize: 20,
             ),
           ),
           TextButton(
@@ -581,9 +604,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
               Navigator.of(context).pushNamed(LoginScreen.routeName);
             },
             // style: ButtonStyle(),
-            child: Text(
+            child: const Text(
               'Login instead',
-              style: TextStyle(fontSize: font15 + 4),
+              style: TextStyle(fontSize: 20),
             ),
           ),
         ],

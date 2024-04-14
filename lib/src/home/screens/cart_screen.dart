@@ -91,7 +91,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
           final orderId = orderRef.id;
 
           DocumentReference orderQueueRef =
-              FirebaseFirestore.instance.collection('ordersQueue').doc();
+              FirebaseFirestore.instance.collection('ordersQueue').doc(orderId);
 
           transaction.set(orderQueueRef, {
             'orderId': orderId,

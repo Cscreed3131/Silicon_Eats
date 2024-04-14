@@ -1,12 +1,13 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sorasummit/firebase_options.dart';
+
 import 'package:sorasummit/providers/user_data_provider.dart';
+
 import 'package:sorasummit/src/admin/screens/add_food_item_screen.dart';
 import 'package:sorasummit/src/admin/screens/admin_home_screen.dart';
 import 'package:sorasummit/src/admin/screens/create_announcement_screen.dart';
@@ -15,6 +16,8 @@ import 'package:sorasummit/src/auth/signup_screen.dart';
 import 'package:sorasummit/src/home/screens/announcement_screen.dart';
 import 'package:sorasummit/src/home/screens/cart_screen.dart';
 import 'package:sorasummit/src/home/screens/home_screen.dart';
+import 'package:sorasummit/src/home/screens/loading_splash_screen.dart';
+import 'package:sorasummit/src/home/screens/staff_home_screens.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -79,8 +82,7 @@ class MyApp extends ConsumerWidget {
           } else {
             if (snapshot.hasData) {
               // Get the user data
-              return _getHomeScreen(
-                  userRole!); // render different home screens based on user role// Pass the user data to HomeScreen
+              return _getHomeScreen(userRole!);
             } else {
               return const LoginScreen();
             }
@@ -102,12 +104,14 @@ class MyApp extends ConsumerWidget {
   }
 
   Widget _getHomeScreen(List roles) {
-    if (roles.contains('Administrator')) {
+    if (roles.contains('administrator')) {
       return const AdminHomeScreen();
-    } else if (roles.contains('Student')) {
+    } else if (roles.contains('student')) {
       return const HomeScreen();
+    } else if (roles.contains('staff')) {
+      return const StaffHomeScreen();
     } else {
-      return const HomeScreen();
+      return const LoadingSplashScreen();
     }
   }
 }
