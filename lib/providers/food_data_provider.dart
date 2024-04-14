@@ -3,18 +3,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sorasummit/models/food_item_model.dart';
 
-// Create a stream provider to listen to changes in the food items collection in Firestore.
-// This provider will be used to get a list of all food items in the database.
 final foodItemStreamProvider = StreamProvider<List<FoodItem>>((ref) {
-  // Get a reference to the food items collection in Firestore.
   final CollectionReference foodItemsCollection =
       FirebaseFirestore.instance.collection('foodItems');
-
-  // Return a stream of snapshots of the food items collection, ordered by the id field in ascending order.
   return foodItemsCollection.orderBy('id').snapshots().map((snapshot) {
-    // Convert the snapshot into a list of FoodItem objects.
     return snapshot.docs.map((doc) {
-      // Create a FoodItem object from the document data.
       return FoodItem(
         id: doc['id'],
         name: doc['name'],

@@ -1,10 +1,10 @@
 class Orders {
-  final List<Map<String, dynamic>> items;
+  final String orderId;
+  final String userId;
+  final List<dynamic> items;
   final String status;
   final DateTime timeStamp;
   final double totalAmount;
-  final String userId;
-  final String orderId;
 
   Orders({
     required this.orderId,

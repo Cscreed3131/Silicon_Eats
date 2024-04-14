@@ -19,56 +19,56 @@ final ordersQueueProvider = StreamProvider<List<OrderQueue>>((ref) {
   });
 });
 
-final orderToOrderId = Provider<List<Orders>>((ref) {
-  final orderData = ref.watch(ordersQueueProvider);
-  final List orderIdList = orderData.when(
-    data: (data) {
-      List item = [];
-      for (var order in data) {
-        item.add(order.orderId);
-      }
-      return item;
-    },
-    error: (error, stackTrace) {
-      return [];
-    },
-    loading: () {
-      return [];
-    },
-  );
-  final matchedOrdersData = ref.watch(ordersStreamProvider);
-  List<Orders> items = [];
-  matchedOrdersData.when(
-    data: (data) {
-      for (var element in data) {
-        if (orderIdList.contains(element.orderId)) {
-          items.add(element);
-        }
-      }
-    },
-    error: (error, stackTrace) {},
-    loading: () {},
-  );
-  return items;
-});
-
-
-
-// final orderByIdProvider = Provider<Orders?>((ref) {
-//   final orders = ref.watch(ordersStreamProvider);
-//   final orderId = ref.watch(orderIdProvider);
-
-//   return orders.when(
+// final orderToOrderIdProvider = Provider<List<Orders>>((ref) {
+//   final orderData = ref.watch(ordersQueueProvider);
+//   final List orderIdList = orderData.when(
 //     data: (data) {
-//       return data.firstWhere((order) => order.orderId == orderId);
+//       List item = [];
+//       for (var order in data) {
+//         item.add(order.orderId);
+//       }
+//       return item;
 //     },
 //     error: (error, stackTrace) {
-//       print(error);
-//       return null;
+//       return [];
 //     },
 //     loading: () {
-//       return null;
+//       return [];
 //     },
 //   );
+//   final matchedOrdersData = ref.watch(ordersStreamProvider);
+//   List<Orders> items = [];
+//   matchedOrdersData.when(
+//     data: (data) {
+//       for (var element in data) {
+//         if (orderIdList.contains(element.orderId)) {
+//           items.add(element);
+//         }
+//       }
+//     },
+//     error: (error, stackTrace) {},
+//     loading: () {},
+//   );
+//   return items;
 // });
 
+final orderToOrderIdProvider = Provider<List<Orders>>((ref) {
+  final orderData = ref.watch(ordersQueueProvider);
+  final matchedOrdersData = ref.watch(ordersStreamProvider);
+
+  return orderData.maybeWhen(
+    data: (orders) {
+      final orderIdList = orders.map((order) => order.orderId).toList();
+
+      return matchedOrdersData.maybeWhen(
+        data: (matchedOrders) {
+          return matchedOrders
+              .where((order) => orderIdList.contains(order.orderId))
+              .toList();
+        },
+        orElse: () => [],
+      );
+    },
+    orElse: () => [],
+  );
+});

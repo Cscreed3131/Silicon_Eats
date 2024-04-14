@@ -6,14 +6,15 @@ final ordersStreamProvider = StreamProvider<List<Orders>>((ref) {
   final CollectionReference ordersCollection =
       FirebaseFirestore.instance.collection('orders');
 
-  return ordersCollection.orderBy('timeStamp').snapshots().map((snapshot) {
+  return ordersCollection.orderBy('timestamp').snapshots().map((snapshot) {
     return snapshot.docs.map((doc) {
+      print(doc['status'].runtimeType);
       return Orders(
         orderId: doc.id,
         userId: doc['userId'],
         items: doc['items'],
         status: doc['status'],
-        timeStamp: doc['timeStamp'],
+        timeStamp: (doc['timestamp'] as Timestamp).toDate(),
         totalAmount: doc['totalAmount'],
       );
     }).toList();
