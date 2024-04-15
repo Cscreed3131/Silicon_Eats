@@ -81,6 +81,7 @@ flutter:
     - assets/images/Idli Sambar.jpeg
     - assets/images/pav bhaji.jpeg
     - assets/images/Thandai Kulfi.jpeg
+    - assets/images/empty_cart.jpg
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

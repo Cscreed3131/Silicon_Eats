@@ -559,8 +559,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       TextButton(
                                         onPressed: () {
                                           Navigator.of(context).pop();
-                                          Navigator.of(context)
-                                              .pushNamed(LoginScreen.routeName);
+                                          Navigator.of(context).popAndPushNamed(
+                                              LoginScreen.routeName);
                                         },
                                         child: const Text(
                                           'Okay',

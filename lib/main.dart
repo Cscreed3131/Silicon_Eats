@@ -53,7 +53,6 @@ class MyApp extends ConsumerWidget {
           // outline: const Color(0xFFFF4500),
           // outlineVariant: const Color(0xFFFF7518),
           seedColor: Colors.green,
-          // background: const Color(0xFFF7FEEF),
           background: const Color(0xFFF9FEFF),
           primary: const Color(0xFF276221),
           secondary: const Color(0xFF3B8132),

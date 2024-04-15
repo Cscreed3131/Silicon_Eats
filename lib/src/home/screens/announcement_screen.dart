@@ -11,6 +11,7 @@ class AnnouncementScreen extends StatelessWidget {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
+            backgroundColor: Theme.of(context).colorScheme.background,
             snap: true,
             floating: true,
             leading: IconButton(
@@ -20,11 +21,11 @@ class AnnouncementScreen extends StatelessWidget {
               //added close icon
               icon: const Icon(Icons.close),
             ),
-            title: Text(
+            title: const Text(
               "Announcements",
               style: TextStyle(
-                fontFamily: 'IBMPlexMono',
-                fontSize: MediaQuery.of(context).size.width * 0.05,
+                fontFamily: 'NauticalPrestige',
+                fontSize: 35,
                 fontWeight: FontWeight.bold,
                 // color: textColor,
               ),

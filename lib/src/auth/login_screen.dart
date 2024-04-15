@@ -227,7 +227,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                           onPressed: () async {
                                             if (await _submit()) {
                                               Navigator.of(context)
-                                                  .pushReplacementNamed(
+                                                  .popAndPushNamed(
                                                 HomeScreen.routeName,
                                               ); // gives error when loggin(route problem)
                                             }
@@ -263,7 +263,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             if (!_isAuthenticating)
                               TextButton(
                                 onPressed: () {
-                                  Navigator.of(context).pushNamed(
+                                  Navigator.of(context).popAndPushNamed(
                                     SignUpScreen.routeName,
                                   );
                                 },

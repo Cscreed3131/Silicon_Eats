@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:sorasummit/providers/food_data_provider.dart';
@@ -88,8 +89,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+              padding: const EdgeInsets.fromLTRB(20, 0, 10, 20),
               child: Container(
+                alignment: Alignment.topLeft,
                 decoration: BoxDecoration(
                   borderRadius:
                       BorderRadius.circular(20), // border radius of 20
@@ -171,7 +173,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               ),
             ),
             const SizedBox(
-              height: 5,
+              height: 15,
             ),
             MediaQuery.removePadding(
               context: context,
@@ -197,8 +199,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   },
                 );
               }, error: (error, stackTrace) {
-                print(error);
-                print(stackTrace);
+                // print(error);
+                // print(stackTrace);
                 return const Center(
                   child: Text('unable to load food items'),
                 );

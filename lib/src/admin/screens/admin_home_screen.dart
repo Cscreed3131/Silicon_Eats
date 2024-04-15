@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sorasummit/providers/user_data_provider.dart';
 
@@ -38,15 +39,33 @@ class _AdminHomeScreenState extends ConsumerState<AdminHomeScreen>
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
+            backgroundColor: Theme.of(context).colorScheme.background,
             leading: IconButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
               icon: const Icon(Icons.arrow_back),
             ),
-            title: const Text(
-              'Admin Panel',
-              style: TextStyle(fontFamily: 'IBMPlexMono'),
+            title: Text.rich(
+              TextSpan(
+                text: 'Admin ',
+                style: const TextStyle(
+                  fontFamily: 'NauticalPrestige',
+                  fontSize: 35.0,
+                  fontWeight: FontWeight.bold,
+                ),
+                children: [
+                  TextSpan(
+                    text: 'Panel',
+                    style: TextStyle(
+                      fontFamily: 'NauticalPrestige',
+                      fontSize: 35.0,
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
+                ],
+              ),
             ),
             actions: [
               PopupMenuButton(

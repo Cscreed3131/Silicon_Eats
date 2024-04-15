@@ -18,6 +18,7 @@ class ProfileDialogBox extends ConsumerWidget {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
+              backgroundColor: Theme.of(context).colorScheme.background,
               insetPadding: EdgeInsets.zero,
               title: Row(
                 children: [

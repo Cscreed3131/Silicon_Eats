@@ -123,14 +123,6 @@ class OrderItemCardState extends ConsumerState<OrderItemCard> {
                 // ),
                 SizedBox(
                   child: DataTable(
-                    // columnSpacing: 20,
-                    // headingRowColor: MaterialStateColor.resolveWith(
-                    //     (states) => Colors.grey[200]!),
-                    // headingTextStyle: const TextStyle(
-                    //     fontWeight: FontWeight.bold, fontSize: 16),
-                    // dataRowColor: MaterialStateColor.resolveWith(
-                    //     (states) => Colors.white),
-                    // dataTextStyle: const TextStyle(fontSize: 14),
                     columns: const <DataColumn>[
                       DataColumn(
                         label: Text('Item Name'),
