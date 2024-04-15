@@ -65,7 +65,7 @@ class _StaffHomeScreenState extends ConsumerState<StaffHomeScreen> {
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                // crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Card(
                     child: Padding(
@@ -99,9 +99,9 @@ class _StaffHomeScreenState extends ConsumerState<StaffHomeScreen> {
                   const Text(
                     "Counter 1",
                     style: TextStyle(
-                      fontFamily: 'IBMPlexMono',
-                      fontSize: 30,
-                    ),
+                        fontFamily: 'IBMPlexMono',
+                        fontSize: 27,
+                        fontWeight: FontWeight.bold),
                   ),
                   const Text.rich(
                     TextSpan(

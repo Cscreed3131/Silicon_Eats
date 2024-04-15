@@ -1,7 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:intl/intl.dart';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class OrderItemCard extends ConsumerStatefulWidget {
   final String orderId;
@@ -44,7 +46,10 @@ class OrderItemCardState extends ConsumerState<OrderItemCard> {
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
           decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.secondaryContainer,
+            color: Theme.of(context)
+                .colorScheme
+                .secondaryContainer
+                .withOpacity(0.5),
             borderRadius: BorderRadius.circular(20),
           ),
           child: Row(
@@ -176,47 +181,58 @@ class OrderItemCardState extends ConsumerState<OrderItemCard> {
               //   width: 100,
               // ),
               Card(
-                child: DataTable(
-                  columns: const <DataColumn>[
-                    DataColumn(
-                      label: Text('Item Name'),
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: DataTable(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Theme.of(context).colorScheme.outline,
+                      ),
+                      borderRadius: BorderRadius.circular(20),
                     ),
-                    DataColumn(
-                      label: Text('Quantity'),
-                    ),
-                    DataColumn(
-                      label: Text('Price'),
-                    ),
-                  ],
-                  rows: widget.items.map<DataRow>((item) {
-                    return DataRow(
-                      cells: <DataCell>[
-                        DataCell(
-                          Text(
-                            item['name'].toString(),
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
+                    columns: const <DataColumn>[
+                      DataColumn(
+                        label: Text('Item Name'),
+                      ),
+                      DataColumn(
+                        numeric: true,
+                        label: Text('Quantity'),
+                      ),
+                      DataColumn(
+                        numeric: true,
+                        label: Text('Price'),
+                      ),
+                    ],
+                    rows: widget.items.map<DataRow>((item) {
+                      return DataRow(
+                        cells: <DataCell>[
+                          DataCell(
+                            Text(
+                              item['name'].toString(),
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
-                        ),
-                        DataCell(
-                          Text(
-                            item['quantity'].toString(),
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
+                          DataCell(
+                            Text(
+                              item['quantity'].toString(),
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
-                        ),
-                        DataCell(
-                          Text(
-                            '₹${item['price'].toString()}',
+                          DataCell(
+                            Text(
+                              '₹${item['price'].toString()}',
+                            ),
                           ),
-                        ),
 
-                        // Add more DataCell here for other properties in the map
-                      ],
-                    );
-                  }).toList(),
+                          // Add more DataCell here for other properties in the map
+                        ],
+                      );
+                    }).toList(),
+                  ),
                 ),
               ),
             ],
