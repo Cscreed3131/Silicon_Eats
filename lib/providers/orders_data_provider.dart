@@ -16,6 +16,7 @@ final ordersStreamProvider = StreamProvider<List<Orders>>((ref) {
         status: doc['status'],
         timeStamp: (doc['timestamp'] as Timestamp).toDate(),
         totalAmount: doc['totalAmount'],
+        name: doc['name'],
       );
     }).toList();
   });

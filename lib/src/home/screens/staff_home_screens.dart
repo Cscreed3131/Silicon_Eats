@@ -75,7 +75,9 @@ class _StaffHomeScreenState extends ConsumerState<StaffHomeScreen> {
               width: screenwidth,
               child: Padding(
                 padding: EdgeInsets.symmetric(
-                    horizontal: screenwidth / 25, vertical: 5),
+                  horizontal: screenwidth / 25,
+                  vertical: 5,
+                ),
                 child: ListView.builder(
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
@@ -89,6 +91,7 @@ class _StaffHomeScreenState extends ConsumerState<StaffHomeScreen> {
                       timeStamp: item.timeStamp,
                       items: item.items,
                       userId: item.userId,
+                      name: item.name,
                     );
                   },
                 ),

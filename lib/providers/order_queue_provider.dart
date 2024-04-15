@@ -4,53 +4,29 @@ import 'package:sorasummit/models/order_model.dart';
 import 'package:sorasummit/models/order_queue_model.dart';
 import 'package:sorasummit/providers/orders_data_provider.dart';
 
-final ordersQueueProvider = StreamProvider<List<OrderQueue>>((ref) {
+final ordersQueueProvider = StreamProvider<List<OrderQueue?>>((ref) {
   final CollectionReference foodItemsCollection =
       FirebaseFirestore.instance.collection('ordersQueue');
 
   return foodItemsCollection.orderBy('timeStamp').snapshots().map((snapshot) {
-    return snapshot.docs.map((doc) {
-      return OrderQueue(
-        orderId: doc['orderId'],
-        status: doc['status'],
-        timeStamp: (doc['timeStamp'] as Timestamp).toDate(),
-      );
-    }).toList();
+    return snapshot.docs
+        .map((doc) {
+          final timeStamp = (doc['timeStamp'] as Timestamp).toDate();
+          final today = DateTime.now();
+          if (timeStamp.day == today.day &&
+              timeStamp.month == today.month &&
+              timeStamp.year == today.year) {
+            return OrderQueue(
+              orderId: doc['orderId'],
+              status: doc['status'],
+              timeStamp: timeStamp,
+            );
+          }
+        })
+        .where((order) => order != null)
+        .toList();
   });
 });
-
-// final orderToOrderIdProvider = Provider<List<Orders>>((ref) {
-//   final orderData = ref.watch(ordersQueueProvider);
-//   final List orderIdList = orderData.when(
-//     data: (data) {
-//       List item = [];
-//       for (var order in data) {
-//         item.add(order.orderId);
-//       }
-//       return item;
-//     },
-//     error: (error, stackTrace) {
-//       return [];
-//     },
-//     loading: () {
-//       return [];
-//     },
-//   );
-//   final matchedOrdersData = ref.watch(ordersStreamProvider);
-//   List<Orders> items = [];
-//   matchedOrdersData.when(
-//     data: (data) {
-//       for (var element in data) {
-//         if (orderIdList.contains(element.orderId)) {
-//           items.add(element);
-//         }
-//       }
-//     },
-//     error: (error, stackTrace) {},
-//     loading: () {},
-//   );
-//   return items;
-// });
 
 final orderToOrderIdProvider = Provider<List<Orders>>((ref) {
   final orderData = ref.watch(ordersQueueProvider);
@@ -58,7 +34,7 @@ final orderToOrderIdProvider = Provider<List<Orders>>((ref) {
 
   return orderData.maybeWhen(
     data: (orders) {
-      final orderIdList = orders.map((order) => order.orderId).toList();
+      final orderIdList = orders.map((order) => order?.orderId).toList();
 
       return matchedOrdersData.maybeWhen(
         data: (matchedOrders) {

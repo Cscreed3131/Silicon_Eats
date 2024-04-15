@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -8,6 +9,7 @@ class OrderItemCard extends ConsumerStatefulWidget {
   final DateTime timeStamp;
   final String userId;
   final List items;
+  final String name;
   const OrderItemCard({
     super.key,
     required this.orderId,
@@ -15,6 +17,7 @@ class OrderItemCard extends ConsumerStatefulWidget {
     required this.timeStamp,
     required this.userId,
     required this.items,
+    required this.name,
   });
 
   @override
@@ -22,12 +25,19 @@ class OrderItemCard extends ConsumerStatefulWidget {
 }
 
 class OrderItemCardState extends ConsumerState<OrderItemCard> {
+  void updateStatus(String orderId) {
+    FirebaseFirestore.instance.runTransaction((transaction) async {
+      DocumentReference orderQueueRef =
+          FirebaseFirestore.instance.collection('ordersQueue').doc(orderId);
+      DocumentReference orderRef =
+          FirebaseFirestore.instance.collection('orders').doc(orderId);
+      transaction.update(orderQueueRef, {'status': 'Done'});
+      transaction.update(orderRef, {'status': 'Done'});
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    // final screenHeight = MediaQuery.of(context).size.height;
-    // final screenWidth = MediaQuery.of(context).size.width;
-    // final shortestSide = MediaQuery.of(context).size.shortestSide < 550;
-
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5),
       child: Card(
@@ -46,6 +56,52 @@ class OrderItemCardState extends ConsumerState<OrderItemCard> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    SizedBox(
+                      child: Text.rich(
+                        TextSpan(
+                          children: [
+                            const TextSpan(
+                              text: 'Name: ',
+                              style: TextStyle(
+                                fontFamily: 'IBMPLexMono',
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            TextSpan(
+                              text: widget.name,
+                              style: const TextStyle(
+                                fontSize: 15,
+                                fontFamily: 'Inter',
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      child: Text.rich(
+                        TextSpan(
+                          children: [
+                            const TextSpan(
+                              text: 'Sic: ',
+                              style: TextStyle(
+                                fontFamily: 'IBMPLexMono',
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            TextSpan(
+                              text: widget.userId,
+                              style: const TextStyle(
+                                fontSize: 15,
+                                fontFamily: 'Inter',
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                     SizedBox(
                       child: Text.rich(
                         TextSpan(
@@ -82,31 +138,8 @@ class OrderItemCardState extends ConsumerState<OrderItemCard> {
                               ),
                             ),
                             TextSpan(
-                              text: DateFormat('h:mm a, EEEE, MMMM d,yyyy')
+                              text: DateFormat('h:mm a, EEEE, MMM d,')
                                   .format(widget.timeStamp),
-                              style: const TextStyle(
-                                fontSize: 15,
-                                fontFamily: 'Inter',
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      child: Text.rich(
-                        TextSpan(
-                          children: [
-                            const TextSpan(
-                              text: 'Sic: ',
-                              style: TextStyle(
-                                fontFamily: 'IBMPLexMono',
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            TextSpan(
-                              text: widget.userId,
                               style: const TextStyle(
                                 fontSize: 15,
                                 fontFamily: 'Inter',
@@ -137,9 +170,27 @@ class OrderItemCardState extends ConsumerState<OrderItemCard> {
                     rows: widget.items.map<DataRow>((item) {
                       return DataRow(
                         cells: <DataCell>[
-                          DataCell(Text(item['name'].toString())),
-                          DataCell(Text(item['quantity'].toString())),
-                          DataCell(Text(item['price'].toString())),
+                          DataCell(
+                            Text(
+                              item['name'].toString(),
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          DataCell(
+                            Text(
+                              item['quantity'].toString(),
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          DataCell(
+                            Text(
+                              '₹${item['price'].toString()}',
+                            ),
+                          ),
 
                           // Add more DataCell here for other properties in the map
                         ],
@@ -147,30 +198,37 @@ class OrderItemCardState extends ConsumerState<OrderItemCard> {
                     }).toList(),
                   ),
                 ),
-                // const SizedBox(
-                //   width: 300,
-                // ),
                 SizedBox(
-                  child: Text.rich(
-                    TextSpan(
-                      children: [
-                        const TextSpan(
-                          text: 'Status: ',
-                          style: TextStyle(
-                            fontFamily: 'IBMPLexMono',
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Status: ',
+                        style: TextStyle(
+                          fontFamily: 'IBMPlexMono',
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
+                      ),
+                      FilledButton(
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStatePropertyAll(
+                            widget.status == 'pending'
+                                ? Theme.of(context).colorScheme.error
+                                : Theme.of(context).colorScheme.onPrimary,
                           ),
                         ),
-                        TextSpan(
-                          text: widget.status,
+                        onPressed: () {
+                          updateStatus(widget.orderId);
+                        },
+                        child: Text(
+                          widget.status,
                           style: const TextStyle(
-                            fontSize: 15,
-                            fontFamily: 'Inter',
+                            color: Colors.white,
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ],

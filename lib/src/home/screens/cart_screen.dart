@@ -56,6 +56,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
       }
 
       final userId = ref.watch(userSicProvider);
+      final userName = ref.watch(userNameProvider);
       final timeStamp = Timestamp.fromDate(DateTime.now());
       final totalAmount = cartController.getTotalPayment();
       showDialog(
@@ -81,6 +82,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
               FirebaseFirestore.instance.collection('orders').doc();
 
           transaction.set(orderRef, {
+            'name': userName,
             'userId': userId,
             'timestamp': timeStamp,
             'items': items,
