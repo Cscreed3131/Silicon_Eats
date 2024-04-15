@@ -8,7 +8,7 @@ final ordersStreamProvider = StreamProvider<List<Orders>>((ref) {
 
   return ordersCollection.orderBy('timestamp').snapshots().map((snapshot) {
     return snapshot.docs.map((doc) {
-      print(doc['status'].runtimeType);
+      // print(doc['status'].runtimeType);
       return Orders(
         orderId: doc.id,
         userId: doc['userId'],
@@ -30,7 +30,7 @@ final orderItemCountProvider = Provider<int?>((ref) {
       return data.length;
     },
     error: (error, stackTrace) {
-      print(error);
+      // print(error);
       return null;
     },
     loading: () {

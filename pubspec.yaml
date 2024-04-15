@@ -49,6 +49,7 @@ dependencies:
   animate_do: ^3.0.2
   google_fonts: ^6.2.0
   firebase_database: ^10.4.0
+  flutter_analog_clock: ^1.0.3
 
 dev_dependencies:
   flutter_test:

@@ -36,7 +36,7 @@ final foodItemCountProvider = Provider<int?>((ref) {
       return data.length;
     },
     error: (error, stackTrace) {
-      print(error);
+      // print(error);
       return null;
     },
     loading: () {
@@ -67,7 +67,7 @@ final foodItemNameAndSellingPriceAndImageProvider =
       }).toList();
     },
     error: (error, stackTrace) {
-      print(error);
+      // print(error);
       return [];
     },
     loading: () {

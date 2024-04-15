@@ -87,6 +87,12 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    void navTOHomeScreen() {
+      Navigator.of(context).popAndPushNamed(
+        HomeScreen.routeName,
+      );
+    }
+
     final screenHeight = MediaQuery.of(context).size.height;
     // print(MediaQuery.fromView(view: view, child: child));
     final font20 = screenHeight * 0.07;
@@ -226,10 +232,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         child: FilledButton(
                                           onPressed: () async {
                                             if (await _submit()) {
-                                              Navigator.of(context)
-                                                  .popAndPushNamed(
-                                                HomeScreen.routeName,
-                                              ); // gives error when loggin(route problem)
+                                              navTOHomeScreen();
                                             }
                                           },
                                           style: ButtonStyle(

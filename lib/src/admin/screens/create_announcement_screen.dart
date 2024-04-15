@@ -49,8 +49,8 @@ class _BuildFormState extends State<BuildForm> {
         'dateAndTime': timestamp,
       });
       return true;
-    } on FirebaseException catch (e) {
-      print(e);
+    } on FirebaseException catch (_) {
+      // print(e);
       return false;
     }
   }

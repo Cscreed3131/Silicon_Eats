@@ -87,7 +87,7 @@ class AnnouncementWidget extends ConsumerWidget {
                                                       .externalApplication,
                                                 );
                                               } catch (e) {
-                                                print(e);
+                                                // print(e);
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(
                                                   SnackBar(

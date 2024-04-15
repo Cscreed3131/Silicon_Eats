@@ -42,164 +42,104 @@ class OrderItemCardState extends ConsumerState<OrderItemCard> {
       padding: const EdgeInsets.symmetric(vertical: 5),
       child: Card(
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
           decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.secondaryContainer,
             borderRadius: BorderRadius.circular(20),
           ),
-          child: SizedBox(
-            width: double.infinity,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      child: Text.rich(
-                        TextSpan(
-                          children: [
-                            const TextSpan(
-                              text: 'Name: ',
-                              style: TextStyle(
-                                fontFamily: 'IBMPLexMono',
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            TextSpan(
-                              text: widget.name,
-                              style: const TextStyle(
-                                fontSize: 15,
-                                fontFamily: 'Inter',
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      child: Text.rich(
-                        TextSpan(
-                          children: [
-                            const TextSpan(
-                              text: 'Sic: ',
-                              style: TextStyle(
-                                fontFamily: 'IBMPLexMono',
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            TextSpan(
-                              text: widget.userId,
-                              style: const TextStyle(
-                                fontSize: 15,
-                                fontFamily: 'Inter',
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      child: Text.rich(
-                        TextSpan(
-                          children: [
-                            const TextSpan(
-                              text: 'OrderId: ',
-                              style: TextStyle(
-                                fontFamily: 'IBMPLexMono',
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            TextSpan(
-                              text: widget.orderId,
-                              style: const TextStyle(
-                                fontSize: 15,
-                                fontFamily: 'Inter',
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      child: Text.rich(
-                        TextSpan(
-                          children: [
-                            const TextSpan(
-                              text: 'Time: ',
-                              style: TextStyle(
-                                fontFamily: 'IBMPLexMono',
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            TextSpan(
-                              text: DateFormat('h:mm a, EEEE, MMM d,')
-                                  .format(widget.timeStamp),
-                              style: const TextStyle(
-                                fontSize: 15,
-                                fontFamily: 'Inter',
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                // const SizedBox(
-                //   width: 100,
-                // ),
-                SizedBox(
-                  child: DataTable(
-                    columns: const <DataColumn>[
-                      DataColumn(
-                        label: Text('Item Name'),
-                      ),
-                      DataColumn(
-                        label: Text('Quantity'),
-                      ),
-                      DataColumn(
-                        label: Text('Price'),
-                      ),
-                    ],
-                    rows: widget.items.map<DataRow>((item) {
-                      return DataRow(
-                        cells: <DataCell>[
-                          DataCell(
-                            Text(
-                              item['name'].toString(),
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text.rich(
+                    TextSpan(
+                      children: [
+                        const TextSpan(
+                          text: 'Name: ',
+                          style: TextStyle(
+                            fontFamily: 'IBMPLexMono',
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
                           ),
-                          DataCell(
-                            Text(
-                              item['quantity'].toString(),
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
+                        ),
+                        TextSpan(
+                          text: widget.name,
+                          style: const TextStyle(
+                            fontSize: 15,
+                            fontFamily: 'Inter',
                           ),
-                          DataCell(
-                            Text(
-                              '₹${item['price'].toString()}',
-                            ),
-                          ),
-
-                          // Add more DataCell here for other properties in the map
-                        ],
-                      );
-                    }).toList(),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                SizedBox(
-                  child: Row(
+                  Text.rich(
+                    TextSpan(
+                      children: [
+                        const TextSpan(
+                          text: 'Sic: ',
+                          style: TextStyle(
+                            fontFamily: 'IBMPLexMono',
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        TextSpan(
+                          text: widget.userId,
+                          style: const TextStyle(
+                            fontSize: 15,
+                            fontFamily: 'Inter',
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Text.rich(
+                    TextSpan(
+                      children: [
+                        const TextSpan(
+                          text: 'OrderId: ',
+                          style: TextStyle(
+                            fontFamily: 'IBMPLexMono',
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        TextSpan(
+                          text: widget.orderId,
+                          style: const TextStyle(
+                            fontSize: 15,
+                            fontFamily: 'Inter',
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Text.rich(
+                    TextSpan(
+                      children: [
+                        const TextSpan(
+                          text: 'Time: ',
+                          style: TextStyle(
+                            fontFamily: 'IBMPLexMono',
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        TextSpan(
+                          text: DateFormat('h:mm a, EEEE, MMM d,')
+                              .format(widget.timeStamp),
+                          style: const TextStyle(
+                            fontSize: 15,
+                            fontFamily: 'Inter',
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text(
@@ -230,9 +170,56 @@ class OrderItemCardState extends ConsumerState<OrderItemCard> {
                       ),
                     ],
                   ),
+                ],
+              ),
+              // const SizedBox(
+              //   width: 100,
+              // ),
+              Card(
+                child: DataTable(
+                  columns: const <DataColumn>[
+                    DataColumn(
+                      label: Text('Item Name'),
+                    ),
+                    DataColumn(
+                      label: Text('Quantity'),
+                    ),
+                    DataColumn(
+                      label: Text('Price'),
+                    ),
+                  ],
+                  rows: widget.items.map<DataRow>((item) {
+                    return DataRow(
+                      cells: <DataCell>[
+                        DataCell(
+                          Text(
+                            item['name'].toString(),
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        DataCell(
+                          Text(
+                            item['quantity'].toString(),
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        DataCell(
+                          Text(
+                            '₹${item['price'].toString()}',
+                          ),
+                        ),
+
+                        // Add more DataCell here for other properties in the map
+                      ],
+                    );
+                  }).toList(),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
