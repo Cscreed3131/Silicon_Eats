@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 
 class CartItem {
+  final String category;
   final int id;
   final String name;
   final double price;
@@ -8,6 +9,7 @@ class CartItem {
   // final List categories;
 
   CartItem({
+    required this.category,
     required this.id,
     required this.name,
     required this.price,
@@ -19,7 +21,8 @@ class CartItem {
 class Cart {
   List<CartItem> items = [];
 
-  void addItem(int id, String name, double price, int quantity) {
+  void addItem(
+      int id, String name, double price, int quantity, String category) {
     var existingItem = items.firstWhereOrNull((i) => i.id == id);
     if (existingItem != null) {
       // If an item with the same id already exists in the cart, update its quantity
@@ -31,6 +34,7 @@ class Cart {
         name: name,
         price: price,
         quantity: quantity,
+        category: category,
       ));
     }
   }
@@ -47,6 +51,7 @@ class Cart {
         name: items[index].name,
         price: items[index].price,
         quantity: newQuantity,
+        category: items[index].category,
       );
     }
   }

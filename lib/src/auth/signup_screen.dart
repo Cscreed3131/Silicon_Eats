@@ -113,9 +113,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    //Sizes
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
+    final shortestSide = MediaQuery.of(context).size.shortestSide < 600;
     final font15 = screenWidth * 0.038;
     final font20 = screenHeight * 0.07;
 
@@ -173,15 +173,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       top: screenHeight * 0.025,
                     ),
                     child: Text(
-                      'Sign Up',
+                      'Sign-Up',
                       style: TextStyle(
                         height: screenHeight * 0.001,
                         fontSize: font20 * 0.7,
-                        fontFamily: 'Barrbar',
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'IBMPlexMono',
                         color: Theme.of(context)
                             .colorScheme
                             .primary
-                            .withOpacity(0.8),
+                            .withOpacity(0.75),
                       ),
                     ),
                   ),
@@ -190,8 +191,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   height: 5,
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: shortestSide ? 20 : screenWidth / 5,
                     vertical: 10,
                   ),
                   child: Card(
@@ -236,13 +237,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
           //     _selectedImage = pickedImage;
           //   },
           // ),
-          const SizedBox(height: 5),
+          const SizedBox(
+            height: 5,
+          ),
           TextFormField(
             decoration: InputDecoration(
               labelText: 'Name',
               border: border,
             ),
             initialValue: _enteredUserName,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
             keyboardType: TextInputType.emailAddress,
             autocorrect: false,
             // textCapitalization: TextCapitalization.none,
@@ -266,6 +270,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               labelText: 'Sic Number',
               border: border,
             ),
+            autovalidateMode: AutovalidateMode.onUserInteraction,
             focusNode: _sicFocusNode,
             textInputAction: TextInputAction.next,
             initialValue: _enteredSicNumber,
@@ -329,6 +334,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       _enteredbranch = value!;
                     });
                   },
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please select a branch';
@@ -345,6 +351,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     border: border,
                     contentPadding: const EdgeInsets.symmetric(horizontal: 10),
                   ),
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                   value: _enteredStudentYear.isNotEmpty
                       ? _enteredStudentYear
                       : null,
@@ -430,6 +437,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             initialValue: _enteredPhoneNumber,
             keyboardType: TextInputType.number,
             focusNode: _phoneNumberFocusNode,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
             textInputAction: TextInputAction.next,
             onFieldSubmitted: (_) {
               FocusScope.of(context).requestFocus(_emailFocusNode);
@@ -454,6 +462,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             keyboardType: TextInputType.emailAddress,
             focusNode: _emailFocusNode,
             textInputAction: TextInputAction.next,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
             onFieldSubmitted: (_) {
               FocusScope.of(context).requestFocus(_passwordFocusNode);
             },
@@ -485,6 +494,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               border: border,
             ),
             initialValue: _enteredpassword,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
             keyboardType: TextInputType.visiblePassword,
             obscureText: true,
             validator: (value) {
@@ -601,7 +611,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           ),
           TextButton(
             onPressed: () {
-              Navigator.of(context).pushNamed(LoginScreen.routeName);
+              Navigator.of(context).popAndPushNamed(LoginScreen.routeName);
             },
             // style: ButtonStyle(),
             child: const Text(

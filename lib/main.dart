@@ -28,22 +28,6 @@ void main() async {
     persistenceEnabled: true,
     cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED,
   );
-  // Timer.periodic(
-  //   const Duration(milliseconds: 200), // Adjust as needed
-  //   (_) => SystemChrome.setSystemUIOverlayStyle(
-  //     const SystemUiOverlayStyle(
-  //       systemNavigationBarColor: Colors.transparent,
-  //       systemNavigationBarDividerColor: Colors.transparent,
-  //     ),
-  //   ),
-  // );
-  // Timer(const Duration(milliseconds: 500), () {
-  //   SystemChrome.setEnabledSystemUIMode(
-  //     SystemUiMode.manual,
-  //     overlays: [SystemUiOverlay.top],
-  //   );
-  // });
-
   runApp(
     const ProviderScope(
       child: MyApp(),

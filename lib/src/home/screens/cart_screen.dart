@@ -41,10 +41,11 @@ class _CartScreenState extends ConsumerState<CartScreen> {
       // Get the items from the cart
       final items = cartController.getCartItems().map((item) {
         return {
-          'item_id': item.id,
+          'itemId': item.id,
           'name': item.name,
           'quantity': item.quantity,
           'price': item.price,
+          'category': item.category,
         };
       }).toList();
 

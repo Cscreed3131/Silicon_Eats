@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sorasummit/providers/order_queue_provider.dart';
 import 'package:flutter_analog_clock/flutter_analog_clock.dart';
-// import 'package:sorasummit/providers/orders_data_provider.dart';
+
+import 'package:sorasummit/providers/order_queue_provider.dart';
 import 'package:sorasummit/src/home/widgets/ordered_item_card.dart';
 import 'package:sorasummit/src/home/widgets/profile_dialog_box.dart';
 
@@ -20,6 +20,13 @@ class _StaffHomeScreenState extends ConsumerState<StaffHomeScreen> {
     final screenwidth = MediaQuery.of(context).size.width;
     final shortestSide = MediaQuery.of(context).size.shortestSide < 550;
     final font20 = screenHeight / 27.6;
+
+    const TextStyle style1 = TextStyle(
+      fontFamily: 'IBMPlexMono',
+      fontSize: 20,
+      fontWeight: FontWeight.bold,
+    );
+
     final data = ref.watch(orderToOrderIdProvider);
     return Scaffold(
       appBar: AppBar(
@@ -30,8 +37,7 @@ class _StaffHomeScreenState extends ConsumerState<StaffHomeScreen> {
           TextSpan(
             children: [
               TextSpan(
-                text:
-                    'Silicon ', // this will be dynamically fetched from the database.
+                text: 'Silicon ',
                 style: TextStyle(
                   fontSize: font20 + 20,
                   fontFamily: "NauticalPrestige",
@@ -41,7 +47,7 @@ class _StaffHomeScreenState extends ConsumerState<StaffHomeScreen> {
               TextSpan(
                 text: 'Eats',
                 style: TextStyle(
-                  fontSize: font20 + 20, // replace with your font size
+                  fontSize: font20 + 20,
                   fontWeight: FontWeight.bold,
                   fontFamily: "NauticalPrestige",
                   color: Theme.of(context).colorScheme.primary,
@@ -55,19 +61,20 @@ class _StaffHomeScreenState extends ConsumerState<StaffHomeScreen> {
         ],
       ),
       body: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
             height: screenHeight,
             width: screenwidth / 4,
             child: Padding(
-              padding: const EdgeInsets.only(
-                left: 40,
-              ),
+              padding: const EdgeInsets.only(left: 50, top: 50, bottom: 30),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Card(
+                    elevation: 5,
+                    shape: const CircleBorder(),
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: AnalogClock(
@@ -96,53 +103,55 @@ class _StaffHomeScreenState extends ConsumerState<StaffHomeScreen> {
                       ),
                     ),
                   ),
+                  const SizedBox(
+                    height: 40,
+                  ),
                   const Text(
                     "Counter 1",
                     style: TextStyle(
                         fontFamily: 'IBMPlexMono',
-                        fontSize: 27,
+                        fontSize: 25,
                         fontWeight: FontWeight.bold),
                   ),
-                  const Text.rich(
-                    TextSpan(
+                  const SizedBox(
+                    height: 100,
+                  ),
+                  const SizedBox(
+                    child: Column(
+                      // mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        TextSpan(
-                          text: "Completed Orders: ",
-                          style: TextStyle(
-                              fontFamily: 'IBMPlexMono',
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold),
+                        Text.rich(
+                          TextSpan(
+                            children: [
+                              TextSpan(
+                                text: "Completed Orders: ",
+                                style: style1,
+                              ),
+                              TextSpan(
+                                text: '2',
+                                style: style1,
+                              ),
+                            ],
+                          ),
                         ),
-                        TextSpan(
-                          text: "2",
-                          style: TextStyle(
-                              fontFamily: 'IBMPlexMono',
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold),
+                        Text.rich(
+                          TextSpan(
+                            children: [
+                              TextSpan(
+                                text: "Uncompleted Orders: ",
+                                style: style1,
+                              ),
+                              TextSpan(
+                                text: "1",
+                                style: style1,
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
-                  ),
-                  const Text.rich(
-                    TextSpan(
-                      children: [
-                        TextSpan(
-                          text: "Uncompleted Orders: ",
-                          style: TextStyle(
-                              fontFamily: 'IBMPlexMono',
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        TextSpan(
-                          text: "1",
-                          style: TextStyle(
-                              fontFamily: 'IBMPlexMono',
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                  ),
+                  )
                 ],
               ),
             ),

@@ -188,7 +188,8 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
                           widget.id, // replace with actual id
                           widget.name, // replace with actual name
                           widget.price,
-                          count, // replace with actual quantity
+                          count,
+                          widget.category,
                         );
                         // print('done');
                         Navigator.of(context).pop();

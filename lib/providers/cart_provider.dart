@@ -8,8 +8,9 @@ final cartProvider = StateNotifierProvider<CartController, Cart>((ref) {
 class CartController extends StateNotifier<Cart> {
   CartController() : super(Cart());
 
-  void addItem(int id, String name, double price, int quantity) {
-    state.addItem(id, name, price, quantity);
+  void addItem(
+      int id, String name, double price, int quantity, String category) {
+    state.addItem(id, name, price, quantity, category);
   }
 
   void removeItem(int id) {

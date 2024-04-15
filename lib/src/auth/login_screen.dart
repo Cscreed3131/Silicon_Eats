@@ -94,7 +94,8 @@ class _LoginScreenState extends State<LoginScreen> {
     }
 
     final screenHeight = MediaQuery.of(context).size.height;
-    // print(MediaQuery.fromView(view: view, child: child));
+    final screenWidth = MediaQuery.of(context).size.width;
+    final shortestSide = MediaQuery.of(context).size.shortestSide < 600;
     final font20 = screenHeight * 0.07;
     return Scaffold(
       body: SizedBox(
@@ -142,9 +143,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     ],
                   ),
                 ),
-                // SizedBox(
-                //   height: screenHeight * 0.01,
-                // ),
                 Align(
                   alignment: Alignment.center,
                   child: Padding(
@@ -153,15 +151,16 @@ class _LoginScreenState extends State<LoginScreen> {
                       top: screenHeight * 0.025,
                     ),
                     child: Text(
-                      'Sign In',
+                      'Sign-In',
                       style: TextStyle(
                         height: screenHeight * 0.001,
                         fontSize: font20 * 0.7,
-                        fontFamily: 'Barrbar',
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'IBMPlexMono',
                         color: Theme.of(context)
                             .colorScheme
                             .primary
-                            .withOpacity(0.8),
+                            .withOpacity(0.75),
                       ),
                     ),
                   ),
@@ -170,7 +169,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 5,
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(25),
+                  padding: shortestSide
+                      ? const EdgeInsets.all(25)
+                      : EdgeInsets.symmetric(horizontal: screenWidth / 5),
                   child: Card(
                     child: Form(
                       key: _form,
@@ -184,6 +185,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 labelText: 'Email Address',
                                 border: border,
                               ),
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
                               keyboardType: TextInputType.emailAddress,
                               autocorrect: false,
                               textCapitalization: TextCapitalization.none,
@@ -209,12 +212,14 @@ class _LoginScreenState extends State<LoginScreen> {
                             TextFormField(
                               decoration: InputDecoration(
                                   labelText: 'Password', border: border),
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
                               obscureText: true,
                               keyboardType: TextInputType.visiblePassword,
                               focusNode: _passwordFocusNode,
                               validator: (value) {
-                                if (value == null || value.length < 6) {
-                                  return 'Password is too short';
+                                if (value == null) {
+                                  return 'Enter password';
                                 }
                                 return null;
                               },
