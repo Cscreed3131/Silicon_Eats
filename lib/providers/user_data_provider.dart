@@ -50,7 +50,7 @@ final userDataProvider = StreamProvider<UserDataModel>((ref) {
   return stream;
 });
 
-final userNameProvider = Provider.autoDispose<String>((ref) {
+final userNameProvider = Provider<String>((ref) {
   final userDataAsyncValue = ref.watch(userDataProvider);
 
   return userDataAsyncValue.map(
@@ -60,7 +60,7 @@ final userNameProvider = Provider.autoDispose<String>((ref) {
   );
 });
 
-final userRoleProvider = Provider.autoDispose<List?>((ref) {
+final userRoleProvider = Provider<List?>((ref) {
   final userDataAsyncValue = ref.watch(userDataProvider);
 
   return userDataAsyncValue.map(
@@ -70,7 +70,7 @@ final userRoleProvider = Provider.autoDispose<List?>((ref) {
   );
 });
 
-final userSicProvider = Provider.autoDispose<String>((ref) {
+final userSicProvider = Provider<String>((ref) {
   final userDataAsyncValue = ref.watch(userDataProvider);
 
   return userDataAsyncValue.map(

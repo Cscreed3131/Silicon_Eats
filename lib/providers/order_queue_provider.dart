@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sorasummit/models/order_model.dart';
 import 'package:sorasummit/models/order_queue_model.dart';
 import 'package:sorasummit/providers/orders_data_provider.dart';
+import 'package:sorasummit/providers/user_data_provider.dart';
 
 final ordersQueueProvider = StreamProvider<List<OrderQueue?>>((ref) {
   final CollectionReference foodItemsCollection =
@@ -48,3 +49,17 @@ final orderToOrderIdProvider = Provider<List<Orders>>((ref) {
     orElse: () => [],
   );
 });
+
+final userOrdersProvider = Provider<List<Orders>>(
+  (ref) {
+    final userId = ref.watch(userSicProvider);
+    final orders = ref.watch(orderToOrderIdProvider);
+    List<Orders> userOrders = [];
+    for (var some in orders) {
+      if (some.userId == userId) {
+        userOrders.add(some);
+      }
+    }
+    return userOrders;
+  },
+);

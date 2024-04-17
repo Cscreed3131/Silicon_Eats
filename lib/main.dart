@@ -17,6 +17,7 @@ import 'package:sorasummit/src/home/screens/announcement_screen.dart';
 import 'package:sorasummit/src/home/screens/cart_screen.dart';
 import 'package:sorasummit/src/home/screens/home_screen.dart';
 import 'package:sorasummit/src/home/screens/loading_splash_screen.dart';
+import 'package:sorasummit/src/home/screens/order_history_screen.dart';
 import 'package:sorasummit/src/home/screens/staff_home_screens.dart';
 
 void main() async {
@@ -100,6 +101,7 @@ class MyApp extends ConsumerWidget {
         CreateAnnouncement.routeName: (ctx) => const CreateAnnouncement(),
         AnnouncementScreen.routeName: (ctx) => const AnnouncementScreen(),
         CartScreen.routeName: (ctx) => const CartScreen(),
+        OrderHistoryScreen.routeName: (ctx) => const OrderHistoryScreen(),
       },
     );
   }

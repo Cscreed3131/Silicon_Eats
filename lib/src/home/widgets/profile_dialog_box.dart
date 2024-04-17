@@ -6,12 +6,14 @@ import 'package:sorasummit/providers/user_data_provider.dart';
 
 import 'package:sorasummit/src/auth/login_screen.dart';
 import 'package:sorasummit/src/admin/screens/admin_home_screen.dart';
+import 'package:sorasummit/src/home/screens/order_history_screen.dart';
 
 class ProfileDialogBox extends ConsumerWidget {
   const ProfileDialogBox({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final userRole = ref.watch(userRoleProvider) ?? ['student'];
     return IconButton(
       onPressed: () {
         showDialog(
@@ -44,17 +46,22 @@ class ProfileDialogBox extends ConsumerWidget {
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  // ProfileDialog(), // this will be widget which will show user profile
-                  // const SizedBox(
-                  //   height: 10,
-                  // ),
+                  if (userRole.contains('administrator'))
+                    ListTile(
+                      onTap: () => {
+                        Navigator.of(context)
+                            .popAndPushNamed(AdminHomeScreen.routeName),
+                      },
+                      leading: const Icon(Icons.admin_panel_settings),
+                      title: const Text('Adminstrator'),
+                    ),
                   ListTile(
                     onTap: () => {
                       Navigator.of(context)
-                          .popAndPushNamed(AdminHomeScreen.routeName),
+                          .pushNamed(OrderHistoryScreen.routeName),
                     },
-                    leading: const Icon(Icons.admin_panel_settings),
-                    title: const Text('Adminstrator'),
+                    leading: const Icon(Icons.history_rounded),
+                    title: const Text('Order history'),
                   ),
                   ListTile(
                     onTap: () => {},
@@ -66,7 +73,6 @@ class ProfileDialogBox extends ConsumerWidget {
                     leading: const Icon(Icons.settings),
                     title: const Text('Settings'),
                   ),
-
                   const Divider(
                     indent: 10,
                     endIndent: 10,
