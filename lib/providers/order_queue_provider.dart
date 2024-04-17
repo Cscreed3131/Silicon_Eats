@@ -50,14 +50,27 @@ final orderToOrderIdProvider = Provider<List<Orders>>((ref) {
   );
 });
 
-final userOrdersProvider = Provider<List<Orders>>(
+final userPendingOrdersProvider = Provider<List<Orders>>(
   (ref) {
     final userId = ref.watch(userSicProvider);
     final orders = ref.watch(orderToOrderIdProvider);
     List<Orders> userOrders = [];
-    for (var some in orders) {
-      if (some.userId == userId) {
-        userOrders.add(some);
+    for (var data in orders) {
+      if (data.userId == userId && data.status == 'pending') {
+        userOrders.add(data);
+      }
+    }
+    return userOrders;
+  },
+);
+final userDoneOrdersProvider = Provider<List<Orders>>(
+  (ref) {
+    final userId = ref.watch(userSicProvider);
+    final orders = ref.watch(orderToOrderIdProvider);
+    List<Orders> userOrders = [];
+    for (var data in orders) {
+      if (data.userId == userId && data.status == 'Done') {
+        userOrders.add(data);
       }
     }
     return userOrders;
