@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -20,26 +21,14 @@ class _AdminManageItemsmWidgetState
     final foodData = ref.watch(foodItemStreamProvider);
     // in near future modify this method to something meaning full.
     void deleteDocumentAndImage() async {
-      String documentIdToDelete =
-          'tv5QgF7MK9uc4TtyJlhy'; // The ID of the document to delete
-
-      // Get the Firestore instance
+      String documentIdToDelete = 'tv5QgF7MK9uc4TtyJlhy';
       var firestore = FirebaseFirestore.instance;
-
-      // Get the Firebase Storage instance
       var firebaseStorage = FirebaseStorage.instance;
-
-      // Delete the document from the 'foodItems' collection
       await firestore.collection('foodItems').doc(documentIdToDelete).delete();
-
-      // Delete the document from the 'foodItemAvailability' collection
       await firestore
           .collection('foodItemAvailability')
           .doc(documentIdToDelete)
           .delete();
-
-      // Delete the image from Firebase Storage
-      // Assuming the image path is 'images/foodItems/$documentIdToDelete.jpg'
       var imageRef = firebaseStorage.ref().child('foodItems/Luffy.jpg');
       await imageRef.delete();
     }
@@ -111,7 +100,8 @@ class _AdminManageItemsmWidgetState
                           borderRadius: BorderRadius.circular(10),
                           image: DecorationImage(
                             //random image
-                            image: NetworkImage(listItem.imageUrl),
+                            image:
+                                CachedNetworkImageProvider(listItem.imageUrl),
                             fit: BoxFit.cover,
                           ),
                           color: Theme.of(context).colorScheme.primary,

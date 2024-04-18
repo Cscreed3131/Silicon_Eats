@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -81,10 +82,9 @@ class _AdminAddFoodWidgetState extends ConsumerState<AdminAddFoodWidget> {
           const SizedBox(
             height: 20,
           ),
-
           //Text saying items
           Padding(
-            padding: const EdgeInsets.only(left: 20),
+            padding: const EdgeInsets.only(left: 10),
             child: Text(
               'Current Menu',
               style: TextStyle(
@@ -114,7 +114,7 @@ class _AdminAddFoodWidgetState extends ConsumerState<AdminAddFoodWidget> {
                       borderRadius: BorderRadius.circular(10),
                       image: DecorationImage(
                         //random image
-                        image: NetworkImage(listItem['imageUrl']),
+                        image: CachedNetworkImageProvider(listItem['imageUrl']),
                         fit: BoxFit.cover,
                       ),
                       color: Theme.of(context).colorScheme.primary,

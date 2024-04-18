@@ -40,12 +40,6 @@ class _AdminHomeScreenState extends ConsumerState<AdminHomeScreen>
         slivers: [
           SliverAppBar(
             backgroundColor: Theme.of(context).colorScheme.background,
-            leading: IconButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              icon: const Icon(Icons.arrow_back),
-            ),
             title: Text.rich(
               TextSpan(
                 text: 'Admin ',

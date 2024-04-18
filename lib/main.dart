@@ -32,8 +32,8 @@ void main() async {
   );
   SystemChrome.setSystemUIOverlayStyle(
     SystemUiOverlayStyle(
-      systemNavigationBarColor: Colors.black.withOpacity(0.002),
-      statusBarColor: Colors.amber.withOpacity(0.002),
+      systemNavigationBarColor: Colors.black.withOpacity(0.001),
+      statusBarColor: Colors.amber.withOpacity(0.001),
     ),
   );
 //Setting SystmeUIMode
@@ -62,7 +62,7 @@ class MyApp extends ConsumerWidget {
           // secondary: const Color(0xFFFF9200),
           // background: Colors.white,
           // outline: const Color(0xFFFF4500),
-          // outlineVariant: const Color(0xFFFF7518),
+          // outlineVariant: const Color(0xFFFF7518
           seedColor: Colors.green,
           background: const Color(0xFFF9FEFF),
           primary: const Color(0xFF276221),

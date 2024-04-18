@@ -18,11 +18,25 @@ class _OrderHistoryScreenState extends ConsumerState<OrderHistoryScreen> {
       // resizeToAvoidBottomInset: true,
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.background,
-        title: const Text(
-          'Order History',
-          style: TextStyle(
-            fontFamily: 'IBMPLexMono',
-            fontWeight: FontWeight.bold,
+        title: Text.rich(
+          TextSpan(
+            text: 'Order ',
+            style: const TextStyle(
+              fontFamily: 'NauticalPrestige',
+              fontSize: 35.0,
+              fontWeight: FontWeight.bold,
+            ),
+            children: [
+              TextSpan(
+                text: 'History',
+                style: TextStyle(
+                  fontFamily: 'NauticalPrestige',
+                  fontSize: 35.0,
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+              ),
+            ],
           ),
         ),
       ),
@@ -34,24 +48,100 @@ class _OrderHistoryScreenState extends ConsumerState<OrderHistoryScreen> {
             children: [
               Consumer(
                 builder: (context, ref, _) {
-                  final data = ref.watch(userPendingOrdersProvider);
-                  // print(data[0].items);
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
-                        child: Text(
-                          'Currently Preparing',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontFamily: 'IBMPLexMono',
-                            fontWeight: FontWeight.w600,
+                  final data = ref.watch(userCurrentlyProcessingOrdersProvider);
+                  return data.when(
+                    data: (data) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 10),
+                            child: Text(
+                              'Currently Preparing',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontFamily: 'IBMPLexMono',
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                      data.isNotEmpty
-                          ? SizedBox(
+                          data.isNotEmpty
+                              ? SizedBox(
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 10,
+                                      vertical: 5,
+                                    ),
+                                    child: ListView.builder(
+                                      // scrollDirection: Axis.horizontal,
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      shrinkWrap: true,
+                                      itemCount: data.length,
+                                      itemBuilder: (context, index) {
+                                        final item = data[index]!;
+                                        return CurrentOrdersWidget(
+                                          items: item.items,
+                                          orderId: item.orderId,
+                                          status: item.status,
+                                          timeStamp: item.timeStamp,
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                )
+                              : Center(
+                                  child: Container(
+                                    height: MediaQuery.sizeOf(context).height *
+                                        0.33,
+                                    width: MediaQuery.sizeOf(context).height *
+                                        0.33,
+                                    decoration: const BoxDecoration(
+                                      image: DecorationImage(
+                                          image: AssetImage(
+                                              'assets/images/empty_cart.jpg'),
+                                          fit: BoxFit.cover),
+                                    ),
+                                    // child: Text('Order Something now +'),
+                                  ),
+                                ),
+                        ],
+                      );
+                    },
+                    error: (error, stackTrace) {
+                      return const Center(
+                        child: Text("Can't load past orders"),
+                      );
+                    },
+                    loading: () {
+                      return const Center(
+                        child: CircularProgressIndicator.adaptive(),
+                      );
+                    },
+                  );
+                },
+              ),
+              Consumer(
+                builder: (context, ref, _) {
+                  final data = ref.watch(userPastOrdersProvider);
+                  return data.when(
+                    data: (data) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 10),
+                            child: Text(
+                              'Past Orders',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontFamily: 'IBMPLexMono',
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                          if (data.isNotEmpty)
+                            SizedBox(
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(
                                   horizontal: 10,
@@ -63,70 +153,32 @@ class _OrderHistoryScreenState extends ConsumerState<OrderHistoryScreen> {
                                   shrinkWrap: true,
                                   itemCount: data.length,
                                   itemBuilder: (context, index) {
-                                    final item = data[index];
+                                    final item = data[index]!;
                                     return CurrentOrdersWidget(
-                                        items: item.items);
+                                      items: item.items,
+                                      orderId: item.orderId,
+                                      status: item.status,
+                                      timeStamp: item.timeStamp,
+                                    );
                                   },
                                 ),
                               ),
-                            )
-                          : Center(
-                              child: Container(
-                                height:
-                                    MediaQuery.sizeOf(context).height * 0.33,
-                                width: MediaQuery.sizeOf(context).height * 0.33,
-                                decoration: const BoxDecoration(
-                                  image: DecorationImage(
-                                      image: AssetImage(
-                                          'assets/images/empty_cart.jpg'),
-                                      fit: BoxFit.cover),
-                                ),
-                                // child: Text('Order Something now +'),
-                              ),
                             ),
-                    ],
+                        ],
+                      );
+                    },
+                    error: (error, stackTrace) {
+                      return const Center(
+                        child: Text("Can't load past orders"),
+                      );
+                    },
+                    loading: () {
+                      return const Center(
+                        child: CircularProgressIndicator.adaptive(),
+                      );
+                    },
                   );
-                },
-              ),
-              Consumer(
-                builder: (context, ref, _) {
-                  final data = ref.watch(userDoneOrdersProvider);
                   // print(data[0].items);
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
-                        child: Text(
-                          'Past Orders',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontFamily: 'IBMPLexMono',
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                      if (data.isNotEmpty)
-                        SizedBox(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 10,
-                              vertical: 5,
-                            ),
-                            child: ListView.builder(
-                              // scrollDirection: Axis.horizontal,
-                              physics: const NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              itemCount: data.length,
-                              itemBuilder: (context, index) {
-                                final item = data[index];
-                                return CurrentOrdersWidget(items: item.items);
-                              },
-                            ),
-                          ),
-                        ),
-                    ],
-                  );
                 },
               ),
 
