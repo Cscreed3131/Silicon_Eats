@@ -10,6 +10,8 @@ class CreateAnnouncement extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.background,
+
         title: const Text(
           'Announcement',
           style: TextStyle(
