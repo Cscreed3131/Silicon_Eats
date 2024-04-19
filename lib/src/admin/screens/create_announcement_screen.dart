@@ -10,8 +10,16 @@ class CreateAnnouncement extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Announce'),
-        centerTitle: true,
+        title: const Text(
+          'Announcement',
+          style: TextStyle(
+            fontFamily: 'NauticalPrestige',
+            fontSize: 35,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+
+        // centerTitle: true,
       ),
       body: const SingleChildScrollView(
         child: BuildForm(),
@@ -58,7 +66,7 @@ class _BuildFormState extends State<BuildForm> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(10.0),
+      padding: const EdgeInsets.all(20.0),
       child: Form(
         key: _formKey,
         child: Column(
@@ -158,7 +166,15 @@ class _BuildFormState extends State<BuildForm> {
                               ),
                             );
                     },
-                    child: const Text('Submit'),
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStatePropertyAll(
+                            Theme.of(context).colorScheme.onPrimary)),
+                    child: const Text(
+                      'Submit',
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
                   ),
                 ),
               ],

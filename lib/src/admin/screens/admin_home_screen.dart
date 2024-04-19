@@ -96,8 +96,6 @@ class _AdminHomeScreenState extends ConsumerState<AdminHomeScreen>
                     ),
                   ),
                   // chip specifying admin role
-                  // I want to fetch user roles from my provider which i know
-                  // is list of strings and then generate chips based on that.
 
                   Row(
                     children: [
@@ -105,19 +103,16 @@ class _AdminHomeScreenState extends ConsumerState<AdminHomeScreen>
                         Padding(
                           padding: const EdgeInsets.all(2.0),
                           child: Chip(
+                            elevation: 5,
                             side: BorderSide.none,
-                            shape: const RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20)),
-                            ),
+                            surfaceTintColor:
+                                Theme.of(context).colorScheme.onPrimary,
                             label: Text(
-                              role
-                                  .toString()
-                                  .toUpperCase(), // changes done see same in cliff project
+                              role.toString().toUpperCase(),
                               style: const TextStyle(
                                 fontFamily: 'IBMPlexMono',
                                 fontWeight: FontWeight.bold,
-                                // color: Theme.of(context).colorScheme.secondary,
+                                color: Colors.white,
                               ),
                             ),
                             backgroundColor: Theme.of(context)
@@ -128,7 +123,6 @@ class _AdminHomeScreenState extends ConsumerState<AdminHomeScreen>
                         ),
                     ],
                   ),
-
                   //tabview
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,

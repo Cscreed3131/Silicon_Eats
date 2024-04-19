@@ -18,11 +18,27 @@ class AddFoodItemScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Add Food Item',
-          style: TextStyle(fontFamily: 'IBMPlexMono'),
+        title: Text.rich(
+          TextSpan(
+            text: 'Add ',
+            style: const TextStyle(
+              fontFamily: 'NauticalPrestige',
+              fontSize: 35.0,
+              fontWeight: FontWeight.bold,
+            ),
+            children: [
+              TextSpan(
+                text: 'Food-Item',
+                style: TextStyle(
+                  fontFamily: 'NauticalPrestige',
+                  fontSize: 35.0,
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+              ),
+            ],
+          ),
         ),
-        centerTitle: true,
       ),
       body: const SingleChildScrollView(
         child: BuildForm(),
@@ -283,23 +299,26 @@ class _BuildFormState extends ConsumerState<BuildForm> {
               crossAxisAlignment: WrapCrossAlignment.center,
               spacing: 10,
               children: categories
-                  .map(
-                    (category) => ChoiceChip(
-                      label: Text(category),
-                      selected: this.category == category,
-                      onSelected: (bool selected) {
-                        setState(() {
-                          this.category = category;
-                        });
-                      },
-                    ),
-                  )
+                  .map((category) => ChoiceChip(
+                        label: Text(category),
+                        selected: this.category == category,
+                        onSelected: (bool selected) {
+                          setState(() {
+                            this.category = category;
+                          });
+                        },
+                      ))
                   .toList(),
             ),
             Row(
               children: [
                 Expanded(
                   child: FilledButton(
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStatePropertyAll(
+                        Theme.of(context).colorScheme.onPrimary,
+                      ),
+                    ),
                     onPressed: () async {
                       await _submit(id!)
                           ? {
@@ -318,7 +337,10 @@ class _BuildFormState extends ConsumerState<BuildForm> {
                               ),
                             );
                     },
-                    child: const Text('Submit'),
+                    child: const Text(
+                      'Submit',
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
                 ),
               ],

@@ -106,32 +106,36 @@ class _AdminAddFoodWidgetState extends ConsumerState<AdminAddFoodWidget> {
               itemCount: foodItemDetails.length,
               itemBuilder: (context, index) {
                 var listItem = foodItemDetails[index];
-                return ListTile(
-                  leading: Container(
-                    height: MediaQuery.of(context).size.height * 0.05,
-                    width: MediaQuery.of(context).size.height * 0.05,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      image: DecorationImage(
-                        //random image
-                        image: CachedNetworkImageProvider(listItem['imageUrl']),
-                        fit: BoxFit.cover,
+                return Card(
+                  color: Theme.of(context).colorScheme.secondaryContainer,
+                  child: ListTile(
+                    leading: Container(
+                      height: MediaQuery.of(context).size.height * 0.05,
+                      width: MediaQuery.of(context).size.height * 0.05,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        image: DecorationImage(
+                          //random image
+                          image:
+                              CachedNetworkImageProvider(listItem['imageUrl']),
+                          fit: BoxFit.cover,
+                        ),
+                        color: Theme.of(context).colorScheme.primary,
                       ),
-                      color: Theme.of(context).colorScheme.primary,
                     ),
-                  ),
-                  title: Text(
-                    '${listItem['name']}',
-                    style: TextStyle(
-                      fontSize: MediaQuery.of(context).size.height * 0.02,
-                      fontFamily: 'IBMPlexMono',
+                    title: Text(
+                      '${listItem['name']}',
+                      style: TextStyle(
+                        fontSize: MediaQuery.of(context).size.height * 0.02,
+                        fontFamily: 'IBMPlexMono',
+                      ),
                     ),
-                  ),
-                  trailing: Text(
-                    '₹ ${listItem['sellingPrice']}',
-                    style: TextStyle(
-                      fontSize: MediaQuery.of(context).size.height * 0.02,
-                      fontFamily: 'IBMPlexMono',
+                    trailing: Text(
+                      '₹ ${listItem['sellingPrice']}',
+                      style: TextStyle(
+                        fontSize: MediaQuery.of(context).size.height * 0.02,
+                        fontFamily: 'IBMPlexMono',
+                      ),
                     ),
                   ),
                 );
