@@ -22,7 +22,7 @@ class FoodCard extends ConsumerStatefulWidget {
 
 class _FoodCardState extends ConsumerState<FoodCard> {
   int start = 200;
-  int delay = 100;
+  int delay = 50;
   bool isAddedoCart = false;
   int count = 0;
   @override
@@ -34,14 +34,14 @@ class _FoodCardState extends ConsumerState<FoodCard> {
     return FadeIn(
       delay: Duration(milliseconds: delay * index),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
         child: Card(
           child: Container(
-            // height: screenHeight * 0.13,
-            padding: const EdgeInsets.all(10),
+            height: screenHeight * 0.13,
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.secondaryContainer,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(15),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -52,17 +52,14 @@ class _FoodCardState extends ConsumerState<FoodCard> {
                     width: screenHeight * 0.15,
                     decoration: BoxDecoration(
                       color: Theme.of(context).colorScheme.onSecondary,
-                      // border: Border.all(
-                      //   color: Theme.of(context).colorScheme.outline,
-                      // ),
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(10),
                       image: DecorationImage(
                         image: CachedNetworkImageProvider(
                           data[index].imageUrl,
                           errorListener: (_) {
                             const Icon(Icons.error);
                           },
-                        ), // should be networkImage
+                        ),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -71,7 +68,7 @@ class _FoodCardState extends ConsumerState<FoodCard> {
                 const SizedBox(width: 10),
                 SizedBox(
                   width: screenWidth * 0.30,
-                  // height: screenHeight * 0.15,
+                  height: screenHeight * 0.15,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -80,17 +77,17 @@ class _FoodCardState extends ConsumerState<FoodCard> {
                         data[index].name,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontFamily: 'IBMPlexMono',
-                          fontSize: widget.font20 * 0.6,
+                          fontSize: 15,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       Text(
                         data[index].category, //dynamic category
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontFamily: 'IBMPlexMono',
-                          fontSize: widget.font20 * 0.4,
+                          fontSize: 13,
                         ),
                       ),
                       const SizedBox(
@@ -98,10 +95,10 @@ class _FoodCardState extends ConsumerState<FoodCard> {
                       ),
                       Text(
                         "₹${data[index].sellingPrice.round()}", //Dynamic price
-                        style: TextStyle(
-                          fontFamily: 'IBMPlexMono',
+                        style: const TextStyle(
+                          fontFamily: 'Inter',
                           fontWeight: FontWeight.bold,
-                          fontSize: widget.font20 * 0.7,
+                          fontSize: 15,
                         ),
                       ),
                       const SizedBox(

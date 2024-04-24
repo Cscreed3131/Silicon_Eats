@@ -44,17 +44,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: screenHeight * 0.1,
+        toolbarHeight: screenHeight * 0.065,
         backgroundColor: Theme.of(context).colorScheme.background,
         automaticallyImplyLeading: false,
         title: Text.rich(
           TextSpan(
             children: [
-              TextSpan(
+              const TextSpan(
                 text:
                     'Silicon ', // this will be dynamically fetched from the database.
                 style: TextStyle(
-                  fontSize: font20 + 20,
+                  fontSize: 50,
                   fontFamily: "NauticalPrestige",
                   fontWeight: FontWeight.bold,
                 ),
@@ -62,7 +62,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               TextSpan(
                 text: 'Eats',
                 style: TextStyle(
-                  fontSize: font20 + 20, // replace with your font size
+                  fontSize: 50, // replace with your font size
                   fontWeight: FontWeight.bold,
                   fontFamily: "NauticalPrestige",
                   color: Theme.of(context).colorScheme.primary,
@@ -72,7 +72,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           ),
         ),
         actions: [
-          // all this will contain seperate widgets which will lead to seperate pages....
           IconButton(
             icon: const Icon(Icons.notifications),
             color: Colors.black87,
@@ -101,8 +100,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   TextSpan(
                     children: [
                       TextSpan(
-                        text:
-                            'Hello ${userNameFromProvider.split(' ')[0]},\n', // this will be dynamically fetched from the database.
+                        text: 'Hello ${userNameFromProvider.split(' ')[0]},\n',
                         style: TextStyle(
                           fontSize: font20,
                           fontFamily: "IBMPlexMono",
@@ -127,7 +125,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               height: 5,
             ),
             SizedBox(
-              height: screenHeight / 11,
+              height: screenHeight / 10.5,
               width: double.infinity,
               child: ListView.builder(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -178,37 +176,39 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             MediaQuery.removePadding(
               context: context,
               removeTop: true,
-              child: ref.watch(foodItemStreamProvider).when(data: (data) {
-                return ListView.builder(
-                  itemCount: data.length,
-                  shrinkWrap: true,
-                  key: ValueKey<int>(selectedCategoryIndex),
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    final item = data[index];
-                    if (selectedCategoryIndex == 0 ||
-                        item.category == categories[selectedCategoryIndex]) {
-                      return FoodCard(
-                        index: index,
-                        foodData: data,
-                        font20: font20,
-                      );
-                    } else {
-                      return const SizedBox();
-                    }
-                  },
-                );
-              }, error: (error, stackTrace) {
-                // print(error);
-                // print(stackTrace);
-                return const Center(
-                  child: Text('unable to load food items'),
-                );
-              }, loading: () {
-                return const Center(
-                  child: CircularProgressIndicator.adaptive(),
-                );
-              }),
+              child: ref.watch(foodItemStreamProvider).when(
+                data: (data) {
+                  return ListView.builder(
+                    itemCount: data.length,
+                    shrinkWrap: true,
+                    key: ValueKey<int>(selectedCategoryIndex),
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      final item = data[index];
+                      if (selectedCategoryIndex == 0 ||
+                          item.category == categories[selectedCategoryIndex]) {
+                        return FoodCard(
+                          index: index,
+                          foodData: data,
+                          font20: font20,
+                        );
+                      } else {
+                        return const SizedBox();
+                      }
+                    },
+                  );
+                },
+                error: (error, stackTrace) {
+                  return const Center(
+                    child: Text('unable to load food items'),
+                  );
+                },
+                loading: () {
+                  return const Center(
+                    child: CircularProgressIndicator.adaptive(),
+                  );
+                },
+              ),
             ),
           ],
         ),

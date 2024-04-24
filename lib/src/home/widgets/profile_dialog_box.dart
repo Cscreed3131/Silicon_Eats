@@ -58,7 +58,7 @@ class ProfileDialogBox extends ConsumerWidget {
                   ListTile(
                     onTap: () => {
                       Navigator.of(context)
-                          .pushNamed(OrderHistoryScreen.routeName),
+                          .popAndPushNamed(OrderHistoryScreen.routeName),
                     },
                     leading: const Icon(Icons.history_rounded),
                     title: const Text('Order history'),
@@ -110,6 +110,7 @@ class ProfileDialogBox extends ConsumerWidget {
                                   ),
                                   onPressed: () async {
                                     try {
+                                      Navigator.of(context).pop();
                                       await FirebaseAuth.instance.signOut();
                                       ref.invalidate(userDataProvider);
                                       await Navigator.of(context)

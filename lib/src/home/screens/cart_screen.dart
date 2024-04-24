@@ -202,7 +202,6 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                       child: Column(
                         children: [
                           SizedBox(
-                            // height: screenHeight / 2 * (3 / 3),
                             width: double.infinity,
                             child: Column(
                               children: [
@@ -215,7 +214,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                                     return Padding(
                                       padding: const EdgeInsets.symmetric(
                                         horizontal: 20,
-                                        vertical: 5,
+                                        vertical: 0,
                                       ),
                                       child: SizedBox(
                                         height: screenHeight / 15,
@@ -236,9 +235,10 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                                                     overflow:
                                                         TextOverflow.ellipsis,
                                                     style: const TextStyle(
-                                                      fontSize: 20,
-                                                      fontFamily: "IBMPLexMono",
-                                                      // fontWeight: FontWeight.bold,
+                                                      fontSize: 18,
+                                                      fontFamily: "Inter",
+                                                      // fontWeight:
+                                                      // FontWeight.bold,
                                                     ),
                                                   ),
                                                 ),
@@ -246,11 +246,12 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                                             ),
                                             // const SizedBox(width: 40),
                                             Container(
-                                              height: 40,
+                                              height: 30,
                                               decoration: BoxDecoration(
                                                 borderRadius:
                                                     BorderRadius.circular(10),
                                                 border: Border.all(),
+                                                // color: Colors.amber,
                                               ),
                                               child: Row(
                                                 mainAxisAlignment:
@@ -259,46 +260,59 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                                                 children: [
                                                   IconButton(
                                                     icon: data.quantity == 1
-                                                        ? const Icon(
-                                                            Icons.delete)
+                                                        ? Icon(
+                                                            Icons
+                                                                .delete_rounded,
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .colorScheme
+                                                                .error,
+                                                          )
                                                         : const Icon(
-                                                            Icons.remove),
+                                                            Icons
+                                                                .remove_circle_sharp,
+                                                          ),
                                                     iconSize: 15,
                                                     onPressed: () {
-                                                      setState(() {
-                                                        if (data.quantity > 1) {
-                                                          cartController
-                                                              .updateItem(
-                                                                  data.id,
-                                                                  data.quantity -
-                                                                      1);
-                                                        } else {
-                                                          cartController
-                                                              .removeItem(
-                                                                  data.id);
-                                                        }
-                                                      });
+                                                      setState(
+                                                        () {
+                                                          if (data.quantity >
+                                                              1) {
+                                                            cartController
+                                                                .updateItem(
+                                                                    data.id,
+                                                                    data.quantity -
+                                                                        1);
+                                                          } else {
+                                                            cartController
+                                                                .removeItem(
+                                                                    data.id);
+                                                          }
+                                                        },
+                                                      );
                                                     },
                                                   ),
                                                   Text(
                                                     '${data.quantity}', // This is now a dynamic value representing the current number of items
                                                     style: const TextStyle(
-                                                      fontSize: 20,
-                                                      fontFamily: "IBMPLexMono",
+                                                      fontSize: 15,
+                                                      fontFamily: "Inter",
                                                       fontWeight:
                                                           FontWeight.bold,
                                                     ),
                                                   ),
                                                   IconButton(
-                                                    icon: const Icon(Icons.add),
+                                                    icon: const Icon(
+                                                      Icons.add_circle_sharp,
+                                                    ),
                                                     iconSize: 15,
                                                     onPressed: () {
                                                       setState(() {
                                                         cartController
                                                             .updateItem(
-                                                                data.id,
-                                                                data.quantity +
-                                                                    1);
+                                                          data.id,
+                                                          data.quantity + 1,
+                                                        );
                                                       });
                                                     },
                                                   ),
@@ -308,8 +322,8 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                                             Text(
                                               '₹${data.price * data.quantity}', //dynamic
                                               style: const TextStyle(
-                                                fontSize: 20,
-                                                fontFamily: "IBMPLexMono",
+                                                fontSize: 15,
+                                                fontFamily: "Inter",
                                                 fontWeight: FontWeight.w700,
                                               ),
                                             ),
@@ -358,7 +372,6 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                       Padding(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 20,
-                          vertical: 10,
                         ),
                         child: Card(
                           color:
@@ -382,14 +395,14 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                                         'Item Total',
                                         style: TextStyle(
                                           fontSize: 15,
-                                          fontFamily: 'IBMPLexMono',
+                                          fontFamily: 'Inter',
                                         ),
                                       ),
                                       Text(
                                         '₹${cartController.getItemTotalPrice()}',
                                         style: const TextStyle(
-                                          fontSize: 20,
-                                          fontFamily: "IBMPLexMono",
+                                          fontSize: 15,
+                                          fontFamily: "Inter",
                                           fontWeight: FontWeight.w700,
                                         ),
                                       ),
@@ -398,7 +411,8 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                                   const DottedLine(),
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
-                                        vertical: 20),
+                                      vertical: 10,
+                                    ),
                                     child: SizedBox(
                                       width: screenwidth / 1.5,
                                       child: const Text(
@@ -406,30 +420,26 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                                       ),
                                     ),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 0, bottom: 0),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        const Text(
-                                          'Platform fee',
-                                          style: TextStyle(
-                                            fontSize: 15,
-                                            fontFamily: 'IBMPLexMono',
-                                          ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      const Text(
+                                        'Platform fee',
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                          fontFamily: 'Inter',
                                         ),
-                                        Text(
-                                          '₹${cartController.getPlatformFee()}', //dynamic
-                                          style: const TextStyle(
-                                            fontSize: 20,
-                                            fontFamily: "IBMPLexMono",
-                                            fontWeight: FontWeight.w700,
-                                          ),
+                                      ),
+                                      Text(
+                                        '₹${cartController.getPlatformFee()}', //dynamic
+                                        style: const TextStyle(
+                                          fontSize: 15,
+                                          fontFamily: "Inter",
+                                          fontWeight: FontWeight.w700,
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
                                   const DottedLine(),
                                   Padding(
@@ -446,14 +456,14 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                                           style: TextStyle(
                                             fontSize: 15,
                                             fontWeight: FontWeight.bold,
-                                            fontFamily: 'IBMPLexMono',
+                                            fontFamily: 'Inter',
                                           ),
                                         ),
                                         Text(
                                           '₹${cartController.getTotalPayment()}',
                                           style: const TextStyle(
-                                            fontSize: 20,
-                                            fontFamily: "IBMPLexMono",
+                                            fontSize: 18,
+                                            fontFamily: "Inter",
                                             fontWeight: FontWeight.w700,
                                           ),
                                         ),
@@ -480,25 +490,29 @@ class _CartScreenState extends ConsumerState<CartScreen> {
               borderRadius:
                   const BorderRadius.vertical(top: Radius.circular(30.0)),
               child: BottomAppBar(
-                color: Theme.of(context).colorScheme.secondaryContainer,
+                color: Theme.of(context)
+                    .colorScheme
+                    .secondaryContainer
+                    .withOpacity(0.6),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SizedBox(
                       width: screenwidth / 2.5,
                       child: const Text(
-                        'Amount :',
+                        'Amount:',
                         style: TextStyle(
-                          fontSize: 30,
-                          fontFamily: 'Barrbar',
+                          fontSize: 20,
+                          fontFamily: 'IBMPlexMono',
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                     ),
                     Text(
                       '₹${cartController.getTotalPayment()}', // for now but will be amount wait for it
                       style: const TextStyle(
-                        fontSize: 20,
-                        fontFamily: "IBMPLexMono",
+                        fontSize: 18,
+                        fontFamily: "Inter",
                         fontWeight: FontWeight.w700,
                       ),
                     ),
