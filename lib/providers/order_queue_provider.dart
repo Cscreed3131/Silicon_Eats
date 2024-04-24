@@ -6,27 +6,50 @@ import 'package:sorasummit/models/user_past_orders_model.dart';
 import 'package:sorasummit/providers/orders_data_provider.dart';
 import 'package:sorasummit/providers/user_data_provider.dart';
 
+// final ordersQueueProvider = StreamProvider<List<OrderQueue?>>((ref) {
+//   final CollectionReference orderQueueCollection =
+//       FirebaseFirestore.instance.collection('ordersQueue');
+//   final DateTime now = DateTime.now();
+//   final DateTime startOfDay = DateTime(now.year, now.month, now.day);
+//   final DateTime endOfDay = DateTime(now.year, now.month, now.day, 23, 59, 59);
+//   return orderQueueCollection
+//       .where('timeStamp',
+//           isGreaterThanOrEqualTo: Timestamp.fromDate(startOfDay))
+//       .where('timeStamp', isLessThanOrEqualTo: Timestamp.fromDate(endOfDay))
+//       // .orderBy('timeStamp')
+//       .snapshots()
+//       .map((snapshot) {
+//     return snapshot.docs.map((doc) {
+//       print(doc['timeStamp']);
+//       return OrderQueue(
+//         orderId: doc['orderId'],
+//         status: doc['status'],
+//         timeStamp: doc['timeStamp'],
+//       );
+//     }).toList();
+//   });
+// });
 final ordersQueueProvider = StreamProvider<List<OrderQueue?>>((ref) {
-  final CollectionReference orderQueueCollection =
+  final CollectionReference foodItemsCollection =
       FirebaseFirestore.instance.collection('ordersQueue');
-  final DateTime now = DateTime.now();
-  final DateTime startOfDay = DateTime(now.year, now.month, now.day);
-  final DateTime endOfDay = DateTime(now.year, now.month, now.day, 23, 59, 59);
 
-  return orderQueueCollection
-      .where('timeStamp',
-          isGreaterThanOrEqualTo: Timestamp.fromDate(startOfDay))
-      .where('timeStamp', isLessThanOrEqualTo: Timestamp.fromDate(endOfDay))
-      .orderBy('timeStamp')
-      .snapshots()
-      .map((snapshot) {
-    return snapshot.docs.map((doc) {
-      return OrderQueue(
-        orderId: doc['orderId'],
-        status: doc['status'],
-        timeStamp: doc['timeStamp'],
-      );
-    }).toList();
+  return foodItemsCollection.orderBy('timeStamp').snapshots().map((snapshot) {
+    return snapshot.docs
+        .map((doc) {
+          final timeStamp = (doc['timeStamp'] as Timestamp).toDate();
+          final today = DateTime.now();
+          if (timeStamp.day == today.day &&
+              timeStamp.month == today.month &&
+              timeStamp.year == today.year) {
+            return OrderQueue(
+              orderId: doc['orderId'],
+              status: doc['status'],
+              timeStamp: timeStamp,
+            );
+          }
+        })
+        .where((order) => order != null)
+        .toList();
   });
 });
 

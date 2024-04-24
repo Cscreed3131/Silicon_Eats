@@ -10,15 +10,21 @@ class CartController extends StateNotifier<Cart> {
 
   void addItem(
       int id, String name, double price, int quantity, String category) {
-    state.addItem(id, name, price, quantity, category);
+    state = Cart()
+      ..items = List.from(state.items)
+      ..addItem(id, name, price, quantity, category);
   }
 
   void removeItem(int id) {
-    state.removeItem(id);
+    state = Cart()
+      ..items = List.from(state.items)
+      ..removeItem(id);
   }
 
   void updateItem(int id, int newQuantity) {
-    state.updateItem(id, newQuantity);
+    state = Cart()
+      ..items = List.from(state.items)
+      ..updateItem(id, newQuantity);
   }
 
   double getItemTotalPrice() {
@@ -38,7 +44,9 @@ class CartController extends StateNotifier<Cart> {
   }
 
   void clearCart() {
-    return state.clearCart();
+    state = Cart()
+      ..items = List.from(state.items)
+      ..clearCart();
   }
 
   List<CartItem> getCartItems() {

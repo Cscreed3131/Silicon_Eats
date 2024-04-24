@@ -56,6 +56,10 @@ class MyApp extends ConsumerWidget {
     return MaterialApp(
       title: 'Sora Summit',
       theme: ThemeData(
+        pageTransitionsTheme: const PageTransitionsTheme(builders: {
+          TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+          TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+        }),
         colorScheme: ColorScheme.fromSeed(
           // seedColor: Colors.orange,
           // primary: const Color(0xFFF66118),

@@ -84,6 +84,7 @@ class Cart {
     for (var item in items) {
       totalItemCount += item.quantity;
     }
+
     return totalItemCount;
   }
 

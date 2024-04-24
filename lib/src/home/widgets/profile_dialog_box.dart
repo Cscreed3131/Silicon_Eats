@@ -109,11 +109,16 @@ class ProfileDialogBox extends ConsumerWidget {
                                     ),
                                   ),
                                   onPressed: () async {
-                                    Navigator.of(context).pop();
-                                    await FirebaseAuth.instance.signOut();
-                                    ref.invalidate(userDataProvider);
-                                    await Navigator.of(context)
-                                        .popAndPushNamed(LoginScreen.routeName);
+                                    try {
+                                      await FirebaseAuth.instance.signOut();
+                                      ref.invalidate(userDataProvider);
+                                      await Navigator.of(context)
+                                          .pushReplacementNamed(
+                                              LoginScreen.routeName);
+                                    } catch (e) {
+                                      print('Sign out failed: $e');
+                                      // You might want to show a dialog or a snackbar with the error message here
+                                    }
                                   },
                                 ),
                                 TextButton(

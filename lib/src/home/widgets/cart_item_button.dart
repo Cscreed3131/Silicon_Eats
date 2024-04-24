@@ -4,12 +4,11 @@ import 'package:sorasummit/src/home/screens/cart_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class CartButton extends ConsumerWidget {
-  const CartButton({super.key});
+  const CartButton({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final cart = ref.watch(cartProvider.notifier);
-
+  Widget build(BuildContext context, ref) {
+    final cart = ref.watch(cartProvider);
     return IconButton(
       icon: Badge(
         label: Text(
