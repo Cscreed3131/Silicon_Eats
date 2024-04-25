@@ -66,7 +66,7 @@ class MyApp extends ConsumerWidget {
           // secondary: const Color(0xFFFF9200),
           // background: Colors.white,
           // outline: const Color(0xFFFF4500),
-          // outlineVariant: const Color(0xFFFF7518
+          // outlineVariant: const Color(0xFFFF7518),
           seedColor: Colors.green,
           background: const Color(0xFFF9FEFF),
           primary: const Color(0xFF276221),
@@ -94,15 +94,13 @@ class MyApp extends ConsumerWidget {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const CircularProgressIndicator();
-          } else {
-            if (snapshot.hasData) {
-              // Get the user data
-              return _getHomeScreen(userRole!);
-            } else {
-              return const LoginScreen();
-            }
+            return const LoadingSplashScreen();
           }
+          if (snapshot.hasData) {
+            // Get the user data
+            return _getHomeScreen(userRole!);
+          }
+          return const LoginScreen();
         },
       ),
       debugShowCheckedModeBanner: false,

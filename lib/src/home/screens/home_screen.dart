@@ -38,8 +38,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final font20 = screenHeight / 27.6;
-
     final userNameFromProvider = ref.watch(userNameProvider);
+    final foodIteProviderCached = ref.watch(cachedFoodItemProvider);
     // final cartDataProvider = ref.watch(cartProvider);
 
     return Scaffold(
@@ -176,39 +176,40 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             MediaQuery.removePadding(
               context: context,
               removeTop: true,
-              child: ref.watch(foodItemStreamProvider).when(
-                data: (data) {
-                  return ListView.builder(
-                    itemCount: data.length,
-                    shrinkWrap: true,
-                    key: ValueKey<int>(selectedCategoryIndex),
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      final item = data[index];
-                      if (selectedCategoryIndex == 0 ||
-                          item.category == categories[selectedCategoryIndex]) {
-                        return FoodCard(
-                          index: index,
-                          foodData: data,
-                          font20: font20,
-                        );
-                      } else {
-                        return const SizedBox();
-                      }
-                    },
-                  );
-                },
-                error: (error, stackTrace) {
-                  return const Center(
-                    child: Text('unable to load food items'),
-                  );
-                },
-                loading: () {
-                  return const Center(
-                    child: CircularProgressIndicator.adaptive(),
-                  );
+              child: ListView.builder(
+                itemCount: foodIteProviderCached.length,
+                shrinkWrap: true,
+                key: ValueKey<int>(selectedCategoryIndex),
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  final item = foodIteProviderCached[index];
+                  if (selectedCategoryIndex == 0 ||
+                      item.category == categories[selectedCategoryIndex]) {
+                    return FoodCard(
+                      index: index,
+                      foodData: foodIteProviderCached,
+                      font20: font20,
+                    );
+                  } else {
+                    return const SizedBox();
+                  }
                 },
               ),
+              // child: ref.watch(foodItemStreamProvider).when(
+              //   data: (data) {
+
+              //   },
+              //   error: (error, stackTrace) {
+              //     return const Center(
+              //       child: Text('unable to load food items'),
+              //     );
+              //   },
+              //   loading: () {
+              //     return const Center(
+              //       child: CircularProgressIndicator.adaptive(),
+              //     );
+              //   },
+              // ),
             ),
           ],
         ),

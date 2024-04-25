@@ -3,6 +3,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sorasummit/models/food_item_model.dart';
 
+// Create a state notifier class to manage the state of the food items.
+class FoodItemsStateNotifier extends StateNotifier<List<FoodItem>> {
+  FoodItemsStateNotifier() : super([]);
+
+  void updateFoodItems(List<FoodItem> foodItems) {
+    state = foodItems;
+  }
+}
+
+// Create a provider to get the list of food items from the stream provider.
 final foodItemStreamProvider = StreamProvider<List<FoodItem>>((ref) {
   final CollectionReference foodItemsCollection =
       FirebaseFirestore.instance.collection('foodItems');
@@ -22,6 +32,30 @@ final foodItemStreamProvider = StreamProvider<List<FoodItem>>((ref) {
       );
     }).toList();
   });
+});
+
+// Create a provider to get the cached list of food items.
+final cachedFoodItemProvider =
+    StateNotifierProvider<FoodItemsStateNotifier, List<FoodItem>>((ref) {
+  // Get the list of food items from the stream provider.
+  final foodItemList = ref.watch(foodItemStreamProvider);
+
+  // Create a state notifier to manage the state of the cached food items.
+  final stateNotifier = FoodItemsStateNotifier();
+
+  // Listen to the stream of food items and update the cached list of food items when the stream changes.
+  foodItemList.when(
+    data: (data) {
+      stateNotifier.updateFoodItems(data);
+    },
+    error: (error, stackTrace) {
+      // print(error);
+    },
+    loading: () {},
+  );
+
+  // Return the state notifier.
+  return stateNotifier;
 });
 
 // Create a provider to get the number of food items in the list.

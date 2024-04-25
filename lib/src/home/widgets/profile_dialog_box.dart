@@ -4,15 +4,20 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:sorasummit/providers/user_data_provider.dart';
 
-import 'package:sorasummit/src/auth/login_screen.dart';
 import 'package:sorasummit/src/admin/screens/admin_home_screen.dart';
+import 'package:sorasummit/src/auth/login_screen.dart';
 import 'package:sorasummit/src/home/screens/order_history_screen.dart';
 
-class ProfileDialogBox extends ConsumerWidget {
+class ProfileDialogBox extends ConsumerStatefulWidget {
   const ProfileDialogBox({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ProfileDialogBox> createState() => _ProfileDialogBoxState();
+}
+
+class _ProfileDialogBoxState extends ConsumerState<ProfileDialogBox> {
+  @override
+  Widget build(BuildContext context) {
     final userRole = ref.watch(userRoleProvider) ?? ['student'];
     return IconButton(
       onPressed: () {
@@ -111,13 +116,23 @@ class ProfileDialogBox extends ConsumerWidget {
                                   onPressed: () async {
                                     try {
                                       Navigator.of(context).pop();
-                                      await FirebaseAuth.instance.signOut();
-                                      ref.invalidate(userDataProvider);
-                                      await Navigator.of(context)
-                                          .pushReplacementNamed(
-                                              LoginScreen.routeName);
-                                    } catch (e) {
-                                      print('Sign out failed: $e');
+                                      Navigator.of(context).pop();
+                                      FirebaseAuth.instance
+                                          .signOut()
+                                          .then((_) =>
+                                              ref.invalidate(userDataProvider))
+                                          .then((value) => Navigator.of(context)
+                                              .popAndPushNamed(
+                                                  LoginScreen.routeName));
+                                    } on FirebaseAuthException catch (_) {
+                                      ScaffoldMessenger.of(context)
+                                          .clearSnackBars();
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                          content: Text('Unable to logout.'),
+                                        ),
+                                      );
                                       // You might want to show a dialog or a snackbar with the error message here
                                     }
                                   },

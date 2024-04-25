@@ -115,7 +115,7 @@ class _FoodCardState extends ConsumerState<FoodCard> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       FadeIn(
-                        child: FilledButton.tonal(
+                        child: ElevatedButton(
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
                               Theme.of(context).colorScheme.onPrimary,

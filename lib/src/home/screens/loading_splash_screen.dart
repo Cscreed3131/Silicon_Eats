@@ -28,6 +28,12 @@ class _LoadingSplashScreenState extends State<LoadingSplashScreen>
   }
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
@@ -44,11 +50,5 @@ class _LoadingSplashScreenState extends State<LoadingSplashScreen>
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
   }
 }
